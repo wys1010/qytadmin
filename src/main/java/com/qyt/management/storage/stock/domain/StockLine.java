@@ -24,7 +24,17 @@ public class StockLine extends BaseEntity {
     //总仓库id
     private Integer allWarehouseId;
 
+    private Integer minNumber;
+
     private String createdByName;
+
+    private String warehouseName;
+
+    //按年统计
+    private String year;
+    //按月统计
+    private String month;
+
 
     public Integer getId() {
         return id;
@@ -104,5 +114,37 @@ public class StockLine extends BaseEntity {
 
     public void setAllWarehouseId(Integer allWarehouseId) {
         this.allWarehouseId = allWarehouseId;
+    }
+
+    public Integer getMinNumber() {
+        return minNumber;
+    }
+
+    public void setMinNumber(Integer minNumber) {
+        this.minNumber = minNumber;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public String getWarehouseName() {
+        return warehouseName;
+    }
+
+    public void setWarehouseName(String warehouseName) {
+        this.warehouseName = warehouseName;
     }
 }

@@ -1,0 +1,122 @@
+<div style="height:100%" ng-controller="IndexController as ctrl">
+
+
+    <div ng-controller="IndexController as ctrl">
+
+        <div class="form  ks-form container-fluid">
+
+            <!-- 第一行-->
+            <div class="row">
+
+                <div class="form-group-sm  normal" style="width: 180px">
+                    <label class="control-label">统计周期：</label>
+
+                    <div class="text-left" style="display: inline-block;">
+                        <div class="btn-group btn-group-sm">
+                            <label class="btn btn-default " ng-model="ctrl.cycleType" btn-radio="1"
+                                   ng-click="ctrl.switchCycleType(1,true)">年</label>
+                            <label class="btn btn-default " ng-model="ctrl.cycleType" btn-radio="2"
+                                   ng-click="ctrl.switchCycleType(2,true)">月</label>
+                            <label class="btn btn-default " ng-model="ctrl.cycleType" btn-radio="3"
+                                   ng-click="ctrl.switchCycleType(3,true)">日</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!--名称-->
+                <div class="form-group-sm  normal" style="width: 420px">
+                    <label class="control-label" style="width: 40px">日期：</label>
+                    <div style="display: inline-block">
+                        <input class="form-control" ks-my-date-picker format="ctrl.dateFormat"
+                               ng-model="ctrl.queryCondition.year"
+                               ng-if="ctrl.cycleType == 1"
+                               style="display: inline-block">
+                        <input class="form-control" ks-my-date-picker format="ctrl.dateFormat"
+                               ng-model="ctrl.queryCondition.month"
+                               ng-if="ctrl.cycleType == 2"
+                               style="display: inline-block">
+                        <input class="form-control" ks-my-date-picker format="ctrl.dateFormat"
+                               ng-model="ctrl.queryCondition.dateBegin"
+                               ng-if="ctrl.cycleType == 3"
+                               style="display: inline-block">
+                    </div>
+                    <span ng-if="ctrl.cycleType == 3 ">至</span>
+                    <div ng-if="ctrl.cycleType == 3 " style="display: inline-block">
+                        <input class="form-control" ks-my-date-picker format="ctrl.dateFormat"
+                               ng-model="ctrl.queryCondition.dateEnd"
+                               style="display: inline-block">
+                    </div>
+
+                </div>
+                <!--名称-->
+                <div class="form-group-sm  normal" style="width: 220px">
+                    <label class="control-label" style="width: 40px">仓库：</label>
+                    <ks-warehouse-picker ng-model="ctrl.queryCondition.warehouseId"></ks-warehouse-picker>
+                </div>
+
+                <div class="form-group-sm  normal" style="width: 200px">
+                    <label class="control-label" style="width: 40px">类型：</label>
+                    <div class="text-left" style="display: inline-block;">
+                        <div class="btn-group btn-group-sm" ng-click="ctrl.selectEntities(true)">
+                            <label class="btn btn-default " ng-model="ctrl.queryCondition.type" btn-radio="">全部</label>
+                            <label class="btn btn-default " ng-model="ctrl.queryCondition.type" btn-radio="1">入库</label>
+                            <label class="btn btn-default " ng-model="ctrl.queryCondition.type" btn-radio="2">出库</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!--按钮-->
+                <div class=" form-group-sm ks-form-group normal" style="width: 120px">
+                    <button type="button" class="btn btn-primary btn-sm"
+                            ng-click="ctrl.selectEntities(true)"><span class="fa fa-search"></span>查询
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm"
+                            ng-click="ctrl.resetForm()"><span class="fa fa-refresh"></span>重置
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid ks-grid-toolbar">
+            <div class="row">
+                <div class="col-xs-10">
+                </div>
+                <div class="col-xs-2 text-right" style="margin-top: 5px;">
+                    <a href="javascript:void(0)" class="btn btn-default btn-sm"
+                       ng-click="ctrl.exportExcel()">
+                        <span class="fa fa-plus"></span>导出</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 表格-->
+        <table class="table table-striped ks-grid">
+
+            <!--表头-->
+            <thead class="ks-header">
+            <th class="ks-cell">产品名称</th>
+            <th class="ks-cell">数量</th>
+            <th class="ks-cell">类型</th>
+            <th class="ks-cell">仓库</th>
+            <th class="ks-cell">日期</th>
+            <th class="ks-cell">安全库存数量</th>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row  in ctrl.entities" class="ks-row">
+                <td class="ks-cell ellipsis">{{row.productName }}</td>
+                <td class="ks-cell ellipsis">{{row.num }}</td>
+                <td class="ks-cell">{{row.type == 1 ? '入库':'出库' }}</td>
+                <td class="ks-cell">{{row.warehouseName}}</td>
+                <td class="ks-cell">{{row.createdAt | date:'yyyy-MM-dd'}}</td>
+                <td class="ks-cell">{{row.minNumber}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--分页条-->
+        <ks-paging on-select-page="ctrl.selectEntities(false)" paging="ctrl.queryCondition" limit="10"></ks-paging>
+
+    </div>
+
+</div>

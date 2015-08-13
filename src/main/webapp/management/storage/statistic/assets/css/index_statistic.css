@@ -1,0 +1,16 @@
+
+
+.product-disabled {
+    color: red
+}
+
+.product-active {
+    color: #5CB85C
+}
+
+.product-inactive {
+    color: blue
+}
+
+
+.status-label{width: 45px !important;padding-left:0 !important;padding-right:0 !important;;text-align:center;}

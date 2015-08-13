@@ -49,6 +49,7 @@
             'ks.simpleTab',
             'ks.datePicker',
             'ks.popUpPicker',
+            'ks.myDatePicker',
 
             //ui bootstrap
             'ui.bootstrap',

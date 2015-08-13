@@ -96,6 +96,7 @@
 <script type="text/javascript" src="${basePath}/platform/resource/ks/layout/ks-fill-height.js?version=${version}"></script>
 <script type="text/javascript" src="${basePath}/platform/resource/ks/ts/ks-type.js?version=${version}"></script>
 <script type="text/javascript" src="${basePath}/platform/resource/ks/ts/ks-class.js?version=${version}"></script>
+<script type="text/javascript" src="${basePath}/platform/resource/ks/pickers/ks-mydate-picker.js?version=${version}"></script>
 
 <script type="text/javascript" src="${basePath}/platform/resource/uc/uc-core.js?version=${version}"></script>
 <script type="text/javascript" src="${basePath}/platform/resource/uc/uc-biz.js?version=${version}"></script>
@@ -105,5 +106,6 @@
 <script type="text/javascript" src="${basePath}/platform/resource/ks/k-page.js?version=${version}"></script>
 <script type="text/javascript" src="${basePath}/platform/resource/ks/k-controller.js?version=${version}"></script>
 <script type="text/javascript" src="${basePath}/platform/resource/layer/layer.js?version=${version}"></script>
+<script type="text/javascript" src="${basePath}/platform/resource/My97DatePicker/WdatePicker.js?version=${version}"></script>
 
 <title>${DEFAULT_TITLE}</title>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="qyt_admin:war">
+    <output-path>$PROJECT_DIR$/target/qytadmin</output-path>
+    <root id="archive" name="qytadmin.war">
+      <element id="artifact" artifact-name="qyt_admin:war exploded" />
+    </root>
+  </artifact>
+</component>

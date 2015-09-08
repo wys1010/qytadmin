@@ -1,0 +1,110 @@
+<div ng-controller="OrganizationStaffsAddController as ctrl" data-ng-init="ctrl.ready()">
+    <div class="modal-header" style="">
+        <h3 class="modal-title ">添加员工</h3>
+    </div>
+
+    <form role="form" class="ks-form container-fluid modal-body form-inline" style="line-height: 30px" name="editForm" novalidate>
+
+        <div class="row" style="margin-bottom: 10px">
+
+            <div class="form-group" >
+                <label class=" control-label">姓名</label>
+                <input type="text" name="" class="form-control" ng-model="ctrl.staff.name">
+            </div>
+
+            <div class="form-group " >
+                <label class=" control-label">部门名称</label>
+                <ks-org-picker ng-model="ctrl.staff.orgId"></ks-org-picker>
+            </div>
+
+            <div class="form-group" >
+                <label class=" control-label">是否有组织机构</label>
+                <div class="btn-group">
+                    <label class="btn btn-default btn-sm" ng-model="ctrl.staff.hasOrgs" btn-radio="">全部</label>
+                    <label class="btn btn-default btn-sm" ng-model="ctrl.staff.hasOrgs" btn-radio="1">是</label>
+                    <label class="btn btn-default btn-sm" ng-model="ctrl.staff.hasOrgs" btn-radio="0">否</label>
+                </div>
+            </div>
+
+            <div class="form-group" >
+                <button type="button" class="btn btn-primary btn-sm" ng-click="ctrl.selectEntities()">
+                    <span class="fa fa-search"></span>查询</button>
+            </div>
+
+        </div>
+
+        <div class="simple-grid ellipsis staffs-list" style="height: 400px">
+            <div class="header ellipsis">
+                <div class="header-cell check inline-block" style="padding-left:8px">
+                    <th class="ks-cell" >
+                        <input type="checkbox" ng-model="ctrl.allChecked" ng-click="ctrl.toggleCheck()"/>
+                    </th>
+                </div>
+                <div class="header-cell name inline-block">姓名</div>
+                <div class="header-cell gender inline-block">性别</div>
+                <div class="header-cell disable inline-block">状态</div>
+                <div class="header-cell orgName inline-block">所属部门</div>
+                <div class="header-cell manager inline-block">主管标志</div>
+            </div>
+            <div class="body ellipsis staffs-list-body">
+                <div ng-class-odd="'alt'" ng-click="" ng-class="{'selected':row.selected}" ng-class="' clearfix'"
+                     ng-repeat="row in ctrl.allStaffs" class="row" ng-dblclick="" data-row-index="{{$index}}">
+                    <!--序号-->
+                    <div  class="inactive-cell check inline-block ellipsis">
+                        <div class="content ellipsis">
+                            <input type="checkbox" ng-model="row.checked" />
+                        </div>
+                    </div>
+
+
+                    <div class="body-cell name inline-block ">
+                        <div class="content ellipsis" ng-class="{'system': row.name}">
+                            {{row.name}}
+                        </div>
+                    </div>
+
+                    <div class="body-cell gender inline-block ">
+                        <div class="content ellipsis" ng-class="{'system': row.gender}">
+                            {{row.gender == 1 ? '男' : '女'}}
+                        </div>
+                    </div>
+
+                    <div class="body-cell disable inline-block ">
+                        <div class="content ellipsis" ng-class="{'system': row.disable}">
+                            {{row.disable == 1 ? '禁用' : '启用'}}
+                        </div>
+                    </div>
+
+                    <div class="body-cell orgName inline-block ">
+                        <div class="content ellipsis" ng-class="{'system': row.orgName}">
+                            {{row.orgName}}
+                        </div>
+                    </div>
+
+                    <div class="body-cell manager inline-block ">
+                        <div class="content ellipsis" ng-class="{'system': row.manager}">
+                            {{row.manager == 0 ? '否' : '是'}}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!--分页条-->
+        <div style="text-align: center">
+            <ks-paging on-select-page="ctrl.nextQuery()" paging="ctrl.paging" limit="20" id="pagingBar" style="margin-top:5px;">
+            </ks-paging>
+        </div>
+
+
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary"
+                    ng-click="ctrl.onSave()">保存
+            </button>
+
+            <a href="javascript:void(0)" type="button" ng-click="ctrl.dismiss()" class="btn btn-warning"
+               ui-sref="index">取消</a>
+        </div>
+    </form>
+</div>

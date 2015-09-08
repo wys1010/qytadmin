@@ -1,0 +1,9 @@
+/*@author Wangyiqun*/
+/*@date 2014-04-23*/
+/*覆盖bui样式*/
+
+#sysMenu .bui-tree-list{border:0} /*去除首页菜单树的边框*/
+/*.bui-tree-list{background-color: #ECEAE7}*/
+
+.bui-select .x-icon{height:24px !important;}
+.bui-select .icon-caret{margin-top: 0 !important;}

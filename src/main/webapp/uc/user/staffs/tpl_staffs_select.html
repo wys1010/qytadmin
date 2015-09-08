@@ -1,0 +1,91 @@
+
+
+<div ng-controller="QueryController as ctrl" data-ng-init="ctrl.ready()">
+    <div class="form  ks-form container-fluid"  ng-show="ctrl.queryCondition.showQueryCondition">
+
+        <div class="row">
+
+            <div class=" form-group-sm ks-form-group normal">
+                <label class=" control-label">姓名</label>
+                <ks-staff-picker ng-model="ctrl.queryCondition.id"></ks-staff-picker>
+            </div>
+
+            <div class="form-group-sm  normal">
+                <label class=" control-label">部门</label>
+                <ks-org-picker ng-model="ctrl.queryCondition.orgId"></ks-org-picker>
+            </div>
+
+            <div class=" form-group-sm ks-form-group normal">
+                <label class=" control-label">主管</label>
+                <div class="btn-group">
+                    <label class="btn btn-default btn-sm" ng-model="ctrl.queryCondition.manager" btn-radio="">全部</label>
+                    <label class="btn btn-default btn-sm" ng-model="ctrl.queryCondition.manager" btn-radio="0">否</label>
+                    <label class="btn btn-default btn-sm" ng-model="ctrl.queryCondition.manager" btn-radio="1">是</label>
+                </div>
+            </div>
+
+            <div class=" form-group-sm ks-form-group normal">
+                <button type="button" class="btn btn-primary btn-sm" ng-click="ctrl.selectEntities(true)"><span class="fa fa-search"></span> 查询</button>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="ctrl.resetForm()"><span class="fa fa-refresh"></span> 重置</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container-fluid ks-grid-toolbar" >
+        <div class="row">
+            <div class="col-xs-12 text-right" style="margin-top: 5px;">
+                <a class="btn btn-sm btn-default btn-sm" ui-sref="select.edit({id: {{-1}} })"><span class="fa fa-plus"></span> 新增</a>
+                <a href="javascript:void(0)" style="" class=" btn btn-default btn-sm" ng-show="ctrl.queryCondition.showQueryCondition" title="收起查询条件"  ng-click="ctrl.queryCondition.showQueryCondition = false">
+                    <span class="fa fa-caret-up"></span>收起
+                </a>
+                <a href="javascript:void(0)" style="" class="btn btn-default btn-sm" ng-show="!ctrl.queryCondition.showQueryCondition" title="展开查询条件" ng-click="ctrl.queryCondition.showQueryCondition = true">
+                    <span class="fa fa-caret-down"></span>展开
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-striped ks-grid" >
+        <thead class="ks-header">
+        <th class="ks-cell">姓名</th>
+        <th class="ks-cell">账号</th>
+        <th class="ks-cell">英文名</th>
+        <th class="ks-cell">性别</th>
+        <th class="ks-cell">部门</th>
+        <th class="ks-cell">主管</th>
+        <th class="ks-cell">角色集合</th>
+        <th class="ks-cell" style="width: 250px;">操作</th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in ctrl.entities" class="ks-row">
+            <td class="ks-cell" ><span>{{::row.name || ''}}</span></td>
+            <td class="ks-cell"><span>{{::row.loginName || ''}}</span></td>
+            <td class="ks-cell"><span>{{::row.englishName || ''}}</span></td>
+            <td class="ks-cell" ng-switch="row.gender">
+                <span ng-switch-when="1" class="product-active">男</span>
+                <span ng-switch-when="2" class="product-disabled">女</span>
+                <span ng-switch-default></span>
+            </td>
+            <td class="ks-cell" ><span>{{::row.orgName || ''}}</span></td>
+            <td class="ks-cell" ng-switch="row.manager">
+                <span ng-switch-when="0" class="product-active">否</span>
+                <span ng-switch-when="1" class="product-disabled">是</span>
+                <span ng-switch-default></span>
+            </td>
+            <td class="ks-cell" ><span>{{::row.roleNames || ''}}</span></td>
+            <td class="ks-cell " style="width:140px;" >
+                <a href="#/:{{row.id}}" ui-sref="select.edit({id: {{row.id}} })" class=" btn btn-default btn-sm">
+                    <span class="fa fa-edit"></span> 编辑
+                </a>
+                <a href="javascript:void(0)" class=" btn btn-danger btn-sm" ng-click="ctrl.resetPassword(row)">
+                    <span class="fa fa-minus"></span> 重置密码
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <ks-paging on-select-page="ctrl.onSelectPageHandler(ctrl.pagination)" paging="ctrl.pagination" limit="30">
+    </ks-paging>
+</div>

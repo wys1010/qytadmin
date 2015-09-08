@@ -1,0 +1,106 @@
+<div ng-controller="StaffSelectController as staffSelectCtrl">
+
+    <div class=" ks-grid-toolbar clearfix" id="rolesGridToolbar" style="margin-top: 5px;height:42px;">
+            <span class="inline-block staffs-title" >{{staffSelectCtrl.selectedRole.name}}</span>
+            <div style="float:right;width:150px;">
+                <a class="btn btn-default btn-sm" ng-click="staffSelectCtrl.addStaffs()"><span
+                        class="fa fa-plus"></span> 添加</a>
+                <a class="btn btn-danger btn-sm" ng-click="staffSelectCtrl.batchRemove()"><span
+                        class="fa fa-minus"></span> 批量移除</a>
+            </div>
+    </div>
+
+    <div class="clearfix" id="staffsGridWrap">
+        <div class="simple-grid ellipsis staffs-grid" id="staffsGrid">
+            <div class="header ellipsis">
+                <div class="header-cell check inline-block">
+                    <input type="checkbox" ng-model="staffSelectCtrl.allChecked" ng-click="staffSelectCtrl.toggleCheck()"/>
+                </div>
+                <div class="header-cell name inline-block">名称</div>
+                <div class="header-cell gender inline-block">性别</div>
+                <div class="header-cell english-name inline-block">英文名</div>
+                <div class="header-cell login-name inline-block">登陆账号</div>
+                <div class="header-cell status inline-block">状态</div>
+                <div class="header-cell remark inline-block">备注</div>
+                <!--<div class="header-cell operator inline-block">操作</div>-->
+            </div>
+            <div class="body ellipsis">
+                <div ng-class-odd="'alt'" ng-class="{'selected':row.selected}" ng-class="' clearfix'"
+                     ng-repeat="row in staffSelectCtrl.entities" class="row" ng-dblclick="update(row)"
+                     data-row-index="{{$index}}">
+                    <!--序号-->
+                    <div  class="inactive-cell check inline-block ellipsis">
+                        <div class="content ellipsis">
+                            <input type="checkbox" ng-model="row.checked" />
+                        </div>
+                    </div>
+
+                    <!--分类-->
+                    <div class="body-cell name inline-block ">
+                        <div class="content ellipsis" ng-class="{'system': row.code}">
+                            <a href="javascript:void(0)">{{row.name}}</a>
+                        </div>
+                    </div>
+
+                    <div class="body-cell gender inline-block ">
+                        <div class="content ellipsis" ng-class="{'system': row.code}" ng-switch="row.gender" >
+                            <span ng-switch-when="0" >男</span>
+                            <span ng-switch-when="1" >女</span>
+                            <span ng-switch-default></span>
+                        </div>
+                    </div>
+
+                    <div class="body-cell english-name inline-block ">
+                        <div class="content ellipsis" ng-class="{'system': row.code}">
+                            {{row.englishName}}
+                        </div>
+                    </div>
+
+
+                    <!--牌号-->
+                    <div class="body-cell login-name inline-block ">
+                        <div class="content ellipsis">
+                            {{row.loginName}}
+                        </div>
+                    </div>
+
+                    <div class="body-cell status inline-block ">
+                        <div class="content ellipsis" ng-class="{'system': row.code}" ng-switch="row.disable" >
+                            <span ng-switch-when="0"  class="normal">正常</span>
+                            <span ng-switch-when="1"  class="disable" >禁用</span>
+                            <span ng-switch-default></span>
+                        </div>
+                    </div>
+
+                    <div class="body-cell remark inline-block ">
+                        <div class="content ellipsis">
+                            {{row.remark}}
+                        </div>
+                    </div>
+
+                    <!--操作-->
+                    <!--<div data-field="operator" class="operator   operator-cell  inline-block ellipsis">-->
+                        <!--<div class="content ellipsis" ng-show="!row.code">-->
+
+
+                            <!--<a href="javascript:void(0)" ng-click="staffSelectCtrl.deleteEntity(row)"-->
+                               <!--class="simple-grid-btn inline-block" title="删除">-->
+                                <!--<span class="icon fa fa-minus"></span>-->
+                                <!--<span class="more-info">删除</span>-->
+                            <!--</a>-->
+                        <!--</div>-->
+                        <!--<div class="content ellipsis" ng-show="row.code">-->
+                            <!--<div class="edit-disable-info">-->
+                                <!--系统角色-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+        <!--分页条-->
+        <ks-paging on-select-page="staffSelectCtrl.selectEntities(false)" ng-show="staffSelectCtrl.selectedRole" paging="staffSelectCtrl.queryCondition"
+                   limit="30" id="pagingBar" style="margin-top:5px;">
+        </ks-paging>
+    </div>
+</div>

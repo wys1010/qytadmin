@@ -1,0 +1,23 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    background: #ECEAE7;
+}
+
+body{/* overflow-y: hidden; */font-family: 'Microsoft Yahei','宋体'}
+.block-wrap{}
+.workspace-wrap{width:100%;position: absolute;left:0;}
+.menus-wrap{width:140px;border-right: 0px solid #a8b3c0;position: absolute;left:0;z-index: 1;height:100%;background: #ECEFF1;border-right:1px solid #f0f0f0;
+}
+.workspace{margin-left:140px;  border-left:0px solid #f0f0f0;background: #fff}
+.tab-frame{height: 100%;}
+#tabContainer{margin:0 5px;}
+
+
+.uc-icon-leaf{background: url(../img/page.png) no-repeat;}
+
+.uc-icon-module{background: url(../img/module.png) no-repeat;}
+

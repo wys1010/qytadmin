@@ -1,0 +1,37 @@
+
+.preview-grid{border: 1px solid #f0f0f0;position: relative;height:500px;}
+.preview-grid .header{border-bottom: 1px solid #ccc}
+.preview-grid .row{padding:0;margin: 0;border-bottom: 1px solid #f0f0f0}
+.preview-grid .row.alt{background: #fdfdfd}
+.preview-grid .row:hover{background: #d5f9ef;border-bottom-color: #d5f9ef;
+}
+.preview-grid .header-cell,.preview-grid .body-cell{float:left;height:25px;line-height: 25px;border-right: 1px solid #f0f0f0;text-indent:3px;}
+.preview-grid .header-cell{text-align:center;font-weight: bold;color:#000;background: #fafafa}
+.preview-grid .body{overflow: auto;height:469px;position: relative}
+.preview-grid .body-cell .content{width:100%;height:100%}
+.preview-grid .body-cell .content.error{background: url(../img/invalid_line.gif) repeat-x 0 bottom;color:red}
+.preview-grid .body-cell.index.error{background: url(../img/invalid_line.gif) repeat-x 0 bottom;color:red}
+.preview-grid .body-cell .content.editing{background: #048cdd;border-bottom-color: darkblue;color:#fff}
+.preview-grid .body-cell .content.modify{font-weight: bold;color: blue}
+.preview-grid .body-cell:hover{background-color: deepskyblue;color:#fff }
+.preview-grid .index{width:35px;font-style: italic;}
+.preview-grid .body .index{color:#ccc;text-align:right;}
+.preview-grid .category{width:70px;}
+.preview-grid .designation{width:80px;}
+.preview-grid .manufacturer{width:166px;}
+.preview-grid .originCountry{width:90px;}
+.preview-grid .city{width:60px;}
+.preview-grid .warehouse{width:90px;}
+.preview-grid .price{width:80px;}
+.preview-grid .weight{width:80px;}
+.preview-grid .operator{width:80px;}
+.preview-grid .futures{width:50px;}
+.preview-grid .remark{width:100px;}
+.preview-grid .body-cell.price{text-align: right;padding-right:3px;}
+.preview-grid .body-cell.weight{text-align: right;padding-right:3px;}
+.preview-grid .body-cell.operator{border-right: 0}
+.edit-pan{width:200px;height:100px;border:1px solid #ccc;background: #fff;box-shadow: 10px 10px 30px #a0a0a0;position: absolute;left:0;top:0;display: none;}
+.edit-pan input[type=text],.edit-pan input[type=number]{border:1px solid #ccc;height:28px;line-height: 28px;}
+.edit-pan .edit-field-row{margin:5px 10px;}
+
+a.preview-del-btn:hover{color:red}

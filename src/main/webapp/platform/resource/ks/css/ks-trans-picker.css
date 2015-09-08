@@ -1,0 +1,15 @@
+.transTable{
+    border: 1px solid rgb(204, 204, 204)
+}
+
+.transTable th{
+    border: 1px solid rgb(204, 204, 204);
+    background-color: rgb(228, 228, 228);
+}
+
+.transTable tr td{
+    background-color: #ffffff;
+    border: 1px solid rgb(204, 204, 204);
+}
+
+

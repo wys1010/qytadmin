@@ -1,0 +1,119 @@
+<div  ng-controller="StaffAddController as staffAddCtrl">
+    <div class="modal-header" style="">
+        <h3 class="modal-title ">添加用户</h3>
+    </div>
+
+
+    <div class="form  ks-form container-fluid"  style="margin-top: 5px">
+
+        <!-- 第一行-->
+        <div class="row">
+
+            <!--分类-->
+            <div class=" form-group-sm ks-form-group ">
+                <label class=" control-label">姓名</label>
+                <input type="text" class="form-control input-sm"
+                       ng-model="staffAddCtrl.queryCondition.name" style="width:80px"/>
+
+            </div>
+
+            <div class=" form-group-sm ks-form-group normal">
+                <label class=" control-label">部门</label>
+                <ks-org-picker ng-model="staffAddCtrl.queryCondition.orgId"></ks-org-picker>
+            </div>
+
+            <div class=" form-group ks-form-group normal" style="width:140px;float:right">
+                <button type="button" class="btn btn-primary btn-sm" ng-click="staffAddCtrl.selectEntities(true)"><span
+                        class="fa fa-search"></span> 查询
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="staffAddCtrl.resetForm()"><span
+                        class="fa fa-refresh"></span> 重置
+                </button>
+            </div>
+
+            </div>
+        </div>
+
+    <div class="clearfix" style="padding: 0 5px;">
+        <div class="simple-grid ellipsis staffs-grid" id="staffsAddGrid">
+            <div class="header ellipsis">
+                <div class="header-cell check inline-block">
+                    <input type="checkbox" ng-model="staffAddCtrl.allChecked" ng-click="staffAddCtrl.toggleCheck()"/>
+                </div>
+                <div class="header-cell name inline-block">姓名</div>
+                <div class="header-cell gender inline-block">性别</div>
+                <div class="header-cell org inline-block">所属部门</div>
+                <div class="header-cell manger inline-block">是否主管</div>
+                <div class="header-cell status inline-block">状态</div>
+            </div>
+            <div class="body ellipsis">
+                <div ng-class-odd="'alt'"  ng-class="' clearfix'"
+                     ng-repeat="row in staffAddCtrl.entities" class="row"
+                     data-row-index="{{$index}}">
+
+                    <div  class="inactive-cell check inline-block ellipsis">
+                        <div class="content ellipsis">
+                            <input type="checkbox" ng-model="row.checked" />
+                        </div>
+                    </div>
+                    <!--序号-->
+
+                    <!--分类-->
+                    <div class="body-cell name inline-block ">
+                        <div class="content ellipsis" ng-class="{'system': row.code}">
+                            <a href="javascript:void(0)">{{row.name}}</a>
+                        </div>
+                    </div>
+
+                    <div class="body-cell gender inline-block ">
+                        <div class="content ellipsis" ng-class="{'system': row.code}" ng-switch="row.gender" >
+                            <span ng-switch-when="1" >男</span>
+                            <span ng-switch-when="2" >女</span>
+                            <span ng-switch-default> - </span>
+                        </div>
+                    </div>
+
+                    <div class="body-cell org inline-block ">
+                        <div class="content ellipsis" ng-class="{'system': row.code}">
+                            {{row.orgName}}
+                        </div>
+                    </div>
+
+
+                    <!--牌号-->
+                    <div class="body-cell manger inline-block ">
+                        <div class="content ellipsis" ng-switch="row.manager">
+                            <span ng-switch-when="0"  >-</span>
+                            <span ng-switch-when="1"  class="disable" >主管</span>
+                            <span ng-switch-default></span>
+                        </div>
+                    </div>
+
+                    <div class="body-cell status inline-block ">
+                        <div class="content ellipsis" ng-class="{'system': row.code}" ng-switch="row.disable" >
+                            <span ng-switch-when="0"  class="normal">正常</span>
+                            <span ng-switch-when="1"  class="disable" >禁用</span>
+                            <span ng-switch-default></span>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!--分页条-->
+        <ks-paging on-select-page="staffAddCtrl.selectEntities(false)" paging="staffAddCtrl.queryCondition"
+                   limit="30" id="pagingBar" style="margin-top:5px;">
+        </ks-paging>
+    </div>
+    <!--操作按钮-->
+    <div class="  modal-footer">
+        <button type="submit" class="btn btn-primary "
+                ng-click="staffAddCtrl.save(editForm)">保存
+        </button>
+        <a href="javascript:void(0)" type="button" ng-click="staffAddCtrl.dismiss()" class="btn btn-warning"
+           ui-sref="index">取消</a>
+    </div>
+
+
+</div>

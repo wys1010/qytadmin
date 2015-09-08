@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qyt.management.storage.stock.dao.StockLineMapper">
+	<resultMap id="BaseResultMap"
+		type="com.qyt.management.storage.stock.domain.StockLine">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="product_id" property="productId" jdbcType="INTEGER" />
+		<result column="stock_id" property="stockId" jdbcType="INTEGER" />
+		<result column="order_id" property="orderId" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="num" property="num" jdbcType="INTEGER" />
+		<result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="created_by" property="createdBy" jdbcType="INTEGER" />
+		<result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+		<result column="updated_by" property="updatedBy" jdbcType="INTEGER" />
+	</resultMap>
+
+	<insert id="insertEntity" parameterType="com.qyt.management.storage.stock.domain.StockLine">
+		insert into stock_line
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="productId != null">
+				product_id,
+			</if>
+			<if test="stockId != null">
+				stock_id,
+			</if>
+			<if test="orderId != null">
+				order_id,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="createdAt != null">
+				created_at,
+			</if>
+			<if test="createdBy != null">
+				created_by,
+			</if>
+			<if test="updatedAt != null">
+				updated_at,
+			</if>
+			<if test="updatedBy != null">
+				updated_by,
+			</if>
+			<if test="num != null and num gt 0">
+				num,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="productId != null">
+				#{productId,jdbcType=INTEGER},
+			</if>
+			<if test="stockId != null">
+				#{stockId,jdbcType=INTEGER},
+			</if>
+			<if test="orderId != null">
+				#{orderId,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createdBy != null">
+				#{createdBy,jdbcType=INTEGER},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedBy != null">
+				#{updatedBy,jdbcType=INTEGER},
+			</if>
+			<if test="num != null">
+				#{num,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+
+	<delete id="deleteEntity" parameterType="int">
+		delete from stock_line
+		where id = #{id}
+	</delete>
+
+
+	<update id="updateEntity" parameterType="com.qyt.management.storage.stock.domain.StockLine">
+		update stock
+		<set>
+			<if test="productId != null">
+				product_id = #{productId,jdbcType=INTEGER},
+			</if>
+			<if test="stockId != null">
+				stock_id = #{stockId,jdbcType=INTEGER},
+			</if>
+			<if test="orderId != null">
+				order_id = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedAt != null">
+				updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedBy != null">
+				updated_by = #{updatedBy,jdbcType=INTEGER},
+			</if>
+			<if test="num != null and num gt 0">
+				num = #{num,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="getStockLineByStockId" resultType="com.qyt.management.storage.stock.domain.StockLine" parameterType="int">
+		SELECT *,p.name product_name FROM stock_line a
+		JOIN products p on a.product_id = p.id where a.stock_id = #{stockId}
+	</select>
+
+	<select id="selectEntities" resultType="com.qyt.management.storage.stock.domain.StockLine" parameterType="map">
+		SELECT *,p.name product_name,s.name created_by_name FROM stock_line a
+		JOIN products p on a.product_id = p.id
+		LEFT JOIN staffs s on a.created_by=s.id
+		<include refid="sp_where"></include>
+		order by
+		<if test="field !=null and field !=''">
+			${sortInfo} ,
+		</if>
+		a.updated_at desc
+		limit #{start} , #{limit}
+	</select>
+
+	<select id="selectEntitiesCount" resultType="int" parameterType="map">
+		SELECT
+		count(*)
+		FROM
+		stock_line a JOIN products p on a.product_id = p.id
+		LEFT JOIN staffs s on a.created_by=s.id
+		<include refid="sp_where"></include>
+	</select>
+
+	<sql id="sp_where">
+		<where>
+			<if test="condition!=null and condition.productName !=  null">
+				AND p.name  like concat('%' , #{condition.productName} , '%')
+			</if>
+			<if test="condition!=null and condition.type !=  null">
+				AND a.type  = #{condition.type}
+			</if>
+
+			<if test="condition!=null and condition.createdAtBeginDate !=  null ">
+				AND a.created_at >= #{condition.createdAtBeginDate}
+			</if>
+			<if test="condition!=null and condition.createdAtEndDate !=  null ">
+				AND a.created_at &lt;= #{condition.createdAtEndDate}
+			</if>
+			<if test="condition!=null and condition.createdBy !=  null ">
+				AND a.created_by = #{condition.createdBy}
+			</if>
+		</where>
+	</sql>
+
+
+</mapper>

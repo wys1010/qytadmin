@@ -1,0 +1,120 @@
+<!-- 弹出窗口-->
+<div class="transfer" ng-controller="TransferController as ctrl">
+    <div class="modal-header" style="">
+
+        <div class="row">
+            <h3 class="modal-title col-xs-10">{{ctrl.dialogTitle}}</h3>
+        </div>
+
+    </div>
+
+    <form role="form" class="form-inline" style="line-height: 30px" name="editForm"
+          novalidate>
+
+        <div style="padding: 5px 5px 5px 15px;">
+
+            <div class="form-group">
+                <label class=" control-label">客户姓名</label>
+                <input type="text" name="" class="form-control" ng-model="ctrl.queryCondition.customerName">
+            </div>
+
+            <div class="form-group">
+                <label class=" control-label">电话号码</label>
+                <input type="text" name="" class="form-control" ng-model="ctrl.queryCondition.customerPhone">
+            </div>
+
+            <div class="form-group">
+                <label class=" control-label">公司名称</label>
+                <input type="text" name="" class="form-control" ng-model="ctrl.queryCondition.customerCompanyName">
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" ng-click="ctrl.selectEntities()">
+                    <span class="fa fa-search"></span>查询
+                </button>
+            </div>
+
+        </div>
+
+        <div class="simple-grid ellipsis staffs-list" style="height:500px;padding: 10px;">
+            <div class="header ellipsis">
+                <div class="header-cell name inline-block">客户姓名</div>
+                <div class="header-cell phone inline-block">电话号码</div>
+                <div class="header-cell company inline-block">公司名称</div>
+                <div class="header-cell type inline-block">类型</div>
+                <div class="header-cell group inline-block">产品线</div>
+                <div class="header-cell staff inline-block">转入员工</div>
+                <div class="header-cell operate inline-block">操作</div>
+            </div>
+
+            <div class="body ellipsis staffs-list-body" style="height: 400px">
+                <div ng-class-odd="'alt'" ng-click=""
+                     ng-class="{'selected':row.selected}"
+                     ng-class="' clearfix'"
+                     ng-repeat="row in ctrl.rows" class="row" style="overflow: visible" ng-dblclick=""
+                     data-row-index="{{$index}}">
+
+                    <div class="body-cell name inline-block name">
+                        <div class="content ellipsis" title="{{row.customerName}}">
+                            {{row.customerName}}
+                        </div>
+                    </div>
+
+                    <div class="body-cell phone inline-block name">
+                        <div class="content ellipsis" title="{{row.customerPhone}}">
+                            {{row.customerPhone}}
+                        </div>
+                    </div>
+
+                    <div class="body-cell company inline-block name">
+                        <div class="content ellipsis" title="{{row.customerCompanyName}}">
+                            {{row.customerCompanyName}}
+                        </div>
+                    </div>
+
+                    <div class="body-cell type inline-block type">
+                        <div class="content ellipsis">
+                            {{row.relType == '1'? '买家' : '卖家'}}
+                        </div>
+                    </div>
+
+                    <div class="body-cell group inline-block group">
+                        <div class="content ellipsis" title="{{row.categoryGroupCode}}-{{row.districtName}}">
+                            {{row.categoryGroupCode}}<span ng-if="row.relType == '2'">-{{row.districtName}}</span>
+                        </div>
+                    </div>
+
+                    <div class="body-cell staff inline-block staff">
+                        <div class="content">
+                            <ks-staff-picker ng-model="ctrl.staffs[$index]"
+                                             entity="{{row.staffList}}"></ks-staff-picker>
+                        </div>
+                    </div>
+
+                    <div class="operate body-cell operate inline-block ellipsis"
+                         style="padding-top: 0px;">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-sm"
+                                    ng-click="ctrl.transferCustomer(row,$index)">
+                                <i class="fa fa-share"></i> 转入
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div>
+                <ks-paging on-select-page="ctrl.selectEntities(false)" paging="ctrl.queryCondition" limit="10">
+                </ks-paging>
+            </div>
+
+        </div>
+    </form>
+
+
+    <div class="  modal-footer">
+        <a href="javascript:void(0)" type="button" ng-click="ctrl.dismiss()" class="btn btn-warning"
+           ui-sref="select">取消</a>
+    </div>
+</div>

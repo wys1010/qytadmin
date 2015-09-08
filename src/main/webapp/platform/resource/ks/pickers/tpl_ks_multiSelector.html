@@ -1,0 +1,23 @@
+<div class="ks-multi-selector">
+    <div class="ks-multi-selector-result ">
+        <button class="ks-multi-selector-btn btn btn-sm btn-success">
+            <span class="fa fa-plus"></span>
+            选择
+        </button>
+        <span ng-repeat="item in selectedItems" class="inline-block ks-ms-selected-item">
+            <span>{{item[labelField]}}</span>
+            <a class="fa fa-close remove-btn" href="javascript:void(0)" ng-click="removeItem(item)"></a>
+        </span>
+    </div>
+    <div class="ks-ac-picker-wrapper">
+        <div class="ks-ac-picker" ng-show="picker.visible" style="overflow: auto">
+            <div class="ks-ac-table">
+            <ul class="ks-ac-rows">
+                <li class="clearfix" ng-repeat="item in items" >
+                    <a class="ks-ac-item inline-block ellipsis" index="{{$index}}" href="javascript:void(0)"><input type="checkbox" ng-click="matchItems()" ng-model="item.checked" style="margin-top:-2px;"/> {{item[labelField]}}</a>
+                </li>
+            </ul>
+                </div>
+        </div>
+    </div>
+</div>

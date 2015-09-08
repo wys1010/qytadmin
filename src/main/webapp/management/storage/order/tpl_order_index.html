@@ -1,0 +1,115 @@
+<div  ng-controller="IndexController as ctrl">
+
+    <div class="form  ks-form container-fluid" >
+
+        <!-- 第一行-->
+        <div class="row">
+
+            <div class="form-group-sm  normal">
+                <label class="control-label">订单编号：</label>
+                <input type="text" class=" form-control input-sm " ng-model="ctrl.queryCondition.orderNo" placeholder="订单编号"/>
+            </div>
+
+            <!--名称-->
+            <div class="form-group-sm  normal">
+                <label class="control-label">产品名称：</label>
+                <input type="text" class=" form-control input-sm " ng-model="ctrl.queryCondition.productName" placeholder="产品名称"/>
+            </div>
+
+            <div class="form-group-sm  normal" style="width: 250px">
+                <label class="control-label">状态：</label>
+                <select class=" form-control input-sm " ng-model="ctrl.queryCondition.status"
+                        style="width: 150px;display: inline-block">
+                    <option value="">==全部==</option>
+                    <option value="1">新单</option>
+                    <option value="2">待发货</option>
+                    <option value="3">已发货</option>
+                    <option value="4">确认收货</option>
+                </select>
+            </div>
+
+            <div class="form-group-sm  normal" style="width: 450px;display: inline-block">
+                <label class="control-label" style="float: left">下单日期：</label>
+                <div style="float: left;width: 160px">
+                    <ks-date-picker ng-model="ctrl.queryCondition.createdAtBegin"></ks-date-picker>
+                </div>
+                <div style="float: left;margin-top: 7px;padding-left: 5px">至</div>
+                <div style="float: left;width: 160px">
+                    <ks-date-picker ng-model="ctrl.queryCondition.createdAtEnd"></ks-date-picker>
+                </div>
+
+            </div>
+
+            <!--按钮-->
+            <div class=" form-group-sm ks-form-group normal">
+                <button type="button" class="btn btn-primary btn-sm"
+                        ng-click="ctrl.selectEntities(true)"><span class="fa fa-search"></span>查询
+                </button>
+                <button type="button" class="btn btn-primary btn-sm"
+                        ng-click="ctrl.resetForm()"><span class="fa fa-refresh"></span>重置
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 表格-->
+    <table class="table table-striped ks-grid">
+
+        <!--表头-->
+        <thead class="ks-header">
+        <th class="ks-cell" width="width: 120px">订单编号</th>
+        <th class="ks-cell">产品名称</th>
+        <th class="ks-cell">下单数量</th>
+        <th class="ks-cell">状态</th>
+        <th class="ks-cell">仓库</th>
+        <th class="ks-cell">下单时间</th>
+        <th class="ks-cell">下单人</th>
+        <th class="ks-cell">操作</th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row  in ctrl.entities" class="ks-row">
+            <td class="ks-cell" width="width: 120px"><span>{{::row.orderNo || ''}}</span></td>
+            <td class="ks-cell ellipsis" >{{row.productName }}</td>
+            <td class="ks-cell ellipsis" >{{row.num }}</td>
+            <td class="ks-cell">
+                <span ng-switch="row.status">
+                    <span ng-switch-when="1" style="color: #0060c4">新单</span>
+                    <span ng-switch-when="2" style="color: orangered;">待发货</span>
+                    <span ng-switch-when="3" style="color: #30c9ff">已发货</span>
+                    <span ng-switch-when="4" style="color: darkgreen">确认收货</span>
+                </span>
+            </td>
+            <td class="ks-cell">
+                {{row.warehouseName}}
+            </td>
+            <td class="ks-cell">
+                {{row.createdAt | date:'yyyy-MM-dd HH:mm:ss'}}
+            </td>
+            <td class="ks-cell">
+                {{row.createdByName}}
+            </td>
+
+            <!-- 编辑单元格-->
+            <td class="ks-cell">
+                <!--<a href="javascript:void(0)" ng-click="ctrl.edit(row)" class=" btn btn-default btn-sm"-->
+                <!--ng-if="ctrl.role.hasEditRole">-->
+                <!--<span class="fa fa-edit"></span>编辑</a>-->
+                <!--<a href="javascript:void(0)" class="btn btn-danger btn-sm" ng-click="ctrl.deleteEntity(row)"-->
+                <!--ng-if="ctrl.role.hasDeleteRole">-->
+                <!--<span class="fa fa-minus"></span>删除</a>-->
+                <a href="javascript:void(0)" class="btn btn-default btn-sm" ng-click="ctrl.deliver(row,3)"
+                   ng-if="row.status == 2 && ctrl.role.hasDeliveryRole">
+                    <span class="fa  fa-truck"></span> 发货</a>
+                <a href="javascript:void(0)" class="btn btn-success btn-sm" ng-click="ctrl.deliver(row,4)"
+                   ng-if="row.status == 3 && ctrl.role.hasConfirmRole">
+                    <span class="fa  fa-check"></span> 确认收货</a>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!--分页条-->
+    <ks-paging on-select-page="ctrl.selectEntities(false)" paging="ctrl.queryCondition" limit="10"></ks-paging>
+
+</div>

@@ -1,0 +1,22 @@
+<div  class="ks-ac">
+    <a href="javascript:void(0)" class="ks-ac-result inline-block {{editable?'editable':''}}">
+        <span ng-show="!editable" class="inline-block ks-ac-show-text ellipsis">{{selectedItem[labelField] || ''}}</span>
+        <input ng-show="editable" style="width:100%;height:100%;margin:0" ng-model="selectedLabel" class="ks-ac-search-and-result-text"/>
+        <span class="fa fa-caret-down drop-down" ng-show="!editable && !readonly"></span>
+    </a>
+    <div class="ks-ac-picker-wrapper">
+        <div class="ks-ac-picker" ng-show="picker.visible">
+            <input ng-show="!editable"  ng-model="picker.searchTxt" class="ks-ac-search-text"/>
+            <span class="fa fa-search ks-ac-search-icon"></span>
+            <div class="ks-ac-result-tip" ng-if="picker.visible"><span class="fa fa-lightbulb-o"></span> 输入关键字过滤，空格可以分词</div>
+            <div class="ks-ac-table">
+                <ul class="ks-ac-rows">
+                    <li class="clearfix" ng-repeat="item in matchItems"><a class="ks-ac-item inline-block ellipsis" index="{{$index}}" href="javascript:void(0)" >{{item[labelField]}}</a></li>
+                </ul>
+            </div>
+            <div class="ks-ac-toolbar">
+                <button class="btn btn-danger btn-sm" ng-click="clearFocus()"><span class="fa fa-times clear-btn"></span> 删除</button>
+            </div>
+        </div>
+    </div>
+</div>

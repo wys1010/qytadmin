@@ -1,0 +1,213 @@
+body {
+    font-family: '微软雅黑', 'Microsoft Yahei';
+}
+
+.fake-body {
+    margin: 0px auto;
+    position: relative;
+    width: 1024px;
+}
+
+.big-logo {
+    width: 300px;
+    height: 120px;
+    margin: 0 auto;
+    margin-top: 30px;
+    background: url(../img/qyt-logo.png) no-repeat center center;
+    -webkit-animation: rotate-photo 5s linear infinite;
+    -moz-animation: rotate-photo 5s linear infinite;
+    -o-animation: rotate-photo 5s linear infinite;
+}
+
+
+
+@-moz-keyframes  rotate-photo /* Firefox */
+{
+    from {
+        -moz-transform: rotateY(0deg);
+    }
+    to {
+        -moz-transform: rotateY(360deg);
+    }
+}
+
+@-webkit-keyframes  rotate-photo /* Safari 和 Chrome */
+{
+    from {
+        -webkit-transform: rotateY(0deg);
+    }
+    to {
+        -webkit-transform: rotateY(360deg);
+    }
+}
+
+@-o-keyframes  rotate-photo /* Opera */
+{
+    from {
+        -o-transform: rotateY(0deg);
+    }
+    to {
+        -o-transform: rotateY(360deg);
+    }
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+.clearfix:after {
+    content: "\0020";
+    display: block;
+    clear: both;
+    height: 0;
+}
+
+.inline-block {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+.nowrap, .singleline {
+    white-space: nowrap;
+    overflow: hidden
+}
+
+body {
+    background: #f2f2f2
+}
+
+.login-header {
+    height: 100px;
+    position: relative
+}
+
+.login-header .welcome-bg {
+    font-family: '微软雅黑', 'Microsoft Yahei';
+    color: #4d4d4d;
+    font-size: 24px;
+    position: absolute;
+    height: 30px;
+    line-height: 30px;
+    top: 120px;
+    left: 55px;
+}
+
+.system-title {
+    position: absolute;
+    bottom: 130px;
+    width: 100%;
+    text-align: center;
+    left: 0
+}
+
+.form-wrap {
+    background: #e8e8e8;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    padding: 5px;
+    margin: 60px auto 55px;
+    position: relative;
+    box-shadow: 10px 10px 30px #a0a0a0;
+}
+
+.form-inner-wrap {
+    border: 1px solid #e1e1e1;
+    background: #ffffff;
+    height: 354px;
+}
+
+.form {
+    position: absolute;
+    top: 50px;
+    right: 32px;
+    width: 320px;
+    overflow: hidden;
+    height: 354px;
+}
+
+.form .text {
+    float: none;
+    width: 282px;
+    height: 24px;
+    line-height: 24px;
+    padding: 4px 20px 4px 3px;
+    border: 1px solid #cccccc;
+    font-size: 14px;
+    margin: 5px 0;
+    font-family: arial, "宋体";
+}
+
+.form .passport {
+    background: url(../img/login-all-bg.png) no-repeat -373px -111px #fff;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 45px;
+    right: 30px
+}
+
+.form .password {
+    background: url(../img/login-all-bg.png) no-repeat -346px -108px #fff;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 116px;
+    right: 30px
+}
+
+.form .label {
+    color: #999;
+    font-size: 12px;
+    height: 30px;
+    line-height: 30px
+}
+
+.form .btn-login {
+    cursor: pointer;
+    overflow: hidden;
+    margin: 20px 0;
+    padding: 0;
+    border: 0;
+    text-align: center;
+    width: 307px;
+    height: 34px;
+    font-family: "微软雅黑";
+    line-height: 100px;
+    text-indent: -9999px;
+	background: url(../img/login-all-bg.png) no-repeat 0 -61px;
+    overflow: hidden;
+}
+
+.form .btn-login:hover {
+    background-position-y: -95px;
+}
+
+.sys-info {
+    text-align: center;;
+    font-size: 26px;
+    color: #2a5ba9;
+    font-style: italic;
+    width: 100%;
+    padding-top: 10px;
+    position: absolute;
+    bottom: 145px;
+}
+
+.login-bg {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    width: 600px;
+    overflow: hidden;
+
+    height: 345px;
+}

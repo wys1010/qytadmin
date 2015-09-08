@@ -1,0 +1,19 @@
+<div style="height:100%" ng-controller="OrgIndexController as orgIndexCtrl">
+    <ks-v-box>
+        <ks-v-box-cell>
+            <div class="btn-group media-right">
+                <button type="button" class="btn btn-default btn-xs" ui-sref="index.editorg({id: {{-1}} })"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span>新增</button>
+            </div>
+            <div class="btn-group media-right" ng-show="orgIndexCtrl.selectedId">
+                <button type="button" class="btn btn-danger btn-xs" ng-click="orgIndexCtrl.deleteEntity()"><span aria-hidden="true" class="glyphicon glyphicon-minus"></span>删除</button>
+            </div>
+            1{{orgIndexCtrl.selectedId}}
+        </ks-v-box-cell>
+        <ks-v-box-cell height="flex">
+
+            <ks-tree children-field="children" id-field="id" text-field="text" data-type="hierarchy" data="orgIndexCtrl.orgs"
+                     expand-all="true" checkable="false" selected-item="orgIndexCtrl.organization" selected-id="orgIndexCtrl.selectedId"></ks-tree>
+        </ks-v-box-cell>
+    </ks-v-box>
+
+</div>

@@ -1,0 +1,36 @@
+<div class="height-100pi" ng-controller="SelectOrgsController as ctrl">
+    <div class="panel panel-default">
+        <div class="panel-heading media p5">
+            <h3 class="panel-title media-left w100">部门列表</h3>
+
+            <div class="btn-group media-right">
+                <button type="button" class="btn btn-default btn-xs"
+                        ng-click="ctrl.go('root.editOrgs')">
+                    <span aria-hidden="true" class="glyphicon glyphicon-plus"></span>新增
+                </button>
+            </div>
+            <div class="btn-group media-right" ng-show="ctrl.showRemoveBtn">
+                <button type="button" class="btn btn-default btn-xs"
+                        ng-click="ctrl.go('root.editOrgs',ctrl.selectedItem)">
+                    <span aria-hidden="true"
+                          class="glyphicon glyphicon-edit"></span>编辑部门
+                </button>
+            </div>
+            <div class="btn-group media-right" ng-show="ctrl.showRemoveBtn">
+                <button type="button" class="btn btn-danger btn-xs" ng-click="ctrl.doDelete()">
+                    <span aria-hidden="true" class="glyphicon glyphicon-minus"></span>删除
+                </button>
+            </div>
+        </div>
+        <div class="panel-body p5" id="treeWrap" style="overflow: auto">
+            <div ng-if="ctrl.treeData != null">
+                <ks-tree children-field="children" id-field="id" text-field="text" data-type="hierarchy"
+                         data="ctrl.treeData"
+                         width="100%" expand-all="true" checkable="false" on-selected="ctrl.onTreeNodeSelected(true)"
+                         selected-item="ctrl.selectedItem" checked-items="ctrl.checkedItems"
+                         checked-ids="ctrl.checkedIds"></ks-tree>
+            </div>
+        </div>
+    </div>
+
+</div>

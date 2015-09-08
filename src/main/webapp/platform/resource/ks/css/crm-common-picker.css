@@ -1,0 +1,112 @@
+.add_dynamic_panel {
+    border: 1px solid #ccc;
+    color: #333333;
+    line-height: normal;
+    width: 400px;
+    height: 420px;
+    overflow: hidden;
+    position: absolute;
+    right: -400px;
+    top: 50px;
+    margin-left: 0px;
+    margin-top: 0px;
+    display: none;
+    background: #fff;
+    z-index: 100;
+    -webkit-box-shadow: #666 0px 0px 10px;
+    -moz-box-shadow: #666 0px 0px 10px;
+    box-shadow: #666 0px 0px 10px;
+}
+
+.allot-warp .bg{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 1001;
+    -moz-opacity: 0.5;
+    opacity: .50;
+    filter: alpha(opacity=70);
+}
+
+.allot_panel {
+    border: 1px solid #ccc;
+    color: #333333;
+    line-height: normal;
+    width: 200px;
+    height: 420px;
+    overflow: hidden;
+    position: absolute;
+    left: 50%;
+    margin: -200px 0 0 -100px;
+    background: #fff;
+    z-index: 1002;
+
+    border-radius:3px;
+
+    -webkit-box-shadow: #666 0px 0px 10px;
+    -moz-box-shadow: #666 0px 0px 10px;
+    box-shadow: #666 0px 0px 10px;
+}
+
+.tab_table {
+    border: 1px solid rgb(204, 204, 204)
+}
+
+.tab_table th {
+    border: 1px solid rgb(204, 204, 204);
+    background-color: rgb(228, 228, 228);
+}
+
+.tab_table tr td {
+    background-color: #ffffff;
+    border: 1px solid rgb(204, 204, 204);
+}
+
+.add_dynamic_panel .head {
+    height: 26px;
+    line-height: 26px;
+    padding-left: 10px;
+    background-color: rgb(228, 228, 228);
+}
+
+.allot_panel .head {
+    height: 26px;
+    line-height: 26px;
+    padding-left: 10px;
+    background-color: rgb(228, 228, 228);
+}
+
+.add_dynamic_panel .body {
+    padding: 30px;
+}
+
+.add_dynamic_panel .body .text {
+    height: 32px;
+    line-height: 32px;
+}
+
+.add_dynamic_panel .bottom {
+    padding-top: 30px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+}
+
+.allot_panel .bottom {
+    padding-top: 30px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+}
+
+
+#visit-picker .ks-grid .alt{
+    background:#fdfdfd
+}
+
+#allocation-picker .ks-grid .alt{
+    background:#fdfdfd
+}

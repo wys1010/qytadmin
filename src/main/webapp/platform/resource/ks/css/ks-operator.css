@@ -1,0 +1,5 @@
+.ks-operator{height: 20px;;line-height: 20px;margin-bottom: 10px;border-bottom: 1px dashed #ddd}
+.ks-operator input{border:0;width:145px;background-color: transparent;margin-right: 10px;color: #ccc;height: 20px;;line-height: 20px;
+}
+.ks-operator label{font-style: italic;color: #ccc;height: 20px;;line-height: 20px;font-size: 12px;}
+.ks-operator-input.name{width:50px;font-size: 12px;}

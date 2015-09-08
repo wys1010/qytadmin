@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qyt.management.sys.holiday.dao.DailyScheduleMapper">
+
+    <!--表明-->
+    <sql id="table_name">daily_schedules</sql>
+
+    <!--查询字段-->
+    <sql id="fields_without_id">name,start_date, end_date, work, remark, created_at, updated_at, operator_id</sql>
+
+    <resultMap id="entityMap" type="com.qyt.management.sys.holiday.domain.DailySchedule">
+        <id property="id" column="id"/>
+        <id property="name" column="name"/>
+        <id property="startDate" column="start_date"/>
+        <id property="endDate" column="end_date"/>
+        <id property="work" column="work"/>
+        <result property="remark" column="remark"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="operatorId" column="operator_id"/>
+    </resultMap>
+
+    <select id="selectEntitiesByRange"  resultMap="entityMap">
+        select id,
+        <include refid="fields_without_id"></include>
+        from
+        <include refid="table_name"></include>
+        <where>1=1
+          <if test="startDate != null and endDate !=null ">
+              and (start_date between #{startDate} and #{endDate}) or (end_date between #{startDate} and #{endDate})
+          </if>
+        </where>
+    </select>
+
+</mapper>

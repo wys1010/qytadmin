@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<tree id="0">
+	<item text="系统管理" id="sys" open="1" isLeaf="0" >
+		<item text="组织机构管理" id="org"  isLeaf="1">
+		</item>
+		<item text="人员管理" id="user" isLeaf="1">
+		</item>
+		<item text="权限分配" id="role"  isLeaf="1">
+		</item>
+		<item text="字典管理" id="dict" isLeaf="1">
+		</item>
+	</item>
+	<item text="demo" id="demo" open="1" isLeaf="0">
+		<item text="单表" id="singleTable" select="0" isLeaf="1"></item>
+        <item text="主子表" id="singleTable" isLeaf="1"></item>
+        <item text="GIS" id="singleTable" isLeaf="1"></item>
+	</item>
+</tree> 

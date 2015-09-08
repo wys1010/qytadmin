@@ -1,0 +1,12 @@
+.ks-image-pasted-pane{border:1px dashed #ccc;;text-align: center;font-size:10px;background: #f0f0f0;margin-top:5px;margin-left:5px}
+.ks-image-pane{float:left;position: relative }
+
+.ks-image-pane.dragging{background: #c5ddff}
+
+.ks-image-result-pane{width:160px;height:160px;border:1px dashed #ccc;;text-align: center;line-height: 160px;}
+.ks-image-pasted-pane img{max-width:100%;max-height:100%}
+.ks-image-pane .toolbar{position: absolute;
+    background: rgba(79, 79, 79, 0.33);
+    bottom: 0;
+    height: 40px;
+    padding-top: 5px;}

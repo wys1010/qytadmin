@@ -1,0 +1,62 @@
+<div class="stock-edit" ng-controller="EditController as ctrl">
+    <div class="modal-header" style="">
+        <h3 class="modal-title ">{{ctrl.dialogTitle}} </h3>
+    </div>
+
+    <ks-form id="editForm" label-width="86" style="padding: 0 10px 0 10px" name="editForm" invalid="invalid">
+
+        <div class="row">
+
+            <ks-field label="产品" required="true" width="250">
+                <ks-product-picker ng-model="ctrl.entity.productId" disabled="ctrl.isOrder"></ks-product-picker>
+                <!--<input type="text" ng-model="ctrl.entity.productName" placeholder="产品名称"-->
+                       <!--class=" form-control input-sm" name="name" required ng-readonly="ctrl.isOrder">-->
+            </ks-field>
+        </div>
+
+        <div class="row">
+
+            <ks-field label="{{ctrl.isOrder ? '下单':'库存' }}数量" required="true" width="250">
+                <div style="display: inline-block" ng-switch="ctrl.isOrder">
+
+                        <span ng-switch-when="true">
+                            <input type="text" ng-model="ctrl.entity.outNum" placeholder="下单数量"
+                                   class=" form-control input-sm" name="stockNum" ng-pattern="/^\d+?$/"
+                                   required ng-change="ctrl.outNumChanged()">
+                        </span>
+                        <span ng-switch-when="false">
+                            <input type="text" ng-model="ctrl.entity.num" placeholder="库存数量"
+                                   class=" form-control input-sm" name="num" ng-pattern="/^\d+?$/" required>
+                        </span>
+
+                </div>
+            </ks-field>
+
+            <ks-field label="总库存剩余数量">
+                <input type="text" ng-model="ctrl.entity.surplusNum" placeholder="总库存剩余数量"
+                       class=" form-control input-sm" name="stockNum" ng-pattern="/^\d+?$/"
+                       ng-readonly="true">
+            </ks-field>
+
+            <ks-field label="下单存放仓库">
+                <ks-warehouse-picker ng-model="ctrl.entity.warehouseId" ></ks-warehouse-picker>
+                <!--<input type="text" ng-model="ctrl.entity.surplusNum" placeholder="库存剩余数量"-->
+                       <!--class=" form-control input-sm" name="stockNum" ng-pattern="/^\d+?$/"-->
+                       <!--ng-readonly="true">-->
+            </ks-field>
+
+
+        </div>
+
+        <!--操作按钮-->
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary " ng-disabled="!invalid"
+                    ng-click="ctrl.save(editForm)" ks-loading visible="ctrl.showLoading">{{ctrl.isOrder ? '下单':'保存' }}
+            </button>
+            <a href="javascript:void(0)" type="button" ng-click="ctrl.dismiss()" class="btn btn-warning">取消</a>
+        </div>
+
+    </ks-form>
+
+
+</div>

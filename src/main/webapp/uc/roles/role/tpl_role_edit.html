@@ -1,0 +1,52 @@
+<div  ng-controller="RoleEditController as roleEditCtrl" >
+    <div class="modal-header" style="">
+        <h3 class="modal-title ">{{roleEditCtrl.dialogTitle}}</h3>
+    </div>
+
+    <form role="form" class="form  ks-form ks-edit-form container-fluid modal-body" name="editForm" novalidate>
+
+        <div ng-show="!roleEditCtrl.selectSuccess">
+            <h3 style="color:red">错误：记录不存在或已被删除</h3>
+        </div>
+
+        <div ng-show="roleEditCtrl.selectSuccess">
+            <!-- 现实操作人 创建时间 修改时间 -->
+            <ks-operator entity="roleEditCtrl.entity">
+            </ks-operator>
+            <!-- 第一行-->
+
+            <div class="row">
+                <div class="form-group  normal" style="width:200px">
+                    <label class=" control-label ks-control-label" style="width:40px">名称</label>
+                    <input type="text"   ng-model="roleEditCtrl.entity.name" class="form-control"
+                           required="" style="width:120px;display: inline-block">
+                </div>
+
+                <!--<div class="form-group  normal" style="width:200px">-->
+                    <!--<label class=" control-label ks-control-label" style="width:40px">编码</label>-->
+                    <!--<input type="text" disabled  ng-model="roleEditCtrl.entity.code" class="form-control"-->
+                            <!--style="width:120px;display: inline-block">-->
+                <!--</div>-->
+            </div>
+            <div class="row">
+                <div class="form-group  normal" >
+                    <label class=" control-label ks-control-label"  style="width:40px">备注</label>
+                    <textarea    ng-model="roleEditCtrl.entity.remark" class="form-control" style="width:400px"
+                            rows="3" cols="30"></textarea>
+                </div>
+            </div>
+
+        </div>
+        <!--操作按钮-->
+        <div class="  modal-footer">
+            <button type="submit" class="btn btn-primary " ng-disabled="editForm.$invalid"
+                    ng-click="roleEditCtrl.save(editForm)" ng-show="roleEditCtrl.selectSuccess">保存
+            </button>
+            <a href="javascript:void(0)" type="button" ng-click="roleEditCtrl.dismiss()" class="btn btn-warning"
+               ui-sref="index">取消</a>
+        </div>
+
+    </form>
+
+
+</div>

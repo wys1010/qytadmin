@@ -1,0 +1,10 @@
+.tree-wrap {
+  width: 260px;
+  height: 500px;
+  border: 1px solid #ccc;
+  overflow: auto;
+  float: left;
+}
+.result-panel {
+  float: left;
+}

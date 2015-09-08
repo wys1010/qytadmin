@@ -1,0 +1,119 @@
+<div class="" ng-controller="SelectStaffsController as ctrl">
+    <div class="panel panel-default">
+        <div class="panel-heading media p5">
+            <h3 class="panel-title media-left w100">
+                {{ctrl.selectedOrgs.name == null ? '&nbsp;' : ctrl.selectedOrgs.name}}</h3>
+
+            <div class="btn-group media-right" ng-hide="ctrl.selectedOrgs == null">
+                <button type="button" class="btn btn-default btn-xs" ng-click="ctrl.go('root.addStaffs')">
+                    <span aria-hidden="true" class="glyphicon glyphicon-edit"></span>添加员工
+                </button>
+            </div>
+            <div class="btn-group media-right" ng-hide="ctrl.selectedOrgs == null">
+                <button type="button" class="btn btn-danger btn-xs" ng-click="ctrl.batchDel()">
+                    <span aria-hidden="true" class="fa fa-times-circle"></span> 批量删除
+                </button>
+            </div>
+            <div class="btn-group media-right">
+                <button type="button" class="btn btn-default btn-xs" ng-click="ctrl.showDetail = !ctrl.showDetail"><span
+                        aria-hidden="true" class="glyphicon glyphicon-edit"></span>{{ctrl.showDetail ? '隐藏详情' : '显示详情'}}
+                </button>
+            </div>
+        </div>
+
+        <div class="panel-body p5" id="infosWrap" style="overflow: hidden;" ng-if="ctrl.showDetail">
+            <div>
+                <ol class="breadcrumb mb5">
+                    <li>部门名称:{{ctrl.selectedOrgs.name}}</li>
+                    <li>部门状态:{{ctrl.selectedOrgs.disable ? '禁用' : '启用'}}</li>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <li>创建者:{{ctrl.selectedOrgs.createdByName}}</li>
+                    <li>创建时间:{{ctrl.selectedOrgs.createdAt | date : 'yyyy-MM-dd hh:mm:ss'}}</li>
+                    <li>更新时间:{{ctrl.selectedOrgs.updatedAt | date : 'yyyy-MM-dd hh:mm:ss'}}</li>
+                </ol>
+
+            </div>
+
+            <div>
+                <div class="simple-grid ellipsis staffs-list">
+                    <div class="header ellipsis">
+                        <div class="header-cell check inline-block" style="padding-left:8px">
+                            <th class="ks-cell">
+                                <input type="checkbox" ng-model="ctrl.allChecked"
+                                       ng-click="ctrl.toggleCheck()"/>
+                            </th>
+                        </div>
+                        <div class="header-cell name inline-block">姓名</div>
+                        <div class="header-cell gender inline-block">性别</div>
+                        <div class="header-cell disable inline-block">状态</div>
+                        <div class="header-cell orgName inline-block">所属部门</div>
+                        <div class="header-cell manager inline-block">主管标志</div>
+                        <div class="header-cell operator inline-block">操作</div>
+                    </div>
+                    <div class="body ellipsis staffs-list-body">
+                        <div ng-class-odd="'alt'" ng-click="" ng-class="{'selected':row.selected}"
+                             ng-class="' clearfix'"
+                             ng-repeat="row in ctrl.entities" class="row" ng-dblclick="" data-row-index="{{$index}}">
+                            <!--序号-->
+                            <div class="inactive-cell check inline-block ellipsis">
+                                <div class="content ellipsis">
+                                    <input type="checkbox" ng-model="row.checked"/>
+                                </div>
+                            </div>
+
+                            <div class="body-cell name inline-block ">
+                                <div class="content ellipsis" ng-class="{'system': row.name}">
+                                    {{row.name}}
+                                </div>
+                            </div>
+
+                            <div class="body-cell gender inline-block ">
+                                <div class="content ellipsis" ng-class="{'system': row.gender}">
+                                    {{row.gender == 1 ? '男' : '女'}}
+                                </div>
+                            </div>
+
+                            <div class="body-cell disable inline-block ">
+                                <div class="content ellipsis" ng-class="{'system': row.disable}">
+                                    {{row.disable == 1 ? '禁用' : '启用'}}
+                                </div>
+                            </div>
+
+                            <div class="body-cell orgName inline-block ">
+                                <div class="content ellipsis" ng-class="{'system': row.orgName}">
+                                    {{row.orgName}}
+                                </div>
+                            </div>
+
+                            <div class="body-cell manager inline-block ">
+                                <div class="content ellipsis" ng-class="{'system': row.manager}">
+                                    {{row.manager == 0 ? '否' : '是'}}
+                                </div>
+                            </div>
+
+                            <!--操作-->
+                            <div data-field="operator" class="operator   operator-cell  inline-block ellipsis"
+                                 style="padding-top: 7px;">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-danger btn-xs"
+                                            ng-click="ctrl.del(row)">
+                                        <span aria-hidden="true" class="glyphicon glyphicon-minus"></span> 删除
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--分页条-->
+                <div style="text-align: center" ng-show="ctrl.entities.length > 0">
+                    <ks-paging on-select-page="ctrl.selectStaffs()" paging="ctrl.queryCondition"
+                               limit="15" id="pagingBar" style="margin-top:5px;">
+                    </ks-paging>
+                </div>
+
+                <br/>
+            </div>
+        </div>
+    </div>
+</div>

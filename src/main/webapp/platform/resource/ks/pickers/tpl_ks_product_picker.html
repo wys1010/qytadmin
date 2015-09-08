@@ -1,0 +1,70 @@
+<div class="ks-ac ks-product-picker-wrap" ng-click="showPicker()">
+    <a href="javascript:void(0)" class="ks-ac-result inline-block">
+        <span class="inline-block ks-ac-show-text">
+            {{showSelectedProduct()}}
+        </span>
+        <span class="fa fa-caret-down drop-down" ng-show="!disabled"></span>
+    </a>
+
+    <ks-popup-picker show-picker="picker.visible" width="550" height="350">
+
+        <!--查询条件wrap-->
+        <div class="ks-product-picker-inputs clearfix">
+            <!--品种:精确查询-->
+            <input style="width:150px;" type="text" placeholder="产品名称" ng-model="qc.name"
+                   class="ks-query-condition input-sm form-control input-sm form-control ks-product-picker-input"/>
+
+            <!--生产商:支持模糊查询-->
+            <input style="width:150px;" placeholder="生产商" ng-model="qc.manufacturerName"
+                   class="ks-query-condition input-sm form-control ks-product-picker-input"/>
+
+            <a href="javascript:void(0)" class="btn btn-primary btn-sm" ng-click="selectEntities(true)">查询</a>
+            <a href="javascript:void(0)" class="btn btn-primary btn-sm" ng-click="qc = {}">重置</a>
+        </div>
+
+        <div class="ks-ac-table ks-product-picker-table">
+            <div class="ks-product-picker-thead">
+                <div class="head-cell" style="width:160px;">产品名称
+                </div>
+                <div class="head-cell" style="width:159px;">生产商
+                </div>
+                <div class="head-cell" style="width:70px;">选择
+                </div>
+            </div>
+            <div class="ks-product-table-wrap">
+                <table class="table table-striped ks-grid">
+
+                    <tbody>
+                    <tr ng-repeat="row  in products" class="ks-row">
+                        <td class="ks-cell ellipsis" style="width:150px;">
+                            <div style="width:150px;" class="ellipsis cell">
+                                <span style="color:#5cb85c">{{::row.name || ''}}</span>
+                            </div>
+                        </td>
+                        <td class="ks-cell ellipsis" style="width:150px">
+                            <div style="width:150px;" class="ellipsis cell">
+                                <span>{{::row.manufacturerName || ''}}</span>
+                            </div>
+                        </td>
+
+                        <td class="ks-cell ellipsis " style="width:60px;">
+                            <div style="width:60px;" class="ellipsis cell">
+                                <a href="javascript:void(0)" class="btn btn-success btn-sm ks-product-picker-choose-btn"
+                                   ng-click="chooseProduct(row)">选择</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--分页条-->
+        <ks-paging on-select-page="onSelectPageHandler(pagination)" paging="pagination" limit="30">
+        </ks-paging>
+        <div class="ks-ac-toolbar">
+            <a href="javascript:void(0)" class="btn btn-danger btn-sm clear-btn"><span
+                    class="fa fa-times clear-btn"></span> 删除</a>
+        </div>
+    </ks-popup-picker>
+
+</div>

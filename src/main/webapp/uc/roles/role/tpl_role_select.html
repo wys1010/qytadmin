@@ -1,0 +1,65 @@
+<div ng-controller="RoleSelectController as roleSelectCtrl">
+    <h1 class="roles-title" id="rolesTitle">
+        角色列表
+    </h1>
+
+    <div class="container-fluid ks-grid-toolbar" id="rolesGridToolbar">
+        <div class="row">
+            <div class="col-xs-12 text-right" style="margin-top: 5px;">
+                <a class="btn btn-default btn-sm" ui-sref="index.editRole({id: {{-1}} })"><span class="fa fa-plus"></span> 新增</a>
+            </div>
+        </div>
+    </div>
+
+    <div >
+        <div class="simple-grid ellipsis"  id="rolesGrid">
+            <div class="header ellipsis">
+                <div class="header-cell name inline-block">名称</div>
+                <div class="header-cell code inline-block">编码</div>
+                <div class="header-cell operator inline-block">操作</div>
+            </div>
+            <div class="body ellipsis">
+                <div ng-class-odd="'alt'"  ng-click="roleSelectCtrl.selectRow(row)" ng-class="{'selected':row.selected}" ng-class="' clearfix'" ng-repeat="row in roleSelectCtrl.entities" class="row" ng-dblclick="roleSelectCtrl.update(row)" data-row-index="{{$index}}">
+                    <!--序号-->
+
+                    <!--分类-->
+                    <div class="body-cell name inline-block ">
+                        <div class="content ellipsis" ng-class="{'system': row.code}">
+                            {{row.name}}
+                        </div>
+                    </div>
+
+                    <!--牌号-->
+                    <div class="body-cell code inline-block ">
+                        <div class="content ellipsis">
+                            {{row.code}}
+                        </div>
+                    </div>
+
+                    <!--操作-->
+                    <div data-field="operator" class="operator   operator-cell  inline-block ellipsis">
+                        <div class="content ellipsis" ng-show="!row.code">
+
+                            <a href="#/:{{row.id}}" ui-sref="index.editRole({id: {{row.id}} })" class="simple-grid-btn inline-block" title="编辑">
+                                <span class="icon fa fa-pencil"></span>
+                                <span class="more-info">编辑</span>
+                            </a>
+
+                            <a href="javascript:void(0)"  ng-click="roleSelectCtrl.deleteEntity(row)" class="simple-grid-btn inline-block" title="删除">
+                                <span class="icon fa fa-minus"></span>
+                                <span class="more-info">删除</span>
+                            </a>
+                        </div>
+                        <div class="content ellipsis" ng-show="row.code">
+                            <div class="edit-disable-info">
+                            系统角色
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--分页条-->
+    </div>
+
+</div>

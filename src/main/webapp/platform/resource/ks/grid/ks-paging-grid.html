@@ -1,0 +1,143 @@
+<div  class="ks-paging-grid-wrap">
+    <div class="simple-grid  ellipsis ks-paging-grid" >
+        <div class="header list ellipsis" ng-show="listStyle == 'simple'">
+            <div class="header-cell check inline-block">
+                <th class="ks-cell" style="text-align:left" ><input type="checkbox" ng-model="allChecked" ng-click="toggleCheck()"/></th>
+            </div>
+            <div class="header-cell designation inline-block">牌号</div>
+            <div class="header-cell supplier inline-block">供应商(城市|仓库)</div>
+            <div class="header-cell price inline-block">价格/数量</div>
+            <div class="header-cell date inline-block">有效时间</div>
+            <div class="header-cell created-by inline-block">创建人</div>
+            <div class="header-cell sales-man inline-block">交易员</div>
+            <div class="header-cell flags inline-block"></div>
+            <div class="header-cell operator inline-block">操作</div>
+        </div>
+        <div class="body list ellipsis" ng-show="listStyle == 'simple'">
+            <div ng-class-odd="'alt'" ng-class="' clearfix'" ng-repeat="row in entities" class="row" ng-dblclick="update(row)" data-row-index="{{$index}}">
+                <!--序号-->
+                <div  class="inactive-cell check inline-block ellipsis">
+                    <div class="content ellipsis">
+                        <input type="checkbox" ng-model="row.checked" />
+                    </div>
+                </div>
+
+                <!--牌号-->
+                <div class="body-cell designation inline-block">
+                    <div class="content ellipsis">
+                        {{row.designation}}
+                    </div>
+                </div>
+
+
+
+                <!--供应商(城市|仓库)-->
+                <div class="body-cell supplier inline-block ">
+                    <div class="content ellipsis">
+                     <span style="color:#000">
+                         <span class="inline-block ellipsis" style="max-width: 120px;vertical-align: top" title='{{::row.supplierName || ""}}'>{{::row.supplierName || ""}}</span>
+                         <span style="vertical-align: top" title="{{row.cityName}}| {{row.warehouseName}}">({{row.cityName}}| {{row.warehouseName}})</span>
+                     </span>
+                    </div>
+                </div>
+
+
+                <!--价格/数量-->
+                <div class="body-cell price inline-block ">
+                    <div class="content ellipsis">
+                        <span style="color:green">{{(row.price || row.priceString) | currency:"￥" }}</span> ×
+                        <span style="color:darkred">{{(row.weight || row.weightString) | currency:"" }}吨</span>
+                    </div>
+                </div>
+
+
+                <!--有效时间-->
+                <div class="body-cell date inline-block ">
+                    <div class="content ellipsis">
+                        <span style="color:darkblue">
+                            {{::row.publishDate | date:'yyyy-MM-dd'}}
+                        </span>
+                        ~
+                        <span style="color:#8b2542">
+                            {{::row.expireDate | date:'yyyy-MM-dd'}}
+                        </span>
+
+                    </div>
+                </div>
+
+                <!--期货-->
+                <div class="body-cell created-by inline-block ">
+                    <div class="content ellipsis">
+                        <span style="width: 60px;" class="inline-block ellipsis" >
+                            {{row.createdByName || row.operatorName}}
+                        </span>
+                    </div>
+                </div>
+
+                <!--交易员-->
+                <div class="body-cell sales-man inline-block ">
+                    <div class="content ellipsis">
+                        <span style="width: 60px;" class="inline-block ellipsis" >
+                            {{::row.salesName}}
+                        </span>
+                    </div>
+                </div>
+
+
+                <!--标志-->
+                <div class="inactive-cell flags inline-block ">
+                    <div class="content ellipsis">
+
+                        <!--期货-->
+                         <span ng-switch="row.futures" class="item-wrap futures">
+                                <span ng-switch-when="0" class="not-future circle item current" tooltip-trigger="mouseenter" tooltip-placement="top" tooltip-animation="true"  tooltip="现货">现</span>
+                                <span ng-switch-when="1" class="future circle item futures" tooltip-trigger="mouseenter" tooltip-placement="top" tooltip-animation="true" tooltip="期货">期</span>
+                        </span>
+
+                        <!--上下架状态-->
+                        <span ng-switch="row.status" class="item-wrap status">
+                            <span ng-switch-when="1" class="on-sale circle item on" tooltip-trigger="mouseenter"
+                                  tooltip-placement="top" tooltip-animation="true" tooltip="上架">上</span>
+                            <span ng-switch-when="2" class="off-sale circle item off" tooltip-trigger="mouseenter"
+                                  tooltip-placement="top" tooltip-animation="true" tooltip="下架">下</span>
+                            <span ng-switch-default></span>
+                        </span>
+
+                        <!--是否为供应商录入-->
+                        <span ng-show="row.customerUid !=null && row.customerUid == row.operatorId"
+                              class="fa fa-user supplier-flag item circle" style="" title="该报价为供应商录入"
+                              tooltip-trigger="mouseenter" tooltip-placement="top" tooltip-animation="true"
+                              tooltip="供应商录入"></span>
+
+                        <!--是否同步到快塑报价-->
+                        <span ng-show="row.syncKsPrice" class="fa fa-random sync item circle" title="已同步到快塑报价"
+                              tooltip-trigger="mouseenter" tooltip-placement="top" tooltip-animation="true"
+                              tooltip="已同步到快塑报价"></span>
+                    </div>
+                </div>
+
+                <!--操作-->
+                <div data-field="operator" class="operator   operator-cell  inline-block ellipsis">
+                    <div class="content ellipsis">
+
+                        <a href="#/:{{row.id}}" ui-sref="items.update({id: {{row.id}} })" class="simple-grid-btn inline-block" title="编辑">
+                            <span class="icon fa fa-pencil"></span>
+                        </a>
+
+                        <a href="javascript:void(0)"  ng-click="deleteEntity(row)" class="simple-grid-btn inline-block" title="删除">
+                            <span class="icon fa fa-minus"></span>
+                        </a>
+
+                        <a href="javascript:void(0)" ng-show="row.productId != null"  class=" simple-grid-btn inline-block" ng-click="transToKsPrice(row)" title="转快塑报价">
+                            <span class="glyphicon glyphicon-fast-backward " ></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--分页条-->
+    <ks-paging on-select-page="onSelectPageHandler(pagination)" paging="pagination" limit="30" id="pagingBar" style="margin-top:5px;">
+    </ks-paging>
+</div>

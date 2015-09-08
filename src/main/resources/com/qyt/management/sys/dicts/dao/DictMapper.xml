@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qyt.management.sys.dicts.dao.DictMapper">
+
+
+    <!--表名-->
+    <sql id="table_name">dicts</sql>
+
+
+    <!--字段列表-->
+    <sql id="sp_select_fields">
+        id, name, remark, created_at, updated_at, operator_id
+    </sql>
+
+    <!-- 条件sql -->
+    <sql id="sp_where">
+        <where>1=1
+            <if test="condition!=null and condition.name != null">
+                AND name like concat('%' , #{condition.name} , '%')
+            </if>
+            <if test="condition!=null and condition.id != null">
+                AND id like concat('%' , #{condition.id} , '%')
+            </if>
+        </where>
+    </sql>
+
+    <!-- resultMap -->
+    <resultMap type="com.qyt.management.sys.dicts.domain.Dict" id="entityMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="remark" property="remark"/>
+        <result column="operator_id" property="operatorId"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="update_at" property="updatedAt"/>
+    </resultMap>
+
+    <!--更新-->
+    <update id="updateEntity" parameterType="com.qyt.management.sys.dicts.domain.Dict">
+        update
+        <include refid="table_name"></include>
+        <set>
+            <if test="name !=null and name != '' ">
+                name = #{name},
+            </if>
+            <if test="remark !=null and remark != ''  ">
+                remark = #{remark},
+            </if>
+            <if test=" 1 == 1 ">
+                updated_at = now()
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--删除-->
+    <delete id="deleteEntity" parameterType="string">
+        delete from <include refid="table_name"></include> where id = #{id}
+    </delete>
+
+
+    <!--新增-->
+    <insert id="insertEntity" parameterType="com.qyt.management.sys.dicts.domain.Dict" keyColumn="id" keyProperty="id">
+        INSERT INTO
+        <include refid="table_name"></include>
+        (
+        <include refid="sp_select_fields"></include>
+        )
+        VALUES
+        ( #{id}, #{name}, #{remark}, now(), now(), #{operatorId})
+    </insert>
+
+    <!--id查询用户-->
+    <select id="selectEntityById" resultMap="entityMap" parameterType="string">
+        SELECT
+        id,
+        <include refid="sp_select_fields"></include>
+        FROM
+        <include refid="table_name"></include>
+        WHERE id = #{value}
+    </select>
+
+
+    <!-- 查询 使用where标签，那么如果条件都不存在，则不加where-->
+    <select id="selectEntities" resultMap="entityMap" parameterType="com.qyt.management.platform.web.PagingBean">
+        SELECT
+        <include refid="sp_select_fields"></include>
+        FROM
+        <include refid="table_name"></include>
+        <include refid="sp_where"></include>
+        order by
+        <if test="field !=null and field !=''">
+            ${sortInfo} ,
+        </if>
+        updated_at desc
+        limit #{start} , #{limit}
+    </select>
+
+    <!-- 查询 使用where标签，那么如果条件都不存在，则不加where,字典加载所有，不需要排序-->
+    <select id="selectAllEntities" resultMap="entityMap" parameterType="map">
+        SELECT
+        id,
+        <include refid="sp_select_fields"></include>
+        FROM
+        <include refid="table_name"></include>
+    </select>
+
+
+    <!-- 查询总条数-->
+    <select id="selectEntitiesCount" resultType="int" parameterType="map">
+        SELECT
+        count(*)
+        FROM
+        <include refid="table_name"></include>
+        <include refid="sp_where"></include>
+    </select>
+
+
+</mapper>

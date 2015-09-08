@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qyt.management.uc.auth.dao.OrganizationMapper">
+
+    <sql id="table_name">organizations</sql>
+
+    <sql id="sp_select_fields_without_id">
+         parent_id,name,code,type,disable,created_at,updated_at,created_by,updated_by
+    </sql>
+
+	<resultMap type="com.qyt.management.uc.auth.domain.Organization" id="entityMap">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="type" property="type"/>
+        <result column="disable" property="disable"/>
+        <result column="created_at" property="createdAt"/>
+		<result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="created_by" property="createdBy" />
+        <result column="updated_by" property="updatedBy" />
+    </resultMap>
+
+    <sql id="sp_where">
+        <where>1=1
+            <if test="condition!=null and condition.parentId != null">
+                AND parent_id = #{condition.parentId}
+            </if>
+
+            <if test="condition!=null and condition.name != null">
+                AND name like concat('%', #{condition.name}, '%')
+            </if>
+
+            <if test="condition!=null and condition.type != -1">
+                AND type = #{condition.type}
+            </if>
+
+            <if test="condition!=null and condition.disable != -1">
+                AND disable = #{condition.disable}
+            </if>
+
+            <if test="condition!=null and condition.code != null">
+                AND code like concat(#{condition.code} , '%')
+            </if>
+        </where>
+    </sql>
+    
+    <update id="updateEntity" parameterType="com.qyt.management.uc.auth.domain.Organization">
+        update
+        <include refid="table_name"></include>
+        <set>
+            <if test="1 == 1">
+                parent_id = #{parentId},
+            </if>
+
+            <if test="1 == 1">
+                name = #{name},
+            </if>
+
+			<if test="code !=null and code != '' ">
+                code = #{code},
+            </if>
+            
+            <if test="type !=null and type != '' and  type != '-1' ">
+                type = #{type},
+            </if>
+
+            <if test="disable !=null and disable != -1 ">
+                disable = #{disable},
+            </if>
+
+            <if test=" 1 == 1 ">
+                updated_at = now(),
+            </if>
+
+			<if test=" 1 == 1 ">
+                updated_by = #{updatedBy}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEntity" parameterType="int">
+        delete from
+        <include refid="table_name"></include>
+        where id = #{id}
+    </delete>
+
+    <insert id="insertEntity" parameterType="com.qyt.management.uc.auth.domain.Organization" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        <include refid="table_name"></include>
+        (
+        <include refid="sp_select_fields_without_id"></include>
+        )
+        VALUES
+        ( #{parentId},#{name},#{code},#{type},#{disable},NOW(),NOW(),#{createdBy},#{updatedBy} )
+    </insert>
+
+    <select id="selectEntityById" resultMap="entityMap" parameterType="int">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM
+        <include refid="table_name"></include>
+        WHERE id = #{value}
+    </select>
+
+    <select id="selectEntities" resultMap="entityMap" parameterType="map">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM
+        <include refid="table_name"></include>
+        <include refid="sp_where"></include>
+        order by
+        <if test="field !=null and field !=''">
+            ${sortInfo} ,
+        </if>
+        updated_at desc
+        limit #{start} , #{limit}
+    </select>
+
+    <select id="selectAllEntities" resultMap="entityMap" parameterType="map">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM
+        <include refid="table_name"></include>
+        order by
+        code asc,
+        updated_at desc
+    </select>
+
+    <select id="picker" resultMap="entityMap" parameterType="map">
+        SELECT
+        id,
+        name
+        FROM
+        <include refid="table_name"></include>
+        order by
+        code asc,
+        updated_at desc
+    </select>
+
+    <select id="selectEntitiesCount" resultType="int" parameterType="map">
+        SELECT
+        count(*)
+        FROM
+        <include refid="table_name"></include>
+        <include refid="sp_where"></include>
+    </select>
+
+	<resultMap type="com.qyt.management.uc.auth.domain.OrganizationIdentity" id="entityMapIdentity">
+        <id column="id" property="id"/>
+    </resultMap>
+    
+	<select id="selectIdentityById" resultMap="entityMapIdentity" parameterType="int">
+        select a.id, a.parent_id, a.name as orgId from organizations a
+        where a.id = #{id}
+    </select>
+
+    <select id="selectIdentities" resultMap="entityMapIdentity">
+        select a.id, a.parent_id, a.name as orgId from organizations a
+    </select>
+</mapper>

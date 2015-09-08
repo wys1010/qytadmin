@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qyt.management.sys.dicts.dao.DictItemMapper">
+
+
+    <!--表名-->
+    <sql id="table_name">dict_items</sql>
+
+
+    <!--字段列表，不含id-->
+    <sql id="sp_select_fields_without_id">
+        name, value, remark, dict_id, created_at, updated_at, operator_id
+    </sql>
+
+    <!-- 条件sql -->
+    <sql id="sp_where">
+        <where>1=1
+            <if test="condition!=null and condition.name != null">
+                AND name like concat('%' , #{condition.name} , '%')
+            </if>
+            <if test="condition!=null and condition.value != null">
+                AND value like concat('%' , #{condition.value} , '%')
+            </if>
+        </where>
+    </sql>
+
+    <!-- resultMap -->
+    <resultMap type="com.qyt.management.sys.dicts.domain.DictItem" id="entityMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="value" property="value"/>
+        <result column="remark" property="remark"/>
+        <result column="dict_id" property="dictId"/>
+        <result column="operator_id" property="operatorId"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="update_at" property="updatedAt"/>
+    </resultMap>
+
+    <!--更新-->
+    <update id="updateEntity" parameterType="com.qyt.management.sys.dicts.domain.DictItem">
+        update
+        <include refid="table_name"></include>
+        <set>
+            <if test="name !=null and name != '' ">
+                name = #{name},
+            </if>
+            <if test="value !=null and value != '' ">
+                value = #{value},
+            </if>
+            <if test="remark !=null and remark != ''  ">
+                remark = #{remark},
+            </if>
+            <if test=" 1 == 1 ">
+                updated_at = now()
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--删除-->
+    <delete id="deleteEntity" parameterType="int">
+        delete from
+        <include refid="table_name"></include>
+        where id = #{id}
+    </delete>
+
+
+    <!--新增-->
+    <insert id="insertEntity" parameterType="com.qyt.management.sys.dicts.domain.DictItem" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        <include refid="table_name"></include>
+        (
+        <include refid="sp_select_fields_without_id"></include>
+        )
+        VALUES
+        ( #{name}, #{value}, #{remark}, #{dictId}, now(), now(), #{operatorId})
+    </insert>
+
+    <!--id查询用户-->
+    <select id="selectEntityById" resultMap="entityMap" parameterType="int">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM
+        <include refid="table_name"></include>
+        WHERE id = #{value}
+    </select>
+
+
+    <!-- 查询 使用where标签，那么如果条件都不存在，则不加where-->
+    <select id="selectEntities" resultMap="entityMap" parameterType="map">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM
+        <include refid="table_name"></include>
+        <include refid="sp_where"></include>
+        limit #{start} , #{limit}
+    </select>
+
+    <!-- 查询 使用where标签，那么如果条件都不存在，则不加where-->
+    <select id="selectAllEntities" resultMap="entityMap" parameterType="map">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM
+        <include refid="table_name"></include>
+    </select>
+
+    <!-- 查询 使用where标签，那么如果条件都不存在，则不加where-->
+    <select id="selectItemsByDictId" resultMap="entityMap" parameterType="string">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM
+        <include refid="table_name"></include>
+        where dict_id = #{dictId}
+    </select>
+
+
+
+
+    <!-- 查询总条数-->
+    <select id="selectEntitiesCount" resultType="int" parameterType="map">
+        SELECT
+        count(*)
+        FROM
+        <include refid="table_name"></include>
+        <include refid="sp_where"></include>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,81 @@
+<div class="ks-ac ks-product-picker-wrap" ng-click="showPicker()">
+    <a href="javascript:void(0)" class="ks-ac-result inline-block">
+        <span class="inline-block ks-ac-show-text ellipsis" title="{{selectedWarehouse.name}}">
+            {{selectedWarehouse.name}}
+        </span>
+        <span class="fa fa-caret-down drop-down" ng-show="!disabled"></span>
+    </a>
+
+
+    <ks-popup-picker show-picker="picker.visible" width="480" height="350">
+
+        <!--查询条件wrap-->
+        <div class="ks-product-picker-inputs clearfix">
+            <!--仓库名称:精确查询-->
+            <input style="width:130px;" type="text" placeholder="名称" ng-model="qc.name"
+                   class="ks-query-condition input-sm form-control input-sm form-control ks-product-picker-input"/>
+
+            <!--产地:模糊查询,按中文名搜索-->
+            <input style="width:130px;" placeholder="联系电话" ng-model="qc.telphone"
+                   class="ks-query-condition input-sm form-control ks-product-picker-input"/>
+
+            <a href="javascript:void(0)" class="btn btn-primary btn-sm" ng-click="selectEntities(true)"><span
+                    class="fa fa-search"></span> 查询</a>
+            <a href="javascript:void(0)" class="btn btn-primary btn-sm" ng-click="reset()"><span
+                    class="fa fa-refresh"></span> 重置</a>
+        </div>
+
+        <div class="ks-ac-table ks-product-picker-table">
+            <div class="ks-product-picker-thead">
+                <div class="head-cell" style="width:150px;">名称
+                </div>
+                <div class="head-cell" style="width:120px;">联系电话
+                </div>
+                <div class="head-cell" style="width:80px;"><span class="fa fa-qq"></span>管理员
+                </div>
+                <div class="head-cell" style="width:70px;">选择
+                </div>
+            </div>
+            <div class="ks-product-table-wrap">
+                <table class="table table-striped ks-grid">
+
+                    <tbody>
+                    <tr ng-repeat="row  in warehouses" class="ks-row">
+                        <td class="ks-cell ellipsis" style="width:150px;">
+                            <div style="width:150px" class="ellipsis cell">
+                                <span style="color:#000099;font-weight: bold;">{{::row.name || ''}}</span>
+                            </div>
+                        </td>
+                        <td class="ks-cell ellipsis" style="width:120px">
+                            <div style="width:120px" class="ellipsis cell">
+                                <span>{{::row.telphone || ''}}</span>
+                            </div>
+                        </td>
+
+
+                        <td class="ks-cell ellipsis" style="width:80px">
+                            <div style="width:80px;" class="ellipsis cell">
+                                <span>{{row.attendant || ''}}</span>
+                            </div>
+                        </td>
+
+                        <td class="ks-cell ellipsis " >
+                            <div  class="ellipsis cell">
+                                <a href="javascript:void(0)" class="btn btn-success btn-sm ks-product-picker-choose-btn"
+                                   ng-click="chooseProduct(row)">选择</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--分页条-->
+        <ks-paging on-select-page="onSelectPageHandler(pagination)" paging="pagination" limit="30">
+        </ks-paging>
+        <div class="ks-ac-toolbar">
+            <a href="javascript:void(0)" class="btn btn-danger btn-sm clear-btn"><span
+                    class="fa fa-times clear-btn"></span> 删除</a>
+        </div>
+    </ks-popup-picker>
+</div>

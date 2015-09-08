@@ -1,0 +1,8 @@
+<div ng-controller="RootController as rootCtrl">
+    <div class="orgs-wrap" id="orgsWrap">
+        <div ng-include="rootCtrl.webRoot + '/uc/orgs/tpl_orgs_index.html'" style="height:100%"></div>
+    </div>
+    <div class="staffs-wrap col-xs-9 height-100pi p15" id="staffsWrap">
+        <div ng-include="rootCtrl.webRoot + '/uc/orgs/tpl_orgs_staffs_index.html'" style="height:100%"></div>
+    </div>
+</div>

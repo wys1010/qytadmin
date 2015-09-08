@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qyt.management.storage.product.dao.PdmProductsMapper">
+
+
+    <sql id="Base_Column_List">
+        id, name, category, manufacturer_name, created_at,
+        created_by,
+        updated_at, updated_by
+    </sql>
+
+    <!--更新-->
+    <update id="updateEntity" parameterType="com.qyt.management.storage.product.domain.PdmProduct">
+        update products
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="category != null">
+                category = #{category,jdbcType=VARCHAR},
+            </if>
+            <if test="manufacturerName != null">
+                manufacturer_name = #{manufacturerName,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedBy != null">
+                updated_by = #{updatedBy,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--删除-->
+    <delete id="deleteEntity" parameterType="int">
+        DELETE FROM products WHERE id = #{id}
+    </delete>
+
+
+    <!--新增-->
+    <insert id="insertEntity" parameterType="com.qyt.management.storage.product.domain.PdmProduct"  keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+        insert into products
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="category != null">
+                category,
+            </if>
+            <if test="manufacturerName != null">
+                manufacturer_name,
+            </if>
+                created_at,
+            <if test="createdBy != null">
+                created_by,
+            </if>
+              updated_at,
+            <if test="updatedBy != null">
+                updated_by,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="category != null">
+                #{category,jdbcType=VARCHAR},
+            </if>
+            <if test="manufacturerName != null">
+                #{manufacturerName,jdbcType=VARCHAR},
+            </if>
+              now(),
+            <if test="createdBy != null">
+                #{createdBy,jdbcType=INTEGER},
+            </if>
+              now(),
+            <if test="updatedBy != null">
+                #{updatedBy,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--id查询用户-->
+    <select id="selectEntityById" resultType="com.qyt.management.storage.product.domain.PdmProduct" parameterType="int">
+        SELECT * FROM products a WHERE a.id = #{value}
+    </select>
+
+
+    <!-- 查询 使用where标签，那么如果条件都不存在，则不加where-->
+    <select id="selectEntities" resultType="com.qyt.management.storage.product.domain.PdmProduct" parameterType="map">
+        SELECT * FROM products a
+        <include refid="sqlWhere"></include>
+        order by
+        <if test="field !=null and field !=''">
+            ${sortInfo} ,
+        </if>
+        a.updated_at desc
+        <if test="start != null and limit != null">
+            limit #{start} , #{limit}
+        </if>
+    </select>
+
+
+    <!-- 查询总条数-->
+    <select id="selectEntitiesCount" resultType="int" parameterType="map">
+        SELECT
+            COUNT(1)
+        FROM
+            products a
+        <include refid="sqlWhere"></include>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAllEntities" resultType="com.qyt.management.storage.product.domain.PdmProduct" >
+        SELECT  * FROM products a
+    </select>
+
+    <sql id="sqlWhere">
+        <where>
+
+            <!-- 生产商 -->
+            <if test="condition!=null and condition.manufacturerName !=  null">
+                AND a.manufacturer_name LIKE concat('%' , #{condition.manufacturerName} , '%')
+            </if>
+
+            <!-- 分类 -->
+            <if test="condition!=null and condition.name != null  ">
+                AND a.name LIKE concat('%' , #{condition.name} , '%')
+            </if>
+
+        </where>
+    </sql>
+
+
+</mapper>

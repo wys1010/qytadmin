@@ -1,0 +1,45 @@
+
+
+.product-disabled {
+    color: red
+}
+
+.product-active {
+    color: #5CB85C
+}
+
+.product-inactive {
+    color: blue
+}
+
+
+.status-label{width: 45px !important;padding-left:0 !important;padding-right:0 !important;;text-align:center;}
+
+
+
+.transfer .simple-grid .name{
+    width:120px;
+}
+.transfer .simple-grid .phone{
+    width:90px;
+}
+.transfer .simple-grid .company{
+    width:150px;
+}
+
+.transfer .simple-grid .type{
+    width:50px;
+}
+.transfer .simple-grid .group{
+    width:150px;
+}
+.transfer .simple-grid .staff{
+    width:180px;
+}
+.transfer .simple-grid .operate{
+    width:110px;
+}
+
+.transfer .simple-grid .body{
+    text-align: center;
+}

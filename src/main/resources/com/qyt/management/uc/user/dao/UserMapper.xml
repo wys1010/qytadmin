@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qyt.management.uc.user.dao.UserMapper">
+
+    <!--表名-->
+    <sql id="table_name">staffs</sql>
+
+
+    <!--字段列表，不含id-->
+    <sql id="sp_select_fields_without_id">
+        org_id,login_name,password,name,english_name,gender,disable,email,phone,wechat,qq,manager,districts,
+        last_login_time,remark,created_at,updated_at,created_by,updated_by,purchase_category_groups,sell_category_groups
+    </sql>
+
+    <!-- 条件sql -->
+    <sql id="sp_where">
+        <where>1=1
+            <!-- 登录名 -->
+            <if test="condition!=null and condition.loginName != null  and condition.loginName != ''">
+                AND login_name like concat('%' , #{condition.loginName} , '%')
+            </if>
+            <!-- 用户名 -->
+            <if test="condition!=null and condition.name != null and condition.name != ''">
+                AND name like concat('%' , #{condition.name} , '%')
+            </if>
+            <!-- 用户状态 -->
+            <if test="condition!=null and condition.disable !=  null and condition.disable !=  -1">
+                AND disable = #{condition.disable}
+            </if>
+        </where>
+    </sql>
+
+    <resultMap type="com.qyt.management.uc.user.domain.User" id="userMap">
+        <!-- 用户id -->
+        <result column="id" property="id" />
+        
+        <result column="org_id" property="orgId" />
+
+		<!-- 登录名 -->
+        <result column="login_name" property="loginName" />
+        
+        <!-- 密码 -->
+        <result column="password" property="password" />
+        
+        <!-- 用户名 -->
+        <result column="name" property="name" />
+        
+        <!-- 名称 -->
+        <result column="english_name" property="englishName"/>
+        
+        <!-- 性别 -->
+        <result column="gender" property="gender"/>
+        
+        <!-- 用户状态 -->
+        <result column="disable" property="disable" />
+        
+        <!-- email -->
+        <result column="email" property="email"/>
+        
+        <!-- 手机号码 -->
+        <result column="phone" property="phone"/>
+
+        <!-- 微信号 -->
+        <result column="wechat" property="wechat"/>
+
+        <!-- qq号 -->
+        <result column="qq" property="qq"/>
+        
+        <result column="manager" property="manager"/>
+        
+        <result column="districts" property="districts"/>
+        
+        <!-- 最后登录时间 -->
+        <result column="last_login_time" property="lastLoginTime" />
+
+        <!-- 备注 -->
+        <result column="remark" property="remark" />
+
+        <!-- 创建时间 -->
+        <result column="created_at" property="createdAt" />
+
+        <!-- 最后修改时间 -->
+        <result column="updated_at" property="updatedAt" />
+
+        <!-- 操作人 -->
+        <result column="created_by" property="createdBy" />
+        
+        <result column="updated_by" property="updatedBy" />
+    </resultMap>
+
+    <!--更新-->
+    <update id="updateEntity" parameterType="com.qyt.management.uc.user.domain.User">
+        update
+        <include refid="table_name"></include>
+        <set>
+                id = #{id},
+                login_name = #{loginName},
+                name = #{name},
+                remark = #{remark},
+                disable = #{disable},
+                updated_at = now(),
+                updated_by = #{updatedBy}
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--重置密码-->
+    <update id="resetPassword" parameterType="map">
+        update   <include refid="table_name"></include>
+        set last_login_time = now(), updated_at = now(), updated_by = #{updatedBy}, password = #{password}
+        where id = #{userId}
+    </update>
+
+    <!--更新-->
+    <update id="updateUserLoginTime" parameterType="int" >
+        update   <include refid="table_name"></include>
+        set last_login_time = now()
+        where id = #{id}
+    </update>
+
+    <!--删除-->
+    <delete id="deleteEntity" parameterType="int" >
+        delete from staffs
+        where id = #{id}
+    </delete>
+
+
+    <!--新增-->
+    <insert id="insertEntity" parameterType="com.qyt.management.uc.user.domain.User" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        <include refid="table_name"></include>
+        (
+        <include refid="sp_select_fields_without_id"></include>,password
+        )
+        VALUES
+        ( #{lastLoginTime}, #{loginName}, #{name}, #{remark}, #{status}, now(), now(), #{operatorId},#{password} )
+    </insert>
+
+    <!--查询用户-->
+    <select id="selectUserByLoginName" resultMap="userMap" parameterType="string">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM  <include refid="table_name"></include>
+        WHERE login_name = #{loginName}
+    </select>
+
+    <!--登录查询用户-->
+    <select id="selectValidUserByLoginName" resultMap="userMap" parameterType="string">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM  <include refid="table_name"></include>
+        WHERE login_name = #{loginName} and disable = 0
+    </select>
+
+
+    <!--id查询用户-->
+    <select id="selectUserNameById" resultType="string" parameterType="int">
+        SELECT
+        name
+        FROM  <include refid="table_name"></include>
+        WHERE id = #{value}
+    </select>
+
+    <!--id查询用户-->
+    <select id="selectEntityById" resultMap="userMap" parameterType="int">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM  <include refid="table_name"></include>
+        WHERE id = #{value}
+    </select>
+
+
+    <!-- 查询 使用where标签，那么如果条件都不存在，则不加where-->
+    <select id="selectEntities" resultMap="userMap" parameterType="map">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM
+        <include refid="table_name"></include>
+        <include refid="sp_where"></include>
+        order by
+        <if test="field !=null and field !=''">
+            ${sortInfo} ,
+        </if>
+        updated_at desc
+        limit #{start} , #{limit}
+    </select>
+
+    <!-- 查询总条数-->
+    <select id="selectEntitiesCount" resultType="int" parameterType="map">
+        SELECT
+        count(*)
+        FROM
+        <include refid="table_name"></include>
+        <include refid="sp_where"></include>
+    </select>
+
+
+    <!-- 更新时登录名唯一性检查-->
+    <select id="checkLoginNameUniqueForUpdate" resultType="int" parameterType="map">
+        SELECT
+        count(*)
+        FROM  <include refid="table_name"></include>
+        where login_name = #{login_name} and id != #{id}
+    </select>
+
+
+    <!-- 新增时登录名唯一性检查-->
+    <select id="checkLoginNameUniqueForInsert" resultType="int" parameterType="String">
+        SELECT
+        count(*)
+        FROM  <include refid="table_name"></include>
+        where login_name = #{login_name}
+    </select>
+
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <http auto-config="true">
+        <form-login login-page="/passport/login.do" default-target-url="/passport/login.do"
+                    authentication-failure-url="/passport/login.do?errorCode=6"
+                    authentication-success-handler-ref="authenticationDispatcher"/>
+        <logout logout-success-url="/passport/login.do?errorCode=5"/>
+        <!-- 默认退出url=j_spring_security_logout -->
+    </http>
+
+    <!--================================================================== -->
+    <!--开启权限注解支持 -->
+    <!--================================================================== -->
+    <global-method-security secured-annotations="enabled" jsr250-annotations="enabled"/>
+	<!--================================================================== -->
+	<!-- 配置登录页面，由spring安全去管理该页面 -->
+	<!--================================================================== -->
+	<!-- <beans:bean id="authenticationEntryPoint" -->
+	<!-- class="org.wakeframework.extend.security.CustomAuthenticationEntryPoint"> -->
+	<!-- <beans:property name="loginFormUrl" value="/login/index_dicts.jsp" /> -->
+	<!-- </beans:bean> -->
+
+
+	<!--================================================================== -->
+	<!-- 调整登录后的页面到首页 -->
+	<!--================================================================== -->
+	<beans:bean id="authenticationDispatcher"
+		class="com.qyt.management.platform.handler.DeftAuthenticationSuccessHandler">
+	</beans:bean>
+
+	<!--================================================================== -->
+	<!-- 验证失败的处理函数 -->
+	<!--================================================================== -->
+	<beans:bean id="authenticationFailureDispatcher"
+		class="com.qyt.management.platform.handler.DeftAuthenticationFailureHandler">
+	</beans:bean>
+	<!--================================================================== -->
+	<!-- 自定义登录信息 用户密码登录 验证，权限角色信息获取 -->
+	<!--================================================================== -->
+	<beans:bean id="userDetailsService"
+		class="com.qyt.management.platform.handler.DeftUserDetailsServiceImpl" />
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userDetailsService">
+			<password-encoder hash="md5" />
+		</authentication-provider>
+	</authentication-manager>
+
+
+</beans:beans>

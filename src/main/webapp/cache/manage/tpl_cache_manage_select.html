@@ -1,0 +1,39 @@
+
+
+<div ng-controller="QueryController as ctrl" data-ng-init="ctrl.ready()">
+	<div class="form  ks-form container-fluid"  ng-show="ctrl.queryCondition.showQueryCondition">
+		<div class="row">
+			<div class=" form-group-sm ks-form-group normal">
+				<button type="button" class="btn btn-primary btn-sm" ng-click="ctrl.selectEntities(true)"><span class="fa fa-search"></span> 查询</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 表格-->
+	<table class="table table-striped ks-grid" >
+
+		<!--表头-->
+		<thead class="ks-header">
+		<th class="ks-cell">编号</th>
+		<th class="ks-cell">缓存数量</th>
+		<th class="ks-cell">最后更新时间</th>
+		<th class="ks-cell">操作</th>
+		</thead>
+		<tbody>
+		<tr ng-repeat="row in ctrl.entities" class="ks-row">
+			<td class="ks-cell" ><span>{{::row.code || ''}}</span></td>
+			<td class="ks-cell"><span>{{::row.size || '0'}}</span></td>
+			<td class="ks-cell"><span>{{::row.updatedAt | date:'yyyy-MM-dd HH:mm:ss'}}</span></td>
+			<td class="ks-cell " style="width:140px;" >
+				<a href="javascript:void(0)" class=" btn btn-danger btn-sm" ng-click="ctrl.refresh(row)">
+					<span class="fa fa-edit"></span> 刷新缓存
+				</a>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<!--分页条-->
+	<ks-paging on-select-page="ctrl.onSelectPageHandler(ctrl.pagination)" paging="ctrl.pagination" limit="30">
+	</ks-paging>
+</div>

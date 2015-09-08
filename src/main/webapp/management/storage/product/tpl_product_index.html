@@ -1,0 +1,87 @@
+<div style="height:100%" ng-controller="IndexController as ctrl">
+
+
+    <div  ng-controller="IndexController as ctrl">
+
+        <div class="form  ks-form container-fluid" >
+
+            <!-- 第一行-->
+            <div class="row">
+
+                <div class="form-group-sm  normal">
+                    <label class="control-label">产品名称：</label>
+                    <input  type="text" ng-model="ctrl.queryCondition.name" class=" form-control input-sm"  />
+                </div>
+
+                <!--名称-->
+                <div class="form-group-sm  normal">
+                    <label class="control-label">生产商：</label>
+                    <input  type="text" ng-model="ctrl.queryCondition.manufacturerName" class=" form-control input-sm"  />
+                </div>
+
+                <!--按钮-->
+                <div class=" form-group-sm ks-form-group normal">
+                    <button type="button" class="btn btn-primary btn-sm"
+                            ng-click="ctrl.selectEntities(true)"><span class="fa fa-search"></span>查询
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm"
+                            ng-click="ctrl.resetForm()"><span class="fa fa-refresh"></span>重置
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid ks-grid-toolbar">
+            <div class="row">
+                <div class="col-xs-10">
+                </div>
+                <div class="col-xs-2 text-right" style="margin-top: 5px;">
+                    <a href="javascript:void(0)" class="btn btn-default btn-sm"
+                       ng-click="ctrl.go('root.edit',{})"
+                       ng-if="ctrl.role.hasEditRole">
+                        <span class="fa fa-plus"></span>新增</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 表格-->
+        <table class="table table-striped ks-grid">
+
+            <!--表头-->
+            <thead class="ks-header">
+            <th class="ks-cell">产品名称</th>
+            <th class="ks-cell">规格</th>
+            <th class="ks-cell">生产商</th>
+            <th class="ks-cell">操作</th>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row  in ctrl.entities" class="ks-row">
+                <td class="ks-cell ellipsis" >{{row.name }}</td>
+                <td class="ks-cell ellipsis" >{{row.category }}</td>
+                <td class="ks-cell">{{row.manufacturerName}}</td>
+
+                <!-- 编辑单元格-->
+                <td class="ks-cell">
+                    <button class="btn btn-primary btn-sm"
+                            ng-if="ctrl.role.hasEditRole"
+                            ng-click="ctrl.edit(row.id)">
+                        <span class="fa fa-edit"></span> 编辑
+                    </button>
+
+                    <button class="btn btn-danger btn-sm"
+                            ng-if="ctrl.role.hasDeleteRole"
+                            ng-click="ctrl.deleteEntity(row)">
+                        <span class="fa fa-minus"></span>删除
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--分页条-->
+        <ks-paging on-select-page="ctrl.selectEntities(false)" paging="ctrl.queryCondition" limit="10"></ks-paging>
+
+    </div>
+
+</div>

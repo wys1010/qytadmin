@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qyt.management.storage.warehouse.dao.WarehouseMapper">
+
+    <sql id="table_name">warehouses</sql>
+
+
+    <sql id="sp_select_fields_without_id">
+		name,address,attendant,telphone,created_at,created_by,updated_at,updated_by,type
+	</sql>
+
+    <sql id="sp_where">
+        <where>
+            <if test="condition!=null and condition.name !=  null">
+                AND a.name  like concat('%' , #{condition.name} , '%')
+            </if>
+            <if test="condition!=null and condition.telphone !=  null">
+                AND a.telphone  like concat('%' , #{condition.telphone} , '%')
+            </if>
+            <if test="condition!=null and condition.type != null and condition.type !=  0">
+                AND a.type = #{condition.type}
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectEntityById" resultType="com.qyt.management.storage.warehouse.domain.Warehouse" parameterType="int">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM
+        <include refid="table_name"></include>
+        WHERE id = #{value}
+    </select>
+
+    <insert id="insertEntity" parameterType="com.qyt.management.storage.warehouse.domain.Warehouse" keyColumn="id"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into warehouses (id, name, address,
+        attendant, telphone, created_at,
+        created_by, updated_at, updated_by,type
+        )
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+        #{address,jdbcType=VARCHAR},
+        #{attendant,jdbcType=VARCHAR}, #{telphone,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP},
+        #{createdBy,jdbcType=INTEGER}, #{updatedAt,jdbcType=TIMESTAMP},
+        #{updatedBy,jdbcType=INTEGER},#{type}
+        )
+    </insert>
+
+
+    <select id="selectEntities" resultType="com.qyt.management.storage.warehouse.domain.Warehouse" parameterType="map">
+        SELECT * FROM
+        <include refid="table_name"></include> a
+        <include refid="sp_where"></include>
+        order by
+        <if test="field !=null and field !=''">
+            ${sortInfo} ,
+        </if>
+        updated_at desc
+        <if test="start != null and limit != null">
+          limit #{start} , #{limit}
+        </if>
+    </select>
+
+    <select id="selectEntitiesCount" resultType="int" parameterType="map">
+        SELECT
+        count(*)
+        FROM
+        <include refid="table_name"></include> a
+        <include refid="sp_where"></include>
+    </select>
+
+    <update id="updateEntity" parameterType="com.qyt.management.storage.warehouse.domain.Warehouse">
+        update warehouses
+        set name = #{name,jdbcType=VARCHAR},
+        address = #{address,jdbcType=VARCHAR},
+        attendant = #{attendant,jdbcType=VARCHAR},
+        telphone = #{telphone,jdbcType=VARCHAR},
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+        updated_by = #{updatedBy,jdbcType=INTEGER},
+        type = #{type,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteEntity" parameterType="int">
+        delete from
+        <include refid="table_name"></include>
+        where id = #{id}
+    </delete>
+
+    <select id="selectEntitiesByName" parameterType="string" resultType="com.qyt.management.storage.warehouse.domain.Warehouse">
+        SELECT * FROM warehouses where name = #{name}
+    </select>
+
+</mapper>

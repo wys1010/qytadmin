@@ -1,0 +1,7 @@
+.ks-dialog{position: absolute;top:50px;left:300px;border:5px solid #ccc;box-shadow: 10px 10px 10px #383838;width:600px;height:500px;background: #fff;z-index: 9999;border-radius: 4px;}
+.ks-dialog-mask{position: absolute;top:0;left:0;width:9998px;height:1000px;background: #000;z-index: 99999;}
+.ks-dialog .header{height:30px;line-height: 30px;background: #ccc;position: relative}
+.ks-dialog .header .close-btn{font-weight: bold;position: absolute;right:5px;height:30px;width: 30px;text-align: center;line-height: 30px;}
+.ks-dialog .header a.close-btn{text-decoration: none;}
+.ks-dialog .header a.close-btn:hover{color:#f60}
+.ks-dialog .content{padding-top: 10px;}

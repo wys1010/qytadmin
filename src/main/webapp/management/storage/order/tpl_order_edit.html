@@ -1,0 +1,434 @@
+<div class="auction-edit" ng-controller="EditController as ctrl">
+
+    <style scoped="scoped">
+        .auction-edit .row {
+            margin: 5px -15px;
+        }
+
+        .timezujian {
+            position: absolute;
+            left: 240px;;
+            top: 0;
+        }
+
+        .timezujian td input {
+            width: 100% !important;
+            margin-left: 0 !important;
+            height: 30px;
+        }
+
+        .timezujian td {
+            margin-left: 0 !important;
+            margin-bottom: 0px !important;
+        }
+
+    </style>
+
+    <div class="modal-header" style="">
+        <h3 class="modal-title ">{{ctrl.dlgTitle}} </h3>
+    </div>
+
+    <ks-form id="editForm" label-width="86" style="padding: 0 10px 0 10px" name="editForm" invalid="invalid">
+        <!--竞拍信息-->
+        <div class="detail-info-head">
+            <div class="detail-info-head-text">竞拍信息</div>
+        </div>
+
+        <div class="row">
+
+            <ks-field label="品种" required="true" width="250">
+                <ks-category-kw-picker ng-model="ctrl.entity.category"
+                                       readonly="ctrl.isReadonly"></ks-category-kw-picker>
+                <!--<ks-category-picker ng-model="ctrl.entity.category" readonly="ctrl.isReadonly"></ks-category-picker>-->
+            </ks-field>
+
+
+            <ks-field label="牌号" required="true" width="250">
+                <!--<input class=" form-control input-sm" ng-model="ctrl.entity.designation" name="designation"-->
+                <!--typeahead="item for item in ctrl.typeAhead.designations.data |filter:$viewValue | limitTo:20"-->
+                <!--placeholder="牌号" ng-readonly="ctrl.isReadonly" required maxlength="50"/>-->
+
+
+                <ks-designation-kw-picker ng-model="ctrl.entity.designation"
+                                          display-field="designation"
+                                          value-field="designation"
+                                          placeholder="牌号"
+                                          business-code="designation"
+                                          readonly="ctrl.isReadonly"></ks-designation-kw-picker>
+
+            </ks-field>
+
+            <ks-field label="生产商" required="true" width="250">
+                <ks-manufacturer-picker ng-model="ctrl.entity.manufacturerId"
+                                        readonly="ctrl.isReadonly"
+                                        selected-item="ctrl.entity.manufacturerEntity"></ks-manufacturer-picker>
+            </ks-field>
+
+        </div>
+
+        <div class="row">
+
+            <ks-field label="供应商" required="true" width="250">
+
+                <ks-supplier-keyword-picker ng-model="ctrl.entity.supplierId"
+                                            request-params="{customerAuctionFlag:3}"
+                                            disabled="ctrl.isReadonly"></ks-supplier-keyword-picker>
+            </ks-field>
+
+
+            <ks-field label="仓库所在城市" required="true" width="250">
+                <ks-city-kw-picker readonly="ctrl.isReadonly" ng-model="ctrl.entity.warehousesCity"></ks-city-kw-picker>
+            </ks-field>
+
+
+            <ks-field label="竞拍总量" required="true" width="250">
+
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" placeholder="竞拍总量"
+                           ng-model="ctrl.entity.weight"
+                           ng-readonly="ctrl.isReadonly"
+                           ng-pattern="/^\d{1,5}(\.\d{1,3})?$/"
+                           required>
+
+                    <div class="input-group-addon">吨</div>
+                </div>
+
+            </ks-field>
+
+        </div>
+
+        <div class="row">
+
+            <ks-field label="状态" required="true" width="250">
+                <div style="{{(ctrl.isReadonly || ctrl.disableStatus )?'padding-top:7px':''}}">
+                    <ks-enum ng-model="ctrl.entity.status" options="{{ctrl.status}}"
+                             readonly="ctrl.isReadonly || ctrl.disableStatus"></ks-enum>
+                </div>
+            </ks-field>
+
+
+            <ks-field label="货币类型" required="true" width="250">
+                <div ng-switch="ctrl.isReadonly">
+                    <div ng-switch-when="true">
+                        <div style="padding-top: 7px">
+                            {{ctrl.entity.currency == '0' ? '人民币':'美金'}}
+                        </div>
+                    </div>
+                    <div class="input-group " ng-switch-when="false">
+                        <div class="btn-group btn-group-sm" style="width :225px;margin-left: 0px">
+                            <label class="btn btn-default " ng-model="ctrl.entity.currency" btn-radio="0"
+                                   ng-change="ctrl.dateSelected()">人民币</label>
+                            <label class="btn btn-default " ng-model="ctrl.entity.currency" btn-radio="1"
+                                   ng-change="ctrl.dateSelected()">美金</label>
+                        </div>
+                    </div>
+                </div>
+            </ks-field>
+
+
+            <ks-field label="竞拍日期" required="true" width="250" style="position: relative">
+                <ks-date-picker ng-model="ctrl.entity.beginDate" readonly="false"
+                                required="true"
+                                on-selected="ctrl.dateSelected()"></ks-date-picker>
+                <div class="timezujian">
+
+                    <table class="input-sm ng-isolate-scope ng-valid ng-valid-time ng-dirty ng-valid-parse">
+                        <tbody>
+                        <tr>
+                            <td style="width:50px;" class="form-group" ng-class="{'has-error': invalidHours}">
+                                <input type="text" ng-model="ctrl.entity.beginHours"
+                                       ng-blur="ctrl.beginTimeChanged()"
+                                       class="form-control text-center ng-pristine ng-valid ng-valid-maxlength ng-touched"
+                                       required
+                                       ng-mousewheel="incrementHours()" ng-readonly="false" maxlength="2">
+                            </td>
+                            <td>:</td>
+                            <td style="width:50px;" class="form-group" ng-class="{'has-error': invalidMinutes}">
+                                <input type="text" ng-model="ctrl.entity.beginMinutes"
+                                       ng-blur="ctrl.beginTimeChanged()"
+                                       class="form-control text-center ng-pristine ng-valid ng-valid-maxlength ng-touched"
+                                       required
+                                       ng-readonly="false" maxlength="2">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </ks-field>
+
+        </div>
+
+        <div class="row">
+            <ks-field label="公示开始时间" required="true" width="500" style="position: relative">
+                <ks-date-picker ng-model="ctrl.entity.displayDate" readonly="false" required="true"></ks-date-picker>
+                <div class="timezujian">
+
+                    <table class="input-sm ng-isolate-scope ng-valid ng-valid-time ng-dirty ng-valid-parse">
+                        <tbody>
+                        <tr>
+                            <td style="width:50px;" class="form-group" ng-class="{'has-error': invalidHours}">
+                                <input type="text" ng-model="ctrl.entity.displayHours"
+                                       class="form-control text-center ng-pristine ng-valid ng-valid-maxlength ng-touched"
+                                       ng-mousewheel="incrementHours()" ng-readonly="false" maxlength="2">
+                            </td>
+                            <td>:</td>
+                            <td style="width:50px;" class="form-group" ng-class="{'has-error': invalidMinutes}">
+                                <input type="text" ng-model="ctrl.entity.displayMinutes"
+                                       class="form-control text-center ng-pristine ng-valid ng-valid-maxlength ng-touched"
+                                       ng-readonly="false" maxlength="2">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </ks-field>
+
+            <ks-field label="竞拍结束时间" width="335" style="position: relative">
+                <ks-date-picker ng-model="ctrl.entity.actualEndDate"
+                                required="true"></ks-date-picker>
+                <div class="timezujian">
+
+                    <table class="input-sm ng-isolate-scope ng-valid ng-valid-time ng-dirty ng-valid-parse">
+                        <tbody>
+                        <tr>
+                            <td style="width:50px;" class="form-group">
+                                <input type="text" ng-model="ctrl.entity.endHours"
+                                       class="form-control text-center ng-pristine ng-valid ng-valid-maxlength ng-touched"
+                                       ng-mousewheel="incrementHours()" maxlength="2">
+                            </td>
+                            <td>:</td>
+                            <td style="width:50px;" class="form-group">
+                                <input type="text" ng-model="ctrl.entity.endMinutes"
+                                       class="form-control text-center ng-pristine ng-valid ng-valid-maxlength ng-touched"
+                                       maxlength="2">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </ks-field>
+
+
+        </div>
+
+        <div class="row">
+            <ks-field label="产地" width="250" required="true" ng-if="ctrl.entity.currency == 1">
+                <ks-country-picker ng-model="ctrl.entity.originCountry" readonly="ctrl.isReadonly"></ks-country-picker>
+            </ks-field>
+
+            <ks-field label="船期" required="true" width="250" ng-if="ctrl.entity.currency == 1">
+                <ks-date-picker ng-model="ctrl.entity.sailingDate" readonly="ctrl.isReadonly"
+                                required="true"
+                                on-selected="ctrl.selectedSailing()"></ks-date-picker>
+            </ks-field>
+
+        </div>
+
+        <div class="row">
+            <ks-field label="港口" required="true" width="250"
+                      ng-if="ctrl.entity.deliveryType == 1 && ctrl.entity.currency == 1">
+                <input class=" form-control input-sm" style="width: 450px" ng-model="ctrl.entity.tradeAddr"
+                       ng-readonly="ctrl.isReadonly"
+                       placeholder="港口" required/>
+            </ks-field>
+        </div>
+
+        <!--竞拍设定-->
+        <div class="detail-info-head">
+            <div class="detail-info-head-text">竞拍设定</div>
+        </div>
+
+        <div class="row">
+
+            <ks-field label="竞拍方式" required="true" width="250">
+
+                <div ng-switch="ctrl.isReadonly">
+                    <div ng-switch-when="true" style="padding-top: 7px">
+                        {{ctrl.entity.auctionType == '1' ? '升价':'降价'}}
+                    </div>
+                    <div class="input-group " ng-switch-when="false">
+                        <div class="btn-group btn-group-sm" style="width :225px;margin-left: 0px">
+                            <label class="btn btn-default " ng-model="ctrl.entity.auctionType" btn-radio="1">升价</label>
+                            <!--<label class="btn btn-default " ng-model="ctrl.entity.auctionType" btn-radio="2">降价</label>-->
+                        </div>
+                    </div>
+                </div>
+
+
+            </ks-field>
+
+
+            <ks-field label="保证金比例" required="true" width="250">
+
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" placeholder="保证金比例"
+                           ng-model="ctrl.entity.marginRatio"
+                           ng-readonly="ctrl.isReadonly || ctrl.disableMarginRatio"
+                           required>
+
+                    <div class="input-group-addon" style="font-weight: bold">%</div>
+                </div>
+
+            </ks-field>
+
+
+            <ks-field label="加价幅度" required="true" width="250">
+
+                <div class="input-group input-group-sm">
+
+
+                    <input type="text" class="form-control" placeholder="加价幅度"
+                           ng-model="ctrl.entity.bidRate" ng-readonly="ctrl.isReadonly || ctrl.disableMarginRatio"
+                           ng-pattern="/^[1-9]\d*$/"
+                           required>
+
+                    <div class="input-group-addon" style="font-weight: bold">{{ctrl.entity.currency == 0 ?'元':'美元'}}/吨
+                    </div>
+                </div>
+
+            </ks-field>
+
+        </div>
+
+
+        <div class="row">
+
+            <ks-field label="起拍单价" required="true" width="250">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-addon" style="font-weight: bold">{{ctrl.entity.currency == 0 ?'￥':'$'}}
+                    </div>
+                    <input type="text" class="form-control" placeholder="起拍单价"
+                           ng-model="ctrl.entity.minPrice" ng-readonly="ctrl.isReadonly" required>
+
+                </div>
+            </ks-field>
+
+
+            <ks-field label="最小购买数量" required="true" width="250">
+
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" placeholder="最小购买数量"
+                           ng-model="ctrl.entity.minWeight" ng-readonly="ctrl.isReadonly || ctrl.disableMarginRatio"
+                           required>
+
+                    <div class="input-group-addon">吨</div>
+                </div>
+
+            </ks-field>
+
+
+            <ks-field label="数量增幅" required="true" width="250">
+                <div class="input-group input-group-sm">
+                    <input class=" form-control input-sm" ng-model="ctrl.entity.weightRate"
+                           ng-readonly="ctrl.isReadonly"
+                           ng-pattern="/^[1-9]\d*$/"
+                           placeholder="数量增幅" required/>
+
+                    <div class="input-group-addon">吨</div>
+                </div>
+            </ks-field>
+
+        </div>
+
+        <div class="row">
+            <ks-field label="市场评估价" required="true" width="250">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-addon" style="font-weight: bold">{{ctrl.entity.currency == 0 ?'￥':'$'}}
+                    </div>
+                    <input type="text" class="form-control" placeholder="市场评估价"
+                           ng-model="ctrl.entity.marketPrice" ng-readonly="ctrl.isReadonly" >
+
+                </div>
+            </ks-field>
+        </div>
+
+
+        <!--交易方式-->
+        <div class="detail-info-head">
+            <div class="detail-info-head-text">交易方式</div>
+        </div>
+
+        <div class="row">
+
+            <ks-field label="交货日期" required="true" width="250">
+                <ks-date-picker ng-model="ctrl.entity.deliveryTime"
+                                readonly="ctrl.isReadonly || ctrl.entity.currency == 1 "
+                                required="true"></ks-date-picker>
+            </ks-field>
+
+
+            <ks-field label="提货方式" required="true" width="250">
+                <div class="input-group ">
+                    <div class="btn-group btn-group-sm" style="width :225px;margin-left: 0px">
+                        <label class="btn btn-default " ng-model="ctrl.entity.deliveryType" btn-radio="1">自提</label>
+                        <label class="btn btn-default " ng-model="ctrl.entity.deliveryType" btn-radio="2">配送</label>
+                    </div>
+                </div>
+            </ks-field>
+
+        </div>
+
+
+        <div class="row">
+            <ks-field label="交货地点" required="true" width="250"
+                      ng-if="ctrl.entity.deliveryType == 1">
+                <input class=" form-control input-sm" style="width: 450px" ng-model="ctrl.entity.tradeAddr"
+                       ng-readonly="ctrl.isReadonly || ctrl.entity.currency == 1"
+                       maxlength="50"
+                       placeholder="交货地点" required/>
+            </ks-field>
+        </div>
+
+        <!--仓库信息-->
+        <div class="detail-info-head">
+            <div class="detail-info-head-text">仓库信息</div>
+        </div>
+
+        <div class="row">
+
+            <ks-field label="仓库名称" required="{{ctrl.entity.currency == 0}}" width="250">
+                <ks-warehouse-picker ng-model="ctrl.entity.warehousesId"
+                                     readonly="ctrl.isReadonly"
+                                     on-selected="ctrl.getWarehouseAddr(warehouse)"></ks-warehouse-picker>
+            </ks-field>
+
+        </div>
+
+        <div class="row">
+            <ks-field label="仓库详细地址" required="{{ctrl.entity.currency == 0}}" width="250">
+                <input class=" form-control input-sm" style="width: 450px" ng-model="ctrl.entity.warehousesAddr"
+                       ng-readonly="ctrl.isReadonly"
+                       maxlength="50"
+                       placeholder="仓库详细地址" ng-required="ctrl.entity.currency == 0"/>
+            </ks-field>
+        </div>
+
+
+        <!--操作按钮-->
+        <div class="modal-footer">
+
+            <div ng-show="ctrl.isReadonly">
+                <button type="submit" class="btn btn-success "
+                        ng-disabled="!invalid"
+                        ng-click="ctrl.audit(true)">审核通过
+                </button>
+                <a href="javascript:void(0)" ng-click="ctrl.audit(false)"
+                   class="btn btn-warning">审核不通过</a>
+                <a href="javascript:void(0)" type="button" ng-click="ctrl.dismiss()" class="btn btn-default">关闭</a>
+            </div>
+
+            <div ng-show="!ctrl.isReadonly">
+                <button type="submit" class="btn btn-primary " ng-disabled="!invalid"
+                        ng-click="ctrl.save(editForm)" ks-loading visible="ctrl.showLoading">保存
+                </button>
+                <a href="javascript:void(0)" type="button" ng-click="ctrl.dismiss()" class="btn btn-warning">取消</a>
+            </div>
+        </div>
+
+    </ks-form>
+
+
+</div>

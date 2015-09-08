@@ -1,0 +1,19 @@
+<div class="supplier-price-model" id="supplierPriceModel" ng-controller="EditController as editCtrl">
+    <div class="modal-header" style="">
+        <h3 class="modal-title ">{{editCtrl.dlgTitle}}</h3>
+    </div>
+
+    <div class="modal-body">
+        <h1>{{editCtrl.selectedId}}</h1>
+    </div>
+
+    <!--操作按钮-->
+    <div class="  modal-footer">
+        <button type="submit" class="btn btn-primary " ng-click="editCtrl.saveEntity()" >保存
+        </button>
+        <a href="javascript:void(0)" type="button" ng-click="editCtrl.dismiss()" class="btn btn-warning"
+           ui-sref="root">取消</a>
+    </div>
+
+</div>
+<!--</ks-dialog>-->

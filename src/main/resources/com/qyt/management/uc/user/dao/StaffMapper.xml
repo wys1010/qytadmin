@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qyt.management.uc.user.dao.StaffMapper">
+
+
+    <!--表名 -->
+    <sql id="table_name">staffs</sql>
+
+    <sql id="table_roles">staff_roles</sql>
+
+    <sql id="select_fields">
+        id,org_id,login_name,name,english_name,gender,disable,email,phone,wechat,qq,manager,districts,
+        last_login_time,remark,purchase_category_groups,sell_category_groups,created_at,updated_at,created_by,updated_by
+    </sql>
+
+    <sql id="fields_without_primarykey">
+        org_id,login_name,name,english_name,gender,disable,email,phone,wechat,qq,manager,districts,
+        last_login_time,remark,purchase_category_groups,sell_category_groups,created_at,updated_at,created_by,updated_by
+    </sql>
+
+    <sql id="select_where">
+        <where>
+            1=1
+
+            <!-- 关联id -->
+            <if test="condition!=null and condition.id != null">
+                AND a.id = #{condition.id}
+            </if>
+
+            <!-- 性别 -->
+            <if test="condition!=null and condition.gender != -1 and condition.gender != null">
+                AND a.gender = #{condition.gender}
+            </if>
+
+            <!-- 组织机构id -->
+            <if test="condition!=null and condition.orgId != null and condition.orgId != -1">
+                AND a.org_id = #{condition.orgId}
+            </if>
+
+            <!-- 管理者 -->
+            <if test="condition!=null and condition.manager != null and condition.manager != -1">
+                AND a.manager = #{condition.manager}
+            </if>
+
+            <!-- 状态 -->
+            <if test="condition!=null and condition.disable != null and condition.disable != -1">
+                AND a.disable = #{condition.disable}
+            </if>
+
+            <!-- 名称 -->
+            <if test="condition!=null and condition.name != null">
+                AND a.name like concat('%' , #{condition.name} , '%')
+            </if>
+
+            <!-- 名称 -->
+            <if test="condition!=null and condition.englishName != null">
+                AND a.english_name like concat('%' , #{condition.englishName} , '%')
+            </if>
+
+            <!-- email -->
+            <if test="condition!=null and condition.email != null">
+                AND a.email like concat('%' , #{condition.email} , '%')
+            </if>
+
+            <!-- 手机号码 -->
+            <if test="condition!=null and condition.phone != null">
+                AND a.phone like concat('%' , #{condition.phone} , '%')
+            </if>
+
+            <!-- 微信号 -->
+            <if test="condition!=null and condition.wechat != null">
+                AND a.wechat like concat('%' , #{condition.wechat} , '%')
+            </if>
+
+            <!-- qq号 -->
+            <if test="condition!=null and condition.qq != null">
+                AND a.qq like concat('%' , #{condition.qq} , '%')
+            </if>
+
+            <!-- qq号 -->
+            <if test="condition!=null and condition.loginName != null">
+                AND b.login_name like concat('%' , #{condition.loginName} , '%')
+            </if>
+
+            <!-- 区域 -->
+            <if test="condition!=null and condition.districts != null">
+                AND FIND_IN_SET(#{condition.districts},a.districts)
+            </if>
+
+            <!-- 买家负责的产品线 -->
+            <if test="condition!=null and condition.purchaseCategoryGroups != null">
+                AND FIND_IN_SET(#{condition.purchaseCategoryGroups},a.purchase_category_groups)
+            </if>
+
+            <!-- 卖家负责的产品线 -->
+            <if test="condition!=null and condition.sellCategoryGroups != null">
+                AND FIND_IN_SET(#{condition.sellCategoryGroups},a.sell_category_groups)
+            </if>
+
+            <if test="condition!=null and condition.hasOrgs == 1">
+                AND a.org_id IS NOT NULL
+            </if>
+
+            <if test="condition!=null and condition.hasOrgs == 0">
+                AND a.org_id IS NULL
+            </if>
+        </where>
+    </sql>
+
+
+    <!-- 查全部 -->
+    <select id="selectAllEntities" resultType="com.qyt.management.uc.user.domain.Staff" parameterType="map">
+        SELECT * FROM
+        <include refid="table_name"></include>
+        a
+        <include refid="select_where"></include>
+        ORDER BY a.updated_at DESC
+    </select>
+
+    <select id="picker" resultType="com.qyt.management.uc.user.domain.Staff" parameterType="map">
+        SELECT id,name FROM
+        <include refid="table_name"></include>
+        a
+        ORDER BY a.updated_at DESC
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="selectEntities" resultType="com.qyt.management.uc.user.domain.Staff" parameterType="map">
+        SELECT * FROM
+        <include refid="table_name"></include>
+        a
+        <include refid="select_where"></include>
+        ORDER BY a.updated_at DESC
+        <if test="start!=null and limit!=null">
+            limit #{start} , #{limit}
+        </if>
+    </select>
+
+    <!-- 查总记录数 -->
+    <select id="selectEntitiesCount" resultType="int" parameterType="map">
+        SELECT count(*) FROM
+        <include refid="table_name"></include>
+        a
+        <include refid="select_where"></include>
+    </select>
+
+
+    <select id="selectEntityById" resultType="com.qyt.management.uc.user.domain.Staff" parameterType="int">
+        SELECT * FROM
+        <include refid="table_name"></include>
+        where id = #{id}
+    </select>
+
+
+    <!--更新-->
+    <update id="updateEntity" parameterType="com.qyt.management.uc.user.domain.Staff">
+        update
+        <include refid="table_name"></include>
+        <set>
+            <if test="orgId != null">
+                org_id = #{orgId},
+            </if>
+
+            <if test="loginName != null">
+                login_name = #{loginName},
+            </if>
+
+            <if test="password != null">
+                password = #{password},
+            </if>
+
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="englishName != null">
+                english_name = #{englishName},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="disable != null">
+                disable = #{disable},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="wechat != null">
+                wechat = #{wechat},
+            </if>
+            <if test="qq != null">
+                qq = #{qq},
+            </if>
+            <if test="manager != null">
+                manager = #{manager},
+            </if>
+            <if test="districts != null">
+                districts = #{districts},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="purchaseCategoryGroups != null">
+                purchase_category_groups = #{purchaseCategoryGroups},
+            </if>
+            <if test="sellCategoryGroups != null">
+                sell_category_groups = #{sellCategoryGroups},
+            </if>
+            
+            <if test="updatedBy != null">
+                updated_by = #{updatedBy},
+            </if>
+            
+            updated_at = NOW()
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <!--新增-->
+    <insert id="insertEntity"
+            parameterType="com.qyt.management.uc.user.domain.Staff"
+            keyColumn="id"
+            useGeneratedKeys="true"
+            keyProperty="id">
+
+        INSERT INTO
+        <include refid="table_name"></include>
+        (
+        org_id,login_name,password,name,english_name,gender,disable,email,phone,wechat,qq,manager,districts,
+        last_login_time,remark,purchase_category_groups,sell_category_groups,created_at,updated_at,created_by,updated_by
+        )
+        VALUES
+        (
+        #{orgId},
+        #{loginName},
+        #{password},
+        #{name},
+        #{englishName},
+        #{gender},
+        #{disable},
+        #{email},
+        #{phone},
+        #{wechat},
+        #{qq},
+        #{manager},
+        #{districts},
+        #{lastLoginTime},
+        #{remark},
+        #{purchaseCategoryGroups},
+        #{sellCategoryGroups},
+        NOW(),
+        NOW(),
+        #{createdBy},
+        #{updatedBy}
+        )
+    </insert>
+
+    <select id="selectEntitiesEx" resultType="com.qyt.management.uc.user.domain.Staff" parameterType="map">
+        SELECT a.*,o.name as orgName,
+        IFNULL((SELECT group_concat(r.name) FROM staff_roles sr, roles r WHERE
+        sr.role_id = r.id AND sr.staff_id = a.id),'') as roleNames,
+        IFNULL((SELECT group_concat(r. id) FROM staff_roles sr, roles r WHERE
+        sr.role_id = r.id AND sr.staff_id = a.id ),'')  AS roleIds
+        FROM staffs a LEFT JOIN organizations o ON a.org_id = o.id
+        <include refid="select_where"></include>
+        ORDER BY a.updated_at DESC
+        <if test="start!=null and limit!=null">
+            limit #{start} , #{limit}
+        </if>
+
+    </select>
+
+    <select id="selectEntityByIdEx" resultType="com.qyt.management.uc.user.domain.Staff" parameterType="int">
+       SELECT
+            a.id,
+            a.org_id,
+            a.login_name,
+            a. NAME,
+            a.english_name,
+            a.gender,
+            a. DISABLE,
+            a.email,
+            a.phone,
+            a.wechat,
+            a.qq,
+            a.manager,
+            a.districts,
+            a.remark,
+            a.purchase_category_groups,
+            a.sell_category_groups,
+            a.created_at,
+            a.updated_at,
+            a.created_by,
+            a.updated_by,
+            b. NAME AS createdByName,
+            o. NAME AS orgName,
+            IFNULL(
+                (
+                    SELECT
+                        group_concat(r. NAME)
+                    FROM
+                        staff_roles sr,
+                        roles r
+                    WHERE
+                        sr.role_id = r.id
+                    AND sr.staff_id = a.id
+                ),
+                ''
+            ) AS roleNames,
+             IFNULL(
+                (
+                    SELECT
+                        group_concat(r. id)
+                    FROM
+                        staff_roles sr,
+                        roles r
+                    WHERE
+                        sr.role_id = r.id
+                    AND sr.staff_id = a.id
+                ),
+                ''
+            ) AS roleIds
+        FROM
+        staffs a
+    LEFT JOIN staffs b ON a.created_by = b.id
+    LEFT JOIN organizations o ON a.org_id = o.id
+WHERE
+	a.id = #{id}
+    </select>
+
+    <update id="resetPassword" parameterType="com.qyt.management.uc.user.domain.Staff">
+        update
+        <include refid="table_name"></include>
+        <set>
+            password = #{password}
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="transferCustomer" parameterType="map">
+
+    </update>
+
+    <resultMap type="com.qyt.management.uc.user.domain.StaffIdentity" id="entityMapIdentity">
+        <id column="id" property="id"/>
+    </resultMap>
+
+    <select id="selectIdentityById" resultMap="entityMapIdentity" parameterType="int">
+        select a.id, a.name, a.org_id as orgId, a.manager, a.districts, a.purchase_category_groups as purchaseCategoryGroups, a.sell_category_groups as sellCategoryGroups from staffs a
+        where a.id = #{id}
+    </select>
+
+    <select id="selectIdentities" resultMap="entityMapIdentity">
+        select a.id, a.name, a.org_id as orgId, a.manager, a.districts, a.purchase_category_groups as purchaseCategoryGroups, a.sell_category_groups as sellCategoryGroups from staffs a
+    </select>
+
+    <select id="selectEntityByName" resultType="com.qyt.management.uc.user.domain.Staff" parameterType="string">
+        SELECT a.id,a.org_id,a.login_name,a.name,a.english_name,a.gender,a.disable,a.email,a.phone,a.wechat,a.qq,a.manager,a.districts,a.remark,a.purchase_category_groups,a.sell_category_groups,o.name as orgName,IFNULL((SELECT group_concat(r.name) FROM staff_roles sr, roles r WHERE sr.role_id = r.id AND sr.staff_id = a.id),'') as roleNames FROM staffs a LEFT JOIN organizations o ON a.org_id = o.id
+        where a.name like concat('%' , #{name} , '%')
+    </select>
+
+    <select id="selectNamesByIds" resultType="string" parameterType="string">
+        select GROUP_CONCAT(DISTINCT(name)) from staffs 
+        where id in (#{id})
+    </select>
+
+    <update id="deleteStaffInOrgs" parameterType="list">
+        update
+        <include refid="table_name"></include>
+        <set>
+            org_id = NULL
+        </set>
+        where id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+          #{item}
+      </foreach>
+    </update>
+
+    <select id="selectByLoginName" resultType="com.qyt.management.uc.user.domain.Staff" parameterType="string">
+        SELECT <include refid="select_fields"></include> FROM
+        <include refid="table_name"></include>
+        WHERE login_name = #{loginName}
+    </select>
+</mapper>

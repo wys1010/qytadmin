@@ -1,0 +1,18 @@
+
+.simple-grid{border: 1px solid #f0f0f0;position: relative;font-family: "Microsoft YaHei", "宋体", "arial";font-size: 12px}
+.simple-grid .header{border-bottom: 1px solid #ccc;background: #595959}
+.simple-grid .row{padding:0;margin: 0;border-bottom: 1px solid #f0f0f0;height: 40px;line-height: 40px;}
+.simple-grid .row.alt{background: #fdfdfd}
+.simple-grid .row:hover{background: #d5f9ef;border-bottom-color: #d5f9ef;
+}
+.simple-grid .header-cell,.simple-grid .body-cell,.simple-grid .inactive-cell,.simple-grid .index-cell{float:left;height:35px;line-height: 35px;border-right:0px dashed #f0f0f0;text-indent:3px;}
+.simple-grid .header-cell{text-align:center;font-weight: bold;color:#000;background: #595959;border-color:#595959;color:#fff;height:35px;line-height: 35px;}
+.simple-grid .body{overflow: auto;position: relative;overflow-x: hidden}
+.simple-grid .content{margin:0 3px}
+.simple-grid .index{width:35px;font-style: italic;}
+.simple-grid .check{width:35px;text-align: center}
+.simple-grid .body .index{color:#ccc;text-align:right;}
+.simple-grid .header-cell:last-child{border-right:0}
+.simple-grid .row-cell{float:left;border-right:0px solid #f0f0f0;min-height: 10px;}
+.simple-grid .simple-grid-footer{background: #fdfdfd;border:1px solid #f0f0f0;box-shadow: -1px -1px 3px rgba(0, 0, 0, 0.3);}
+

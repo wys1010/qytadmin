@@ -1,0 +1,35 @@
+<div class="stock-edit" ng-controller="RecordController as ctrl">
+    <div class="modal-header" style="">
+        <h3 class="modal-title ">{{ctrl.dialogTitle}} </h3>
+    </div>
+
+    <ks-form id="editForm" label-width="86" style="padding: 0 10px 0 10px" name="editForm" invalid="invalid">
+
+        <table class="table table-striped ks-grid">
+
+            <!--表头-->
+            <thead class="ks-header">
+            <th class="ks-cell">产品名称</th>
+            <th class="ks-cell">数量</th>
+            <th class="ks-cell">类型</th>
+            <th class="ks-cell">日期</th>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row  in ctrl.entities" class="ks-row">
+                <td class="ks-cell"><span>{{::row.productName || ''}}</span></td>
+                <td class="ks-cell ellipsis" >{{row.num }}</td>
+                <td class="ks-cell">{{row.type == '1'?'入库':'出库'}}</td>
+                <td class="ks-cell">{{row.createdAt |date:'yyyy-MM-dd'}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--操作按钮-->
+        <div class="modal-footer">
+            <a href="javascript:void(0)" type="button" ng-click="ctrl.dismiss()" class="btn btn-warning">关闭</a>
+        </div>
+
+    </ks-form>
+
+
+</div>

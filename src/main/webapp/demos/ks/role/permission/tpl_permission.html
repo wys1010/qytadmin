@@ -1,0 +1,19 @@
+<div ng-controller="PermissionController as permissionCtrl">
+    <div class=" ks-grid-toolbar clearfix" id="rolesGridToolbar" style="margin-top: 5px;height:42px;">
+        <span class="inline-block staffs-title" >{{permissionCtrl.selectedRole.name}}</span>
+        <div style="float:right;width:75px;">
+            <a class="btn btn-default btn-sm" ng-click="permissionCtrl.save()"><span
+                    class="fa fa-check"></span> 保存</a>
+        </div>
+    </div>
+    <div class="tree-title">
+        功能权限树
+    </div>
+    <div id="permissionTreeWrap" class="tree-wrap">
+        <ks-tree children-field="children" id-field="id" text-field="text" data-type="hierarchy"
+                 data="permissionCtrl.permissions"
+                 expand-all="true" checkable="true" selected-item="permissionCtrl.selectedItem"
+                 checked-items="permissionCtrl.checkedItems" checked-ids="permissionCtrl.checkedIds"></ks-tree>
+    </div>
+
+</div>

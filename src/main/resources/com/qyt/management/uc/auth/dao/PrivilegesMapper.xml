@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qyt.management.uc.auth.dao.PrivilegesMapper">
+
+    <resultMap type="com.qyt.management.uc.auth.domain.Role" id="roleMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="remark" property="remark"/>
+        <result column="data_areas" property="dataAreas"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="updated_by" property="updatedBy"/>
+    </resultMap>
+
+	<resultMap type="com.qyt.management.uc.auth.domain.Permission" id="permissionMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="menu" property="menu"/>
+        <result column="sub_sys" property="subSys"/>
+        <result column="sub_module" property="subModule"/>
+    </resultMap>
+
+    <resultMap type="com.qyt.management.uc.auth.domain.RolePermission" id="rolePermissionMap">
+        <id column="role_id" property="roleId"/>
+        <id column="permission_id" property="permissionId"/>
+    </resultMap>
+
+    <resultMap type="com.qyt.management.uc.auth.domain.Menu" id="menuMap">
+        <id column="id" property="id"/>
+        <id column="parent_id" property="parentId"/>
+        <id column="permission_id" property="permissionId"/>
+        <id column="name" property="name"/>
+        <id column="url" property="url"/>
+        <id column="display_order" property="displayOrder"/>
+        <id column="sub_sys" property="subSys"/>
+    </resultMap>
+
+    <resultMap type="com.qyt.management.uc.user.domain.Staff" id="staffMap">
+        <result column="id" property="id" />
+        <result column="org_id" property="orgId" />
+        <result column="login_name" property="loginName" />
+        <result column="password" property="password" />
+        <result column="name" property="name" />
+        <result column="english_name" property="englishName"/>
+        <result column="gender" property="gender"/>
+        <result column="disable" property="disable" />
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="wechat" property="wechat"/>
+        <result column="qq" property="qq"/>       
+        <result column="manager" property="manager"/>
+        <result column="districts" property="districts"/>
+        <result column="last_login_time" property="lastLoginTime" />
+        <result column="remark" property="remark" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="created_by" property="createdBy" />
+        <result column="updated_by" property="updatedBy" />
+    </resultMap>
+    
+    <resultMap type="com.qyt.management.uc.auth.domain.StaffRole" id="staffRoleMap">
+        <id column="staff_id" property="staffId"/>
+        <id column="role_id" property="roleId"/>
+        <id column="data_areas" property="dataAreas"/>
+    </resultMap>
+    
+    <sql id="staff_where">
+        <if test="staff != null and staff.name !=null">
+            AND a.name like concat('%', #{staff.name}, '%')
+        </if>
+    </sql>
+
+    <sql id="staff_fields">
+            a.id,a.org_id, a.login_name, a.name, a.english_name, a.gender, a.disable, a.email, a.phone, a.wechat, a.qq, a.manager, a.districts, a.
+        last_login_time, a.remark, a.created_at, a.updated_at, a.created_by, a.updated_by, a.purchase_category_groups, a.sell_category_groups
+    </sql>
+
+    <select id="selectRoleById" resultMap="roleMap" parameterType="int">
+        select id,name,code,remark,data_areas,created_at,updated_at,created_by,updated_by from roles where id = #{value}
+    </select>
+
+	<select id="selectRoles" resultMap="roleMap">
+        select id,name,code,remark,data_areas,created_at,updated_at,created_by,updated_by from roles
+    </select>
+    
+    <delete id="deleteRole" parameterType="int">
+        delete from roles where id = #{value}
+    </delete>
+
+    <update id="updateRole" parameterType="com.qyt.management.uc.auth.domain.Role">
+        update
+          roles
+        set
+          name = #{name}, code = #{code}, remark = #{remark}, data_areas = #{dataAreas}, updated_at = now(), updated_by = #{updatedBy}
+        where
+          id = #{id}
+    </update>
+
+    <delete id="deleteAllStaffsOfRole" parameterType="int">
+         delete from staff_roles where role_id = #{value}
+    </delete>
+
+    <insert id="insertRole" parameterType="com.qyt.management.uc.auth.domain.Role">
+        insert into roles(name,code,remark,data_areas,sub_sys,created_at,updated_at,created_by,updated_by)
+        values(#{name}, #{code}, #{remark}, #{dataAreas}, #{subSys},now(), now(), #{createdBy}, #{updatedBy})
+    </insert>
+
+	<delete id="deleteRolesOfStaff" parameterType="int">
+        delete from staff_roles where staff_id = #{staffId}
+    </delete>
+
+    <select id="selectStaffsOfRole" resultMap="staffMap" parameterType="map">
+
+
+        select  d.*, c.name as orgName from( select
+          a.id,a.org_id, a.name, a.gender, a.disable, a.qq, a.manager
+          FROM
+            staffs a
+            WHERE
+            1=1
+            <include refid="staff_where"></include>
+            AND a.id in (select b.staff_id from staff_roles b where b.role_id = #{roleId} ) )d
+            left join organizations c on d.org_id = c.id
+
+        LIMIT #{start}, #{limit}
+    </select>
+
+    <select id="selectStaffsCountOfRole" resultType="int" parameterType="map">
+        select
+            count(1)
+        FROM
+            staffs a
+        WHERE
+            1 = 1
+            <include refid="staff_where"></include>
+        AND a.id in (select b.staff_id from staff_roles b where b.role_id = #{roleId})
+    </select>
+
+    <select id="selectStaffsNotInRole" resultMap="staffMap" parameterType="map">
+
+
+        select  d.*, c.name as orgName from( select
+        a.id,a.org_id, a.name, a.gender, a.disable, a.qq, a.manager
+        FROM
+        staffs a
+        WHERE
+        1=1
+        <include refid="staff_where"></include>
+        AND a.id not in (select b.staff_id from staff_roles b where b.role_id = #{roleId} )
+        AND a.org_id in
+        <foreach item="item" index="index" collection="orgIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        )d
+        left join organizations c on d.org_id = c.id
+
+        LIMIT #{start}, #{limit}
+    </select>
+
+    <select id="selectStaffsCountNotInRole" resultType="int" parameterType="map">
+        SELECT
+          count(1)
+        FROM
+          staffs a
+        WHERE
+            1 = 1
+            <include refid="staff_where"></include>
+            AND
+            a.id not in (select b.staff_id from staff_roles b where b.role_id = #{roleId})
+            AND a.org_id in
+            <foreach item="item" index="index" collection="orgIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+    </select>
+
+
+    <select id="selectStaffsNotInRole4Root" resultMap="staffMap" parameterType="map">
+
+
+        select  d.*, c.name as orgName from( select
+        a.id,a.org_id, a.name, a.gender, a.disable, a.qq, a.manager
+        FROM
+        staffs a
+        WHERE
+        1=1
+        <include refid="staff_where"></include>
+        AND a.id not in (select b.staff_id from staff_roles b where b.role_id = #{roleId} )
+        )d
+        left join organizations c on d.org_id = c.id
+
+        LIMIT #{start}, #{limit}
+    </select>
+
+    <select id="selectStaffsCountNotInRole4Root" resultType="int" parameterType="map">
+        SELECT
+        count(1)
+        FROM
+        staffs a
+        WHERE
+        1 = 1
+        <include refid="staff_where"></include>
+        AND
+        a.id not in (select b.staff_id from staff_roles b where b.role_id = #{roleId})
+    </select>
+
+    <select id="selectStaffsNotInRole4Leaf" resultMap="staffMap" parameterType="map">
+
+
+        select  d.*, c.name as orgName from( select
+        a.id,a.org_id, a.name, a.gender, a.disable, a.qq, a.manager
+        FROM
+        staffs a
+        WHERE
+        1=1
+        <include refid="staff_where"></include>
+        AND a.id not in (select b.staff_id from staff_roles b where b.role_id = #{roleId} )
+        AND a.org_id = #{orgId}
+        )d
+        left join organizations c on d.org_id = c.id
+
+        LIMIT #{start}, #{limit}
+    </select>
+
+    <select id="selectStaffsCountNotInRole4Leaf" resultType="int" parameterType="map">
+        SELECT
+        count(1)
+        FROM
+        staffs a
+        WHERE
+        1 = 1
+        <include refid="staff_where"></include>
+        AND
+        a.id not in (select b.staff_id from staff_roles b where b.role_id = #{roleId})
+        AND a.org_id = #{orgId}
+    </select>
+
+    <insert id="batchInsertStaffsOfRole" parameterType="map">
+        insert into staff_roles(staff_id, role_id,data_areas) values
+        <foreach collection="staffIds" item="item" index="index" separator=",">
+            ( #{item}, #{roleId},'')
+        </foreach>
+    </insert>
+
+	<delete id="batchDeleteStaffsOfRole" parameterType="map">
+        delete from staff_roles where role_id = #{roleId} and staff_id in
+        <foreach item="item" index="index" collection="staffIds"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    
+	<insert id="batchInsertRolePermissions" parameterType="com.qyt.management.uc.auth.domain.RolePermission">
+        insert into role_permissions(role_id, permission_id) values
+        <foreach collection="rolePermissions" item="item" index="index" separator=",">
+            (#{item.roleId} , #{item.permissionId})
+        </foreach>
+    </insert>
+    
+	<delete id="deleteAllPermissionsOfRole" parameterType="int">
+        delete from role_permissions where role_id = #{roleId}
+    </delete>
+    
+    <select id="selectAllPermissionsOfStaff" resultMap="permissionMap" parameterType="int">
+         select
+            e.*
+         from
+            permissions  e
+         where
+            id in (
+              select
+                  DISTINCT(d.permission_id)
+              from
+                 role_permissions d
+              where
+                d.role_id in (
+                    select
+                      c.role_id
+                    from
+                      staff_roles c
+                    where
+                    c.staff_id = #{value}))
+    </select>
+
+    <select id="selectPermissionsOfRole" resultType="int" parameterType="int">
+        SELECT
+          permission_id
+        FROM
+            role_permissions
+        where
+            role_id = #{value}
+    </select>
+
+    <select id="selectAllPermissions" resultMap="permissionMap">
+        select id, name, code, menu, sub_sys, sub_module from permissions
+    </select>
+    
+    <select id="selectAllMenusOfStaff" resultMap="menuMap" parameterType="int">
+	    SELECT
+	        e.*
+	    FROM
+	        menus e
+	    WHERE
+        e.permission_id IN (
+            SELECT DISTINCT
+                (d.permission_id)
+            FROM
+                role_permissions d
+            WHERE
+                d.role_id IN (
+                    SELECT
+                        c.role_id
+                    FROM
+                        staff_roles c
+                    WHERE
+                        c.staff_id = #{value}
+                )
+        ) or e.permission_id is null order by display_order asc
+    </select>
+
+    <select id="selectRoleByName" resultType="com.qyt.management.uc.auth.domain.Role" parameterType="string">
+        select * from roles where name = #{roleName}
+    </select>
+
+
+    <insert id="insertStaffMultiRoles" parameterType="map">
+        insert into staff_roles(staff_id, role_id,data_areas) values
+        <foreach collection="roleIds" item="item" index="index" separator=",">
+            (#{staffId},#{item},'')
+        </foreach>
+    </insert>
+
+    <select id="selectAllRolesOfStaff" resultMap="staffRoleMap" parameterType="int">
+         select
+            *
+         from
+            staff_roles
+         where
+            staff_id = #{value}
+    </select>
+    
+    <resultMap type="com.qyt.management.uc.auth.domain.RoleIdentity" id="roleMapIdentity">
+        <id column="id" property="id"/>
+    </resultMap>
+    
+    <resultMap type="com.qyt.management.uc.auth.domain.PermissionIdentity" id="permissionMapIdentity">
+        <id column="id" property="id"/>
+    </resultMap>
+    
+    <select id="selectRoleIdentityById" resultMap="roleMapIdentity" parameterType="int">
+        select id, name, code, data_areas as dataAreas from roles
+        where id = #{roleId}
+    </select>
+
+    <select id="selectRoleIdentities" resultMap="roleMapIdentity">
+        select id, name, code, data_areas as dataAreas from roles
+    </select>
+    
+    <select id="selectPermissionIdentityById" resultMap="permissionMapIdentity" parameterType="int">
+        select id, name, code from permissions
+        where id = #{permissionId}
+    </select>
+
+    <select id="selectPermissionIdentities" resultMap="permissionMapIdentity">
+        select id, name, code from permissions
+    </select>
+    
+    <select id="selectRolePermissionIdentityById" resultMap="rolePermissionMap" parameterType="int">
+        select role_id, permission_id from role_permissions
+        where id = #{roleId}
+    </select>
+
+    <select id="selectRolePermissionIdentities" resultMap="rolePermissionMap">
+        select role_id, permission_id from role_permissions
+    </select>
+</mapper>

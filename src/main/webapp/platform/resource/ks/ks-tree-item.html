@@ -1,0 +1,12 @@
+<div class="ks-tree-item" style="font-size: 12px;" >
+    {{item}}
+    <span ng-repeat="level in item._levels" class="ks-tree-item-fill-block"></span>
+    <a class="ks-tree-toggle-btn fa fa-minus" ng-show="!item._isLeaf"></a>
+    <a class="ks-tree-item-fill-block" ng-show="item._isLeaf"></a>
+    <a class="ks-tree-check-btn fa"  href="javascript:void(0)"></a>
+    <a class="ks-tree-item-icon fa"  href="javascript:void(0)"></a>
+    <span class="ks-tree-item-content">{{item.text}}</span>
+</div>
+<div ng-repeat="item in item.children" style="font-size:12px">11
+    <div include-tpl="" url="'/platform/resource/ks/ks-tree.html'"></div>
+</div>

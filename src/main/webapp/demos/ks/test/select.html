@@ -1,0 +1,241 @@
+<div style="height:100%" ng-controller="SelectController as selectCtrl">
+    <ks-v-box>
+        <ks-v-box-cell>
+            <ks-form label-width="55">
+
+                <ks-field label="分类">
+                    <ks-category-picker ng-model="queryCondition.category" width="120"></ks-category-picker>
+                </ks-field>
+
+                <ks-field label="牌号">
+                    <input type="text" ng-model="queryCondition.designation"
+                           typeahead="item for item in typeAhead.designations.data |filter:$viewValue | limitTo:20"
+                           class="form-control input-sm">
+                </ks-field>
+
+                <ks-field label="仓库">
+                    <input type="text" ng-model="queryCondition.warehouse"
+                           typeahead="item as item.name  for item in typeAhead.warehouses.data |filter:$viewValue | limitTo:20"
+                           class="form-control input-sm">
+                </ks-field>
+
+                <ks-field label="生产商">
+                    <ks-manufacturer-picker width="120"
+                                            ng-model="queryCondition.manufacturerId"></ks-manufacturer-picker>
+                </ks-field>
+
+
+                <ks-field label="供应商">
+                    <ks-supplier-picker ng-model="queryCondition.supplierId" width="120"></ks-supplier-picker>
+                </ks-field>
+
+
+                <ks-field label="状态">
+                    <div class="btn-group">
+                        <label class="btn btn-default btn-sm" ng-model="queryCondition.status" btn-radio="">全部</label>
+                        <label class="btn btn-default btn-sm" ng-model="queryCondition.status" btn-radio="1">上架</label>
+                        <label class="btn btn-default btn-sm" ng-model="queryCondition.status" btn-radio="2">下架</label>
+                    </div>
+                </ks-field>
+
+                <ks-field label="期现">
+                    <div class="btn-group">
+                        <label class="btn btn-default btn-sm" ng-model="queryCondition.futures" btn-radio="">全部</label>
+                        <label class="btn btn-default btn-sm" ng-model="queryCondition.futures" btn-radio="0">现货</label>
+                        <label class="btn btn-default btn-sm" ng-model="queryCondition.futures" btn-radio="1">期货</label>
+                    </div>
+                </ks-field>
+
+                <ks-field label="发布" fields="2">
+                    <div class="input-group" style="float:left;width:140px">
+                        <input type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd"
+                               ng-model="queryCondition.publishDateStart" is-open="publishStartOpened"
+                               datepicker-options="dateOptions" ng-required="true" close-text="Close"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default btn-sm" ng-click="openPublishDateStart($event)"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+                    <div style="width:60px;text-align: center;height:30px;line-height: 30px;float:left">至</div>
+
+                    <div class="input-group" style="float:left;width:140px">
+                        <input type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd"
+                               ng-model="queryCondition.publishDateEnd" is-open="publishEndOpened"
+                               datepicker-options="dateOptions" ng-required="true" close-text="Close"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default btn-sm" ng-click="openPublishDateEnd($event)"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+                </ks-field>
+
+                <ks-field>
+                    <button type="button" class="btn btn-primary btn-sm"
+                            ng-click="selectCtrl.selectEntities(true)"><span
+                            class="fa fa-search"></span> 查询
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm" ng-click="resetForm()"><span
+                            class="fa fa-refresh"></span> 重置
+                    </button>
+                </ks-field>
+            </ks-form>
+        </ks-v-box-cell>
+        <div class="container-fluid ks-grid-toolbar">
+            <div class="row">
+                <div class="col-xs-12 text-right" style="margin-top: 5px;">
+                    <a class="btn btn-default btn-sm" ui-sref="root.edit()"><span class="fa fa-plus"></span> 新增</a>
+                </div>
+            </div>
+        </div>
+        <ks-v-box-cell>
+
+        </ks-v-box-cell>
+        <ks-v-box-cell height="flex">
+            <div id="pagingGrid">
+                <div class="simple-grid  ellipsis" id="simpleGrid" >
+                    <div class="header list ellipsis" >
+                        <div class="header-cell check inline-block">
+                            <th class="ks-cell" style="text-align:left" ><input type="checkbox" ng-model="allChecked" ng-click="toggleCheck()"/></th>
+                        </div>
+                        <div class="header-cell designation inline-block">牌号</div>
+                        <div class="header-cell supplier inline-block">供应商(城市|仓库)</div>
+                        <div class="header-cell price inline-block">价格/数量</div>
+                        <div class="header-cell date inline-block">有效时间</div>
+                        <div class="header-cell created-by inline-block">创建人</div>
+                        <div class="header-cell sales-man inline-block">交易员</div>
+                        <div class="header-cell flags inline-block"></div>
+                        <div class="header-cell operator inline-block">操作</div>
+                    </div>
+                    <div class="body list ellipsis" >
+                        <div ng-class-odd="'alt'" ng-class="' clearfix'" ng-repeat="row in selectCtrl.entities" class="row" ng-dblclick="selectCtrl.update(row)" data-row-index="{{$index}}">
+                            <!--序号-->
+                            <div  class="inactive-cell check inline-block ellipsis">
+                                <div class="content ellipsis">
+                                    <input type="checkbox" ng-model="row.checked" />
+                                </div>
+                            </div>
+
+
+                            <!--牌号-->
+                            <div class="body-cell designation inline-block ">
+                                <div class="content ellipsis">
+                                    {{row.designation}}
+                                </div>
+                            </div>
+
+
+
+                            <!--供应商(城市|仓库)-->
+                            <div class="body-cell supplier inline-block ">
+                                <div class="content ellipsis">
+                     <span style="color:#000">
+                         <span class="inline-block ellipsis" style="max-width: 120px;vertical-align: top" title='{{::row.supplierName || ""}}'>{{::row.supplierName || ""}}</span>
+                         <span style="vertical-align: top" title="{{row.cityName}}| {{row.warehouseName}}">({{row.cityName}}| {{row.warehouseName}})</span>
+                     </span>
+                                </div>
+                            </div>
+
+
+                            <!--价格/数量-->
+                            <div class="body-cell price inline-block ">
+                                <div class="content ellipsis">
+                                    <span style="color:green">{{(row.price || row.priceString) | currency:"￥" }}</span> ×
+                                    <span style="color:darkred">{{(row.weight || row.weightString) | currency:"":3 }}吨</span>
+                                </div>
+                            </div>
+
+
+                            <!--有效时间-->
+                            <div class="body-cell date inline-block ">
+                                <div class="content ellipsis">
+                        <span style="color:darkblue">
+                            {{::row.publishDate | date:'yyyy-MM-dd'}}
+                        </span>
+                                    ~
+                        <span style="color:#8b2542">
+                            {{::row.expireDate | date:'yyyy-MM-dd'}}
+                        </span>
+
+                                </div>
+                            </div>
+
+                            <!--期货-->
+                            <div class="body-cell created-by inline-block ">
+                                <div class="content ellipsis">
+                        <span style="width: 60px;" class="inline-block ellipsis" >
+                            {{row.createdByName || row.operatorName}}
+                        </span>
+                                </div>
+                            </div>
+
+                            <!--交易员-->
+                            <div class="body-cell sales-man inline-block ">
+                                <div class="content ellipsis">
+                        <span style="width: 60px;" class="inline-block ellipsis" >
+                            {{::row.salesName}}
+                        </span>
+                                </div>
+                            </div>
+
+
+                            <!--标志-->
+                            <div class="inactive-cell flags inline-block ">
+                                <div class="content ellipsis">
+
+                                    <!--期货-->
+                         <span ng-switch="row.futures" class="item-wrap futures">
+                                <span ng-switch-when="0" class="not-future circle item current" tooltip-trigger="mouseenter" tooltip-placement="top" tooltip-animation="true"  tooltip="现货">现</span>
+                                <span ng-switch-when="1" class="future circle item futures" tooltip-trigger="mouseenter" tooltip-placement="top" tooltip-animation="true" tooltip="期货">期</span>
+                        </span>
+
+                                    <!--上下架状态-->
+                        <span ng-switch="row.status" class="item-wrap status">
+                            <span ng-switch-when="1" class="on-sale circle item on" tooltip-trigger="mouseenter"
+                                  tooltip-placement="top" tooltip-animation="true" tooltip="上架">上</span>
+                            <span ng-switch-when="2" class="off-sale circle item off" tooltip-trigger="mouseenter"
+                                  tooltip-placement="top" tooltip-animation="true" tooltip="下架">下</span>
+                            <span ng-switch-default></span>
+                        </span>
+
+                                    <!--是否为供应商录入-->
+                        <span ng-show="row.customerUid !=null && row.customerUid == row.operatorId"
+                              class="fa fa-user supplier-flag item circle" style="" title="该报价为供应商录入"
+                              tooltip-trigger="mouseenter" tooltip-placement="top" tooltip-animation="true"
+                              tooltip="供应商录入"></span>
+
+                                    <!--是否同步到快塑报价-->
+                        <span ng-show="row.syncKsPrice" class="fa fa-random sync item circle" title="已同步到快塑报价"
+                              tooltip-trigger="mouseenter" tooltip-placement="top" tooltip-animation="true"
+                              tooltip="已同步到快塑报价"></span>
+                                </div>
+                            </div>
+
+                            <!--操作-->
+                            <div data-field="operator" class="operator   operator-cell  inline-block ellipsis">
+                                <div class="content ellipsis">
+
+                                    <a href="javascript:void(0)" ng-click="selectCtrl.go('root.edit',row)" class="simple-grid-btn inline-block" title="编辑">
+                                        <span class="icon fa fa-pencil"></span>
+                                    </a>
+
+                                    <a href="javascript:void(0)"  ng-click="selectCtrl.deleteEntity(row)" class="simple-grid-btn inline-block" title="删除">
+                                        <span class="icon fa fa-minus"></span>
+                                    </a>
+
+                                    <a href="javascript:void(0)" ng-show="row.productId != null"  class=" simple-grid-btn inline-block" ng-click="transToKsPrice(row)" title="转快塑报价">
+                                        <span class="glyphicon glyphicon-fast-backward " ></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                </div>
+            <ks-paging on-select-page="selectCtrl.selectEntities()" paging="selectCtrl.queryCondition"  id="pagingBar" style="margin-top:5px;">
+            </ks-paging>
+                <!--分页条-->
+        </ks-v-box-cell>
+    </ks-v-box>
+</div>

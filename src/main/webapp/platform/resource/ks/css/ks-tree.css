@@ -1,0 +1,128 @@
+.inline-block {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+.ks-tree-item-common {
+  font-size: 12px;
+  line-height: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
+.ks-tree {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.ks-tree-item {
+  font-size: 0;
+  line-height: 18px;
+  height: 18px;
+  cursor: pointer;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.ks-tree-item.selected {
+  background: #ccd7ff;
+}
+.ks-tree-item:hover {
+  background: #dee5ff;
+}
+.ks-tree-item.selected:hover {
+  background: #ccd7ff;
+}
+.ks-tree-item-fill-block {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  width: 15px;
+  font-size: 12px;
+  line-height: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
+.ks-tree-toggle-btn {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  width: 12px;
+  font-size: 12px;
+  line-height: 18px;
+  height: 18px;
+  height: 12px;
+  line-height: 12px;
+  text-align: center;
+  vertical-align: middle;
+  background: #d2d2d2;
+  border: 1px solid #CEDCB3;
+  border-radius: 3px;
+  margin: 0 1.5px;
+  color: #4b494c;
+  font-size: 8px;
+}
+a.ks-tree-toggle-btn:hover {
+  text-decoration: none;
+}
+.ks-tree-item-content {
+  font-size: 12px;
+  line-height: 18px;
+  height: 18px;
+  vertical-align: middle;
+  text-indent: 5px;
+  margin: 0 3px;
+  font-family: "Microsoft YaHei", "宋体", "arial";
+  padding-left: 2px;
+}
+.ks-tree-check-btn {
+  font-size: 12px;
+  line-height: 18px;
+  height: 18px;
+  vertical-align: middle;
+  line-height: 12px;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  text-decoration: none;
+  border: 1px solid #989898;
+  margin: 0 2px;
+  border-radius: 3px;
+  font-size: 9px;
+  color: #f60;
+  text-align: center;
+}
+a.ks-tree-check-btn:link {
+  color: #F60;
+  text-decoration: none;
+}
+a.ks-tree-check-btn:visited {
+  color: #F60;
+  text-decoration: none;
+}
+a.ks-tree-check-btn:hover {
+  text-decoration: none;
+}
+a.ks-tree-check-btn:active {
+  color: #f60;
+  text-decoration: none;
+}
+.ks-tree-item-icon {
+  font-size: 12px;
+  line-height: 18px;
+  height: 18px;
+  vertical-align: middle;
+  height: 14px;
+  margin-top: -2.5px;
+}
+.ks-tree-item-icon.not-leaf {
+  color: #f69c1e;
+}
+.ks-tree-item-icon.leaf {
+  color: #b06187;
+}
+.ks-tree-check-btn.check-half {
+  background: #ccc;
+  color: darkmagenta;
+}

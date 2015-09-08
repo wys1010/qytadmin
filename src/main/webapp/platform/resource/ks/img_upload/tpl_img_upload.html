@@ -1,0 +1,14 @@
+<div class="ks-image-upload-wrap clearfix" >
+
+    <div class="ks-image-pane">
+        <div class="ks-image-pasted-pane" style="height:{{imgHeight}}px;width:{{imgWidth}}px" >
+            <div  ng-show="(!loaded && !src) || changing" style="height:{{imgHeight}}px;width:{{imgWidth}}px;line-height:{{imgHeight}}px">拖拽文件或者复制到这里</div>
+            <img class="result-img" ng-src="{{src}}"   ng-show="(loaded || src) && !changing" />
+            <div class="toolbar" style="width:{{imgWidth}}px" ng-show="loaded || src || editable ">
+                <button class="btn btn-success btn-sm" ng-show="editable && !!src && changing" ng-click="cancelChange()">取消</button>
+                <button class="btn btn-success btn-sm" ng-show="editable && !!src && !changing" ng-click="changeImg()">更换</button>
+                <button class="btn btn-success btn-sm" ng-show="!loaded && src" ng-click="viewZoom()">查看大图</button>
+            </div>
+        </div>
+    </div>
+</div>

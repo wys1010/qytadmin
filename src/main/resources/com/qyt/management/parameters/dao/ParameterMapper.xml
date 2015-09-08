@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qyt.management.parameters.dao.ParameterMapper" >
+    <!--表名-->
+    <sql id="table_name">parameters</sql>
+    
+        <!--字段列表，不含id-->
+    <sql id="sp_select_fields_without_id">
+	      name, value, type, status, remark,created_at, updated_at, operator_id
+    </sql>
+    
+    
+        <!-- 条件sql -->
+    <sql id="sp_where">
+        <where>1=1
+            <if test="condition!=null and condition.name != null">
+                AND name like concat('%' , #{condition.name} , '%')
+            </if>
+            <if test="condition!=null and condition.type != null">
+                AND type = #{condition.type}
+            </if>
+            <if test="condition!=null and condition.status != null">
+                AND status = #{condition.status}
+            </if>            
+        </where>
+    </sql>
+    
+  <resultMap id="entityMap" type="com.qyt.management.parameters.domain.Parameter" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="operator_id" property="operatorId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  
+      <!--id查询-->
+    <select id="selectEntityById" resultMap="entityMap" parameterType="int">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM
+        <include refid="table_name"></include>
+        WHERE id = #{value}
+    </select>
+    
+    <!--name查询-->
+    <select id="selectEntityByName" resultMap="entityMap" parameterType="String">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM
+        <include refid="table_name"></include>
+        WHERE name = #{name}
+    </select>
+    
+  
+    <!--删除-->
+    <delete id="deleteEntity" parameterType="int">
+        delete from
+        <include refid="table_name"></include>
+        where id = #{id}
+    </delete>
+    
+    <!--新增-->
+  <insert id="insertEntity" parameterType="com.qyt.management.parameters.domain.Parameter" >
+        INSERT INTO
+        <include refid="table_name"></include>
+        (
+        <include refid="sp_select_fields_without_id"></include>
+        )
+        VALUES
+        ( #{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, 
+      	  #{type,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},now(), 
+         now(), #{operatorId,jdbcType=INTEGER})
+  </insert>
+
+
+	<!--更新-->
+  <update id="updateEntity" parameterType="com.qyt.management.parameters.domain.Parameter" >
+    update <include refid="table_name"></include>
+    <set >
+ <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>      
+      <if test="createdAt != null" >
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorId != null" >
+        operator_id = #{operatorId,jdbcType=INTEGER},
+      </if>
+      updated_at = now()
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+    <!-- 查询 使用where标签 -->
+    <select id="selectEntities" resultMap="entityMap" parameterType="map">
+        SELECT *  FROM 
+        <include refid="table_name"></include>
+        <include refid="sp_where"></include>
+        order by
+        <if test="field !=null and field !=''">
+            ${sortInfo} ,
+        </if>
+        created_at desc
+        limit #{start} , #{limit}
+    </select>
+    
+    
+    <!-- 查询总条数-->
+    <select id="selectEntitiesCount" resultType="int" parameterType="map">
+        SELECT
+        count(*)
+        FROM
+        <include refid="table_name"></include> 
+        <include refid="sp_where"></include>
+    </select>
+
+    <!-- 查询 使用where标签，那么如果条件都不存在，则不加where-->
+    <select id="selectAllEntities" resultMap="entityMap" parameterType="map">
+        SELECT
+        id,
+        <include refid="sp_select_fields_without_id"></include>
+        FROM
+        <include refid="table_name"></include>
+        order by
+        <if test="field !=null and field !=''">
+            ${sortInfo} ,
+        </if>
+        created_at desc
+    </select>
+    
+        <!--启用-->
+    <update id="enableEntity" parameterType="int">
+        update
+        <include refid="table_name"></include>
+        <set>
+                status = 0,
+            <!-- 最后修改时间 -->
+            <if test=" 1 == 1 ">
+                updated_at = now()
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--禁用-->
+    <update id="disableEntity" parameterType="int">
+        update
+        <include refid="table_name"></include>
+        <set>
+            status = 1,
+            <!-- 最后修改时间 -->
+            <if test=" 1 == 1 ">
+                updated_at = now()
+            </if>
+        </set>
+        where id = #{id}
+    </update>   
+  
+</mapper>

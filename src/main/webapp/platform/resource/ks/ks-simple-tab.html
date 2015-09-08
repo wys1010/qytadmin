@@ -1,0 +1,8 @@
+<ul class="nav nav-tabs" style="font-weight: bold;">
+    <li ng-repeat="tab in tabs" ng-class="{active:tab.selected}">
+        <a href="" ng-click="select(tab)">{{tab.title}}</a>
+    </li>
+    <div class="ks-nav-tabs-toolbar clearfix" ng-transclude="">
+
+    </div>
+</ul>

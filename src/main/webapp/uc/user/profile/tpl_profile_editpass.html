@@ -1,0 +1,63 @@
+<style scoped="scoped">
+    .modal-lg{width: 500px;margin-left: 280px;}
+</style>
+<div ng-controller="EditPassController as ctrl" >
+
+    <div class="modal-header" style="">
+
+        <div class="row">
+            <h3 class="modal-title col-xs-10">修改密码</h3>
+        </div>
+
+    </div>
+
+    <form role="form" class="form  ks-form ks-edit-form container-fluid modal-body"  name="editForm" novalidate>
+        <div class="row" >
+            <div class="form-group  "style="float: none" >
+                <label class="control-label" style="width:100px;">旧密码：</label>
+
+                <div class="input-group" >
+                    <input type="password" class="form-control normal" ng-model="ctrl.entity.oldPassword" required >
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row" >
+            <div class="form-group  "style="float: none" >
+                <label class="control-label" style="width:100px;">新密码：</label>
+
+                <div class="input-group">
+                    <input type="password" class="form-control normal" ng-model="ctrl.entity.newPassword" required
+                           ng-pattern="/^\w{6,}$/">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row" >
+            <div class="form-group  "style="float: none" >
+                <label class="control-label" style="width:100px;">确认新密码：</label>
+
+                <div class="input-group">
+                    <input type="password" class="form-control normal" ng-model="ctrl.entity.password" required
+                           ng-pattern="/^\w{6,}$/">
+                </div>
+            </div>
+
+        </div>
+
+        <!--操作按钮-->
+        <div class="modal-footer">
+
+            <button type="submit" class="btn btn-primary "
+                    ng-disabled="editForm.$invalid"
+                    ng-click="ctrl.save(editForm)">保存
+            </button>
+
+            <a href="javascript:void(0)" type="button" ng-click="ctrl.dismiss()" class="btn btn-warning" ui-sref="select">取消</a>
+        </div>
+
+    </form>
+</div>

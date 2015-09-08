@@ -1,0 +1,73 @@
+@CHARSET "UTF-8";
+
+html, body {
+    height: 100%;
+}
+
+#orgsIndexModule {
+    overflow: hidden;
+}
+
+#orgsIndexModule, .height-100pi {
+    height: 100%;
+}
+
+.height-95pi {
+    height: 95%;
+    height: calc(100% - 15px);
+    overflow: hidden;
+}
+
+.w100 {
+    width: 100%;
+}
+
+.p5 {
+    padding: 5px;
+}
+
+.pl5 {
+    padding-left: 5px;
+}
+
+.mb5 {
+    margin-bottom: 5px;
+}
+
+.panel-orgs {
+}
+
+.panel-orgs .panel-body {
+    padding: 5px;
+}
+
+.t-left {
+    text-align: left;
+}
+
+.t-right {
+    text-align: right;
+}
+
+.staffs-list {
+    height: auto;
+}
+
+.staffs-list .gender, .staffs-list .disable {
+    width: 70px;
+}
+
+.staffs-list .name, .staffs-list .manager {
+    width: 100px;
+}
+
+.staffs-list .orgName {
+    width: 200px;
+}
+
+.staffs-list .header-cell {
+    text-align: left;
+}
+
+
+.orgs-wrap{width:25%;float:left}

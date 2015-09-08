@@ -1,0 +1,12 @@
+<div  class="ks-ac">
+    <a href="javascript:void(0)" class="ks-ac-result inline-block {{editable?'editable':''}}">
+        <span ng-show="!editable" class="inline-block ks-ac-show-text ellipsis">{{selectedItem[labelField] || ''}}</span>
+        <input ng-show="editable" style="width:100%;height:100%;margin:0" ng-model="selectedLabel" class="ks-ac-search-and-result-text"/>
+        <span class="fa fa-caret-down drop-down" ng-show="!editable"></span>
+    </a>
+    <div class="ks-ac-picker-wrapper">
+        <div class="ks-ac-picker" ng-show="picker.visible" style="overflow: auto">
+            <ks-tree data="data" on-selected="selectItem()" selected-item="selectedItem" selected-id="selectedId"></ks-tree>
+        </div>
+    </div>
+</div>

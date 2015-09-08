@@ -1,0 +1,28 @@
+<div ng-controller="PermissionController as permissionCtrl">
+    <div class=" ks-grid-toolbar clearfix" id="rolesGridToolbar" style="margin-top: 5px;height:42px;">
+        <span class="inline-block staffs-title" >{{permissionCtrl.selectedRole.name}}</span>
+        <div style="float:right;width:150px;">
+            <a class="btn btn-default btn-sm" ng-click="permissionCtrl.save()"><span
+                    class="fa fa-check"></span> 保存</a>
+            <a class="btn btn-default btn-sm" ng-show="!permissionCtrl.readOnly" ng-click="permissionCtrl.readOnly = true"><span
+                    class="fa fa-eye"></span> 查看</a>
+
+            <a class="btn btn-default btn-sm" ng-show="permissionCtrl.readOnly" ng-click="permissionCtrl.readOnly = false"><span
+                    class="fa fa-pencil"></span> 编辑</a>
+        </div>
+    </div>
+    <div class="tree-title">
+        功能权限树
+    </div>
+    <div id="permissionTreeWrap" class="tree-wrap">
+        <ks-tree ng-show="!permissionCtrl.readOnly" children-field="children" id-field="id" text-field="text" data-type="hierarchy"
+                 data="permissionCtrl.permissions"
+                 expand-all="true" checkable="true" selected-item="permissionCtrl.selectedItem"
+                 checked-items="permissionCtrl.checkedItems" checked-ids="permissionCtrl.checkedIds"></ks-tree>
+
+        <ks-tree ng-show="permissionCtrl.readOnly && permissionCtrl.checkedIds" children-field="children" id-field="id" text-field="text" data-type="hierarchy"
+                 data="permissionCtrl.permissionsOwn"
+                 expand-all="true" checkable="false" selected-item="permissionCtrl.selectedItem" ></ks-tree>
+    </div>
+
+</div>

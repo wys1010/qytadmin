@@ -1,0 +1,69 @@
+<div  ng-controller="IndexController as ctrl">
+
+
+    <div class="form  ks-form container-fluid" >
+
+        <!-- 第一行-->
+        <div class="row">
+
+            <!--名称-->
+            <div class="form-group-sm  normal">
+                <label class="control-label">产品名称：</label>
+                <input type="text" class=" form-control input-sm " ng-model="ctrl.queryCondition.productName" placeholder="产品名称"/>
+            </div>
+
+            <div class="form-group-sm  normal">
+                <label class="control-label">仓库名称：</label>
+                <ks-warehouse-picker ng-model="ctrl.queryCondition.warehouseId"></ks-warehouse-picker>
+            </div>
+
+
+            <!--按钮-->
+            <div class=" form-group-sm ks-form-group normal">
+                <button type="button" class="btn btn-primary btn-sm"
+                        ng-click="ctrl.selectEntities(true)"><span class="fa fa-search"></span>查询
+                </button>
+                <button type="button" class="btn btn-primary btn-sm"
+                        ng-click="ctrl.resetForm()"><span class="fa fa-refresh"></span>重置
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 表格-->
+    <table class="table table-striped ks-grid">
+
+        <!--表头-->
+        <thead class="ks-header">
+        <th class="ks-cell">产品名称</th>
+        <th class="ks-cell">产品规格</th>
+        <th class="ks-cell">库存数量</th>
+        <th class="ks-cell">所属仓库</th>
+        <th class="ks-cell">操作</th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row  in ctrl.entities" class="ks-row"
+            ng-style="{background:row.num < ctrl.stockMin ? 'rgb(255, 247, 247)':''}">
+            <td class="ks-cell"><span>{{::row.productName || ''}}</span></td>
+            <td class="ks-cell ellipsis" >{{row.productCategory }}</td>
+            <td class="ks-cell ellipsis" >{{row.num }}</td>
+            <td class="ks-cell"><span>{{row.warehouseName}}</span></td>
+
+            <!-- 编辑单元格-->
+            <td class="ks-cell">
+                <a href="javascript:void(0)" class="btn btn-default btn-sm" ng-click="ctrl.record(row)">
+                    <span class="fa  fa-list-ul"></span>库存记录</a>
+
+                <a href="javascript:void(0)" class="btn btn-default btn-sm" ng-click="ctrl.order(row)"
+                ng-if="ctrl.role.hasOrderRole && row.warehouseType == 1">
+                    <span class="fa  fa-shopping-cart"></span>下单</a>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!--分页条-->
+    <ks-paging on-select-page="ctrl.selectEntities(false)" paging="ctrl.queryCondition" limit="10"></ks-paging>
+
+</div>

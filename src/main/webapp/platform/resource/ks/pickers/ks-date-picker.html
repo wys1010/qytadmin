@@ -1,0 +1,10 @@
+<div class="input-group" style="display: inline-block">
+    <input ng-readonly="readonly" type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd"
+           ng-model="selectedDate" is-open="isOpen"
+           style="width: 115px;" readonly
+           datepicker-options="dateOptions"  close-text="Close"/>
+                    <span class="input-group-btn" ng-show="!readonly">
+                        <button type="button" class="btn btn-default btn-sm" ng-click="open($event)"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+</div>

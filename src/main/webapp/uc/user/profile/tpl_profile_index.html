@@ -1,0 +1,178 @@
+<div ng-controller="QueryController as ctrl" data-ng-init="ctrl.ready()">
+
+    <form role="form" class="form  ks-form ks-edit-form container-fluid modal-body" name="editForm" novalidate>
+<style scoped="scoped">
+    #profileIndexModule .row .input-group{
+        height: 34px;
+        line-height: 34px;
+        margin-bottom: 5px;;
+    }
+
+    #profileIndexModule .row .control-label{
+        width: 100px;;
+        margin-right: 5px;
+      font-size: 14px;;
+    }
+
+    #profileIndexModule .row .normal{
+        width: 310px;;
+    }
+
+    .modal-footer{text-align: left}
+
+    #profileIndexModule  .form-control{
+       border-radius: 4px !important;
+   }
+</style>
+
+
+        <div>
+            <div class="row">
+                <div class="form-group  normal">
+                    <label class="control-label" >登录账号：</label>
+
+                    <div class="input-group" style="width:auto;">
+                        {{ctrl.entity.loginName}}
+                    </div>
+                        <a  class="input-group" style="width:auto;" href="#/:id" ui-sref="select.edit({id: 0 })" >[修改密码]</a>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="form-group  normal">
+                    <label class="control-label">姓名：</label>
+
+                    <div class="input-group">
+                        <span ng-show="!ctrl.isUpdate">{{ctrl.entity.name}}</span>
+                        <input class="form-control normal" ng-model="ctrl.entity.name" ng-show="ctrl.isUpdate" required>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group  normal">
+                    <label class="control-label">英文名:</label>
+
+                    <div class="input-group">
+                        <span ng-show="!ctrl.isUpdate">{{ctrl.entity.englishName}}</span>
+                        <input class="form-control normal" ng-model="ctrl.entity.englishName" ng-show="ctrl.isUpdate"
+                               ng-pattern="/^\w+$/">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group  normal">
+                    <label class="control-label">性别:</label>
+
+                    <div class="btn-group" style="width: 150px">
+                        {{ctrl.entity.gender == '1'?'男':'女'}}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group  normal">
+                    <label class="control-label">角色:</label>
+
+                    <div class="input-group">
+                        {{ctrl.entity.roleNames}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group  normal">
+                    <label class="control-label">部门:</label>
+
+                    <div class="input-group">
+                        {{ctrl.entity.orgName}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group  normal">
+                    <label class="control-label">主管标志:</label>
+
+                    <div class="btn-group" style="width: 150px">
+                        {{ctrl.entity.manager == '1'?'是':'否'}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group  normal">
+                    <label class="control-label">手机号码:</label>
+
+                    <div class="input-group">
+                        <span ng-show="!ctrl.isUpdate">{{ctrl.entity.phone}}</span>
+                        <input type="tel" class="form-control normal" name="phone" maxlength="11"
+                               ng-model="ctrl.entity.phone" ng-show="ctrl.isUpdate" >
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group  normal">
+                    <label class="control-label">Email：</label>
+
+                    <div class="input-group">
+                        <span ng-show="!ctrl.isUpdate">{{ctrl.entity.email}}</span>
+                        <input type="email" class="form-control normal" name="email" ng-model="ctrl.entity.email"
+                               ng-pattern="/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/"
+                               ng-show="ctrl.isUpdate" >
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group  normal">
+                    <label class="control-label">QQ号：</label>
+
+                    <div class="input-group">
+                        <span ng-show="!ctrl.isUpdate">{{ctrl.entity.qq}}</span>
+                        <input class="form-control normal" ng-model="ctrl.entity.qq" ng-show="ctrl.isUpdate">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group  normal">
+                    <label class="control-label">微信号：</label>
+
+                    <div class="input-group">
+                        <span ng-show="!ctrl.isUpdate">{{ctrl.entity.wechat}}</span>
+                        <input class="form-control normal" ng-model="ctrl.entity.wechat" ng-show="ctrl.isUpdate">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!--操作按钮-->
+        <div class="modal-footer">
+
+            <span ng-show="!ctrl.isUpdate">
+                <button class="btn btn-default " ng-click="ctrl.isUpdate = true">
+                    <span class="fa fa-edit"></span>修改</button>
+            </span>
+
+            <span ng-show="ctrl.isUpdate">
+                <button type="submit" class="btn btn-primary "
+                        ng-disabled="editForm.$invalid"
+                        ng-click="ctrl.save(editForm)">保存
+                </button>
+            </span>
+
+            <a href="javascript:void(0)" type="button" ng-show="ctrl.isUpdate" ng-click="ctrl.isUpdate = false"
+               class="btn btn-warning"
+               ui-sref="select">取消</a>
+        </div>
+    </form>
+
+</div>

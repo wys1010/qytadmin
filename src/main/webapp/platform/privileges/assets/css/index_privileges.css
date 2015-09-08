@@ -1,0 +1,18 @@
+.privilege-left{width: 290px;;position: absolute;left:0;top:0}
+.privilege-right{margin-left: 295px;border:0px solid #f0f0f0;margin-top: 5px}
+.privilege-right-content{border:1px solid #ccc}
+
+/*切换卡*/
+.privilege-switch-tab{list-style: none;height:29px;padding: 0;margin: 0;}
+.privilege-switch-tab li{list-style: none;padding: 0;float:left;}
+.privilege-switch-tab li a{height: 29px;width:100px;background: #f0f0f0;text-align: center;color:#4d4d4d;line-height: 29px}
+.privilege-switch-tab li a:hover{text-decoration: none}
+.privilege-switch-tab li a.focus{background: #ccc;color:#fff}
+
+
+.roles-sys-row{height: 30px;line-height: 30px;background: #c6ecfb;text-indent: 1em;}
+.roles-module-row{height: 30px;line-height: 30px;background: #f0f0f0;text-indent: 2em;}
+.roles-role-row{height: 30px;line-height: 30px;border-bottom:1px dashed #ccc;text-indent: 3em;}
+
+
+

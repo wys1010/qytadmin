@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qyt.management.sys.logs.dao.SystemLogMapper">
+
+
+    <!--表名-->
+    <sql id="table_name">system_logs</sql>
+
+
+    <sql id="sp_select_fields">
+        log_id as logId, method, msg, created_at as createdAt,log_level as logLevel, line, curr_user_id as currUserId, ip, request_type as requestType, action, curr_user_passport as currUserPassport, class as className, path,result
+    </sql>
+
+    <!-- 条件sql -->
+    <sql id="sp_where">
+        <where>1=1
+            <if test="condition!=null and condition.logLevel != null">
+                AND log_level = #{condition.logLevel}
+            </if>
+            <if test="condition!=null and condition.result != null">
+                AND result = #{condition.result}
+            </if>
+        </where>
+    </sql>
+
+
+    <!--id查询用户-->
+    <select id="selectEntityById" resultType="com.qyt.management.sys.logs.domain.SystemLog" parameterType="long">
+        SELECT
+        <include refid="sp_select_fields"></include>
+        FROM
+        <include refid="table_name"></include>
+        WHERE id = #{value}
+    </select>
+
+
+    <!-- 查询 使用where标签，那么如果条件都不存在，则不加where-->
+    <select id="selectEntities" resultType="com.qyt.management.sys.logs.domain.SystemLog" parameterType="com.qyt.management.platform.web.PagingBean">
+        SELECT
+        <include refid="sp_select_fields"></include>
+        FROM
+        <include refid="table_name"></include>
+        <include refid="sp_where"></include>
+        order by
+        <if test="field !=null and field !=''">
+            ${sortInfo} ,
+        </if>
+        created_at desc
+        limit #{start} , #{limit}
+    </select>
+
+
+    <!-- 查询总条数-->
+    <select id="selectEntitiesCount" resultType="int" parameterType="map">
+        SELECT
+        count(*)
+        FROM
+        <include refid="table_name"></include>
+        <include refid="sp_where"></include>
+    </select>
+
+
+</mapper>

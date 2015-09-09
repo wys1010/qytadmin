@@ -64,6 +64,7 @@
         <th class="ks-cell">仓库</th>
         <th class="ks-cell">下单时间</th>
         <th class="ks-cell">下单人</th>
+        <th class="ks-cell">备注</th>
         <th class="ks-cell">操作</th>
         </thead>
         <tbody>
@@ -87,6 +88,9 @@
             </td>
             <td class="ks-cell">
                 {{row.createdByName}}
+            </td>
+            <td class="ks-cell ellipsis" title="{{row.remark}}">
+                {{row.remark}}
             </td>
 
             <!-- 编辑单元格-->

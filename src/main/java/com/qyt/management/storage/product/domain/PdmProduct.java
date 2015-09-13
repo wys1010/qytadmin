@@ -1,8 +1,8 @@
 package com.qyt.management.storage.product.domain;
 
-import java.util.Date;
+import com.qyt.management.base.BaseEntity;
 
-public class PdmProduct {
+public class PdmProduct extends BaseEntity {
     private Integer id;
 
     private String name;
@@ -11,13 +11,11 @@ public class PdmProduct {
 
     private String manufacturerName;
 
-    private Date createdAt;
+    /**
+     * 安全库存数量
+     */
+    private Integer minNumber;
 
-    private Integer createdBy;
-
-    private Date updatedAt;
-
-    private Integer updatedBy;
 
     public Integer getId() {
         return id;
@@ -51,35 +49,11 @@ public class PdmProduct {
         this.manufacturerName = manufacturerName == null ? null : manufacturerName.trim();
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public Integer getMinNumber() {
+        return minNumber;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Integer getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Integer getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(Integer updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setMinNumber(Integer minNumber) {
+        this.minNumber = minNumber;
     }
 }

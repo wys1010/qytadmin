@@ -27,6 +27,7 @@ module productApp {
             } else {
                 this.dialogTitle = "新增"
                 this.entity.type = 1
+                this.entity.minNumber = 20;
             }
         }
 

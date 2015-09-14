@@ -9,7 +9,8 @@
 
     <script type="text/javascript" src="${basePath}/management/storage/order/assets/js/app.js?version=${version}"></script>
     <script type="text/javascript" src="${basePath}/management/storage/order/assets/js/index.js?version=${version}"></script>
-    <script type="text/javascript" src="${basePath}/management/storage/order/assets/js/edit.js?version=${version}"></script>
+    <%--<script type="text/javascript" src="${basePath}/management/storage/order/assets/js/edit.js?version=${version}"></script>--%>
+    <script type="text/javascript" src="${basePath}/management/storage/order/assets/js/deliver.js?version=${version}"></script>
 
     <script>
         k.getApp("orderApp").init()

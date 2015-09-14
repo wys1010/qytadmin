@@ -10,5 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
  * Created by wys on 2015/9/3.
  */
 public interface OrderService extends BaseCurdService<Order, Order, Integer> {
-    public void delivery(Integer id,Integer type) throws BusinessException;
+    public void delivery(Order order) throws BusinessException;
+    public void confirmReceipt(int id) throws BusinessException;
 }

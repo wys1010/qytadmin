@@ -67,7 +67,6 @@ module orderApp {
         deleteEntity(row){
             var me = this;
             this.ksTip.confirm("确定要删除?").ok(()=> {
-
                 var url = me.webRoot + '/pdm/orders/delete/'+row.id+'.do';
                 me.ksEntityService.delete(url,{})
                     .success(function (data) {
@@ -83,20 +82,24 @@ module orderApp {
 
         deliver(row,type){
             var me = this;
-            this.ksEntityService.get(me.webRoot + '/pdm/orders/delivery/'+row.id+'/'+type+'.do')
-                .success(function (data) {
-                    me.ksTip.success('操作成功')
-                    me.selectEntities(true);
-                }).error((entity)=>{
-                    if (typeof entity === "object") {
-                        for (var key in entity) {
-                            var errorMsg = entity[key]
-                            me.ksTip.error(errorMsg);
+            if(type == 3){
+                this.go('root.deliver',{id:row.id})
+            }else{
+                this.ksEntityService.get(me.webRoot + '/pdm/orders/confirmReceipt/'+row.id+'.do')
+                    .success(function (data) {
+                        me.ksTip.success('操作成功')
+                        me.selectEntities(true);
+                    }).error((entity)=>{
+                        if (typeof entity === "object") {
+                            for (var key in entity) {
+                                var errorMsg = entity[key]
+                                me.ksTip.error(errorMsg);
+                            }
+                        } else {
+                            me.ksTip.error("服务器出错,"+entity);
                         }
-                    } else {
-                        me.ksTip.error("服务器出错,"+entity);
-                    }
-                })
+                    })
+            }
 
         }
 

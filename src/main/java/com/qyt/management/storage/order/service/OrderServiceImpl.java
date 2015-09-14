@@ -78,67 +78,85 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order selectEntityById(Integer id) {
-        return orderMapper.selectEntityById(id);
+        Order order = orderMapper.selectEntityById(id);
+        Warehouse warehouse = warehouseMapper.selectEntityById(order.getWarehouseId());
+        if (warehouse != null){
+            order.setWarehouseName(warehouse.getName());
+        }
+
+        return order;
     }
 
     @Override
-    public void delivery(Integer id, Integer type) throws BusinessException {
-        //type 3:已发货  4:确认收货
-        Order order = orderMapper.selectEntityById(id);
-        order.setStatus(type);
-        if(type == 4){
-            //原库存 -
-            Stock stock = stockMapper.selectEntityById(order.getStockId());
-            int stockNum = stock.getNum() - order.getNum();
-            if(stockNum < 0){
-                throw new BusinessException("库存数量不足");
-            }
-            stock.setNum(stockNum);
-            stock.initChangeLog(false);
-            stockMapper.updateEntity(stock);
-
-            //原库存增加一条出库记录
-            StockLine sl = new StockLine();
-            sl.setNum(order.getNum());
-            sl.setType(2);
-            sl.setProductId(stock.getProductId());
-            sl.setOrderId(id);
-            sl.setStockId(stock.getId());
-            sl.initChangeLog(true);
-            stockLineMapper.insertEntity(sl);
-
-
-            //目标库存 +
-            Map<String,Object> param = new HashMap<>();
-            param.put("productId",order.getProductId());
-            param.put("warehouseId",order.getWarehouseId());
-            Stock targetStock = stockMapper.findOnByParam(param);
-            if(targetStock != null){
-                targetStock.setNum(targetStock.getNum() + order.getNum());
-                targetStock.initChangeLog(false);
-                stockMapper.updateEntity(targetStock);
-            }else{
-                targetStock = new Stock();
-                targetStock.initChangeLog(true);
-                targetStock.setProductId(order.getProductId());
-                targetStock.setWarehouseId(order.getWarehouseId());
-                targetStock.setNum(order.getNum());
-
-                PdmProduct pdmProduct = productsMapper.selectEntityById(order.getProductId());
-                if(pdmProduct != null){
-                    targetStock.setProductName(pdmProduct.getName());
-                    targetStock.setProductCategory(pdmProduct.getCategory());
-                }
-                stockMapper.insertEntity(targetStock);
-            }
-
-
-            //目标库存增加一条入库记录
-            sl.setStockId(targetStock.getId());
-            sl.setType(1);
-            sl.initChangeLog(true);
-            stockLineMapper.insertEntity(sl);
+    public void delivery(Order order) throws BusinessException {
+        order.setStatus(3);
+        Stock stock = stockMapper.selectEntityById(order.getStockId());
+        int stockNum = stock.getNum() - order.getActualDeliverNum();
+        if(stockNum < 0){
+            throw new BusinessException("库存数量不足");
         }
         orderMapper.updateEntity(order);
+    }
+
+    @Override
+    public void confirmReceipt(int id) throws BusinessException {
+        Order order = orderMapper.selectEntityById(id);
+        order.setStatus(4);
+
+        //原库存 -
+        Stock stock = stockMapper.selectEntityById(order.getStockId());
+        int stockNum = stock.getNum() - order.getActualDeliverNum();
+        if(stockNum < 0){
+            throw new BusinessException("库存数量不足");
+        }
+        stock.setNum(stockNum);
+        stock.initChangeLog(false);
+        stockMapper.updateEntity(stock);
+
+        //原库存增加一条出库记录
+        StockLine sl = new StockLine();
+        sl.setNum(order.getActualDeliverNum());
+        sl.setType(2);
+        sl.setProductId(stock.getProductId());
+        sl.setOrderId(id);
+        sl.setStockId(stock.getId());
+        sl.initChangeLog(true);
+        stockLineMapper.insertEntity(sl);
+
+
+        //目标库存 +
+        Map<String,Object> param = new HashMap<>();
+        param.put("productId",order.getProductId());
+        param.put("warehouseId",order.getWarehouseId());
+        Stock targetStock = stockMapper.findOnByParam(param);
+        if(targetStock != null){
+            targetStock.setNum(targetStock.getNum() + order.getActualDeliverNum());
+            targetStock.initChangeLog(false);
+            stockMapper.updateEntity(targetStock);
+        }else{
+            targetStock = new Stock();
+            targetStock.initChangeLog(true);
+            targetStock.setProductId(order.getProductId());
+            targetStock.setWarehouseId(order.getWarehouseId());
+            targetStock.setNum(order.getActualDeliverNum());
+
+            PdmProduct pdmProduct = productsMapper.selectEntityById(order.getProductId());
+            if(pdmProduct != null){
+                targetStock.setProductName(pdmProduct.getName());
+                targetStock.setProductCategory(pdmProduct.getCategory());
+            }
+            stockMapper.insertEntity(targetStock);
+        }
+
+
+        //目标库存增加一条入库记录
+        sl.setStockId(targetStock.getId());
+        sl.setType(1);
+        sl.initChangeLog(true);
+        stockLineMapper.insertEntity(sl);
+
+
+        orderMapper.updateEntity(order);
+
     }
 }

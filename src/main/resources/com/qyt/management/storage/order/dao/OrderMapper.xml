@@ -15,10 +15,12 @@
         <result column="num" property="num" jdbcType="INTEGER"/>
         <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER"/>
         <result column="product_id" property="productId" jdbcType="INTEGER"/>
+        <result column="actual_deliver_num" property="actualDeliverNum" jdbcType="INTEGER"/>
+        <result column="deliver_remark" property="deliverRemark" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
 		id, order_no, stock_id, product_name, status, remark, created_at,
-		created_by, updated_at, updated_by,num,warehouse_id,product_id
+		created_by, updated_at, updated_by,num,warehouse_id,product_id,actual_deliver_num,deliver_remark
 	</sql>
     <select id="selectEntityById" resultMap="BaseResultMap"
             parameterType="java.lang.Integer">
@@ -70,6 +72,12 @@
             <if test="productId != null and productId gt 0">
                 product_id,
             </if>
+            <if test="actualDeliverNum != null and actualDeliverNum gt 0">
+                actual_deliver_num,
+            </if>
+            <if test="deliverRemark != null">
+                deliver_remark,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="orderNo != null">
@@ -108,6 +116,12 @@
             <if test="productId != null and productId gt 0">
                 #{productId,jdbcType=INTEGER},
             </if>
+            <if test="actualDeliverNum != null and actualDeliverNum gt 0">
+                #{actualDeliverNum,jdbcType=INTEGER},
+            </if>
+            <if test="deliverRemark != null">
+                #{deliverRemark,jdbcType=INTEGER},
+            </if>
         </trim>
     </insert>
     <update id="updateEntity" parameterType="com.qyt.management.storage.order.domain.Order">
@@ -142,6 +156,12 @@
             </if>
             <if test="productId != null and productId gt 0">
                 product_id = #{productId,jdbcType=INTEGER},
+            </if>
+            <if test="actualDeliverNum != null and actualDeliverNum gt 0">
+                actual_deliver_num = #{actualDeliverNum,jdbcType=INTEGER},
+            </if>
+            <if test="deliverRemark != null">
+                deliver_remark = #{deliverRemark,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

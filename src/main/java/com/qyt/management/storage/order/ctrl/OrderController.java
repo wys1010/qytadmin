@@ -94,8 +94,7 @@ public class OrderController {
     @RequestMapping(value = "{id}",method = RequestMethod.GET)
     @ResponseBody
     public Order selectEntityById(@PathVariable Integer id) throws Exception {
-        Order order = orderService.selectEntityById(id);
-        return order;
+        return orderService.selectEntityById(id);
     }
 
     /**
@@ -143,11 +142,23 @@ public class OrderController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "delivery/{id}/{type}",method = RequestMethod.GET)
+    @RequestMapping(value = "delivery",method = RequestMethod.POST)
     @ResponseBody
-    @Secured({"ROLE_UC_ORDER_DELIVERY","ROLE_UC_ORDER_CONFIRM_RECEIPT"})
-    public void delivery(@PathVariable Integer id,@PathVariable Integer type) throws Exception {
-        orderService.delivery(id,type);
+    @Secured({"ROLE_UC_ORDER_DELIVERY"})
+    public void delivery(Order order) throws Exception {
+        orderService.delivery(order);
+    }
+
+    /**
+     * 确认收货
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "confirmReceipt/{id}",method = RequestMethod.GET)
+    @ResponseBody
+    @Secured({"ROLE_UC_ORDER_CONFIRM_RECEIPT"})
+    public void confirmReceipt(@PathVariable Integer id) throws Exception {
+        orderService.confirmReceipt(id);
     }
 
 }

@@ -43,13 +43,17 @@ var stockApp;
             var warnStr = "<span style='font-style:italic'>以下库存数量不足,请及时入库:</span><br>";
             this.ksEntityService.get(me.webRoot + '/pdm/stock/selectAllEntities.do', null).success(function (data) {
                 if (data && data.length > 0) {
+                    var show = false;
                     for (var i = 0; i < data.length; i++) {
                         var entity = data[i];
-                        if (entity.num < window.stockMin) {
+                        if (entity.num < entity.minNumber) {
+                            show = true;
                             warnStr += "<span style='font-weight:bold'>" + entity.productName + " - " + entity.warehouseName + "</span><br>";
                         }
                     }
-                    window.layer.alert(warnStr, { icon: 0 });
+                    if (show) {
+                        window.layer.alert(warnStr, { icon: 0 });
+                    }
                 }
             });
         };

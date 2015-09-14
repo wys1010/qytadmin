@@ -128,7 +128,9 @@
 
 
     <select id="selectEntities" resultType="com.qyt.management.storage.stock.domain.Stock" parameterType="map">
-        SELECT a.*,b.name warehouse_name,b.type warehouse_type FROM stock a join warehouses b on a.warehouse_id = b.id
+        SELECT a.*,b.name warehouse_name,b.type warehouse_type,p.min_number FROM stock a
+		join warehouses b on a.warehouse_id = b.id
+		LEFT JOIN products p on a.product_id=p.id
         <include refid="sp_where"></include>
         order by
         <if test="field !=null and field !=''">
@@ -139,7 +141,9 @@
     </select>
 
     <select id="selectEntitiesCount" resultType="int" parameterType="map">
-        SELECT count(*) FROM stock a join warehouses b on a.warehouse_id = b.id
+        SELECT count(*) FROM stock a
+		join warehouses b on a.warehouse_id = b.id
+		LEFT JOIN products p on a.product_id=p.id
         <include refid="sp_where"></include>
     </select>
 
@@ -167,7 +171,9 @@
 
 
 	<select id="selectAllEntities" resultType="com.qyt.management.storage.stock.domain.Stock" >
-		select a.*,b.name warehouse_name from stock a join warehouses b on a.warehouse_id = b.id
+		select a.*,b.name warehouse_name,p.min_number from stock a
+		join warehouses b on a.warehouse_id = b.id
+		LEFT JOIN products p on a.product_id=p.id
 	</select>
 
 </mapper>

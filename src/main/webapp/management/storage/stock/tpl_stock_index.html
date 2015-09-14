@@ -43,7 +43,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="row  in ctrl.entities" class="ks-row"
-            ng-style="{background:row.num < ctrl.stockMin ? 'rgb(255, 247, 247)':''}">
+            ng-style="{background:row.num < row.minNumber ? 'rgb(251, 246, 127)':''}">
             <td class="ks-cell"><span>{{::row.productName || ''}}</span></td>
             <td class="ks-cell ellipsis" >{{row.productCategory }}</td>
             <td class="ks-cell ellipsis" >{{row.num }}</td>

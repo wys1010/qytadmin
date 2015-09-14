@@ -19,6 +19,8 @@ public class Stock extends BaseEntity{
 
     private Integer warehouseType;
 
+    private Integer minNumber;
+
 
     public Integer getId() {
         return id;
@@ -82,5 +84,13 @@ public class Stock extends BaseEntity{
 
     public void setWarehouseType(Integer warehouseType) {
         this.warehouseType = warehouseType;
+    }
+
+    public Integer getMinNumber() {
+        return minNumber;
+    }
+
+    public void setMinNumber(Integer minNumber) {
+        this.minNumber = minNumber;
     }
 }

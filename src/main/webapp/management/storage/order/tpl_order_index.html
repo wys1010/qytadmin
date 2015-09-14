@@ -60,6 +60,7 @@
         <th class="ks-cell" width="width: 120px">订单编号</th>
         <th class="ks-cell">产品名称</th>
         <th class="ks-cell">下单数量</th>
+        <th class="ks-cell">实际发货数量</th>
         <th class="ks-cell">状态</th>
         <th class="ks-cell">仓库</th>
         <th class="ks-cell">下单时间</th>
@@ -72,6 +73,7 @@
             <td class="ks-cell" width="width: 120px"><span>{{::row.orderNo || ''}}</span></td>
             <td class="ks-cell ellipsis" >{{row.productName }}</td>
             <td class="ks-cell ellipsis" >{{row.num }}</td>
+            <td class="ks-cell ellipsis">{{row.status == 3 || row.status == 4 ? row.actualDeliverNum : '--' }}</td>
             <td class="ks-cell">
                 <span ng-switch="row.status">
                     <span ng-switch-when="1" style="color: #0060c4">新单</span>
@@ -95,12 +97,6 @@
 
             <!-- 编辑单元格-->
             <td class="ks-cell">
-                <!--<a href="javascript:void(0)" ng-click="ctrl.edit(row)" class=" btn btn-default btn-sm"-->
-                <!--ng-if="ctrl.role.hasEditRole">-->
-                <!--<span class="fa fa-edit"></span>编辑</a>-->
-                <!--<a href="javascript:void(0)" class="btn btn-danger btn-sm" ng-click="ctrl.deleteEntity(row)"-->
-                <!--ng-if="ctrl.role.hasDeleteRole">-->
-                <!--<span class="fa fa-minus"></span>删除</a>-->
                 <a href="javascript:void(0)" class="btn btn-default btn-sm" ng-click="ctrl.deliver(row,3)"
                    ng-if="row.status == 2 && ctrl.role.hasDeliveryRole">
                     <span class="fa  fa-truck"></span> 发货</a>

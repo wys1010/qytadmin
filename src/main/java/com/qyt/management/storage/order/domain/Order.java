@@ -25,6 +25,10 @@ public class Order extends BaseEntity {
 
     private Integer productId;
 
+    private Integer actualDeliverNum;
+
+    private String deliverRemark;
+
 
     public Integer getId() {
         return id;
@@ -112,5 +116,21 @@ public class Order extends BaseEntity {
 
     public void setWarehouseName(String warehouseName) {
         this.warehouseName = warehouseName;
+    }
+
+    public Integer getActualDeliverNum() {
+        return actualDeliverNum;
+    }
+
+    public void setActualDeliverNum(Integer actualDeliverNum) {
+        this.actualDeliverNum = actualDeliverNum;
+    }
+
+    public String getDeliverRemark() {
+        return deliverRemark;
+    }
+
+    public void setDeliverRemark(String deliverRemark) {
+        this.deliverRemark = deliverRemark;
     }
 }

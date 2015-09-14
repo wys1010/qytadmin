@@ -17,17 +17,25 @@
     });
 
 
-    var editPage = new k.Page({
-        paramNames: ['id','op'],
-        name: "edit",
-        templateUrl: baseUrl + 'tpl_order_edit.html',
+    //var editPage = new k.Page({
+    //    paramNames: ['id','op'],
+    //    name: "edit",
+    //    templateUrl: baseUrl + 'tpl_order_edit.html',
+    //    isPopUp: true
+    //});
+
+
+    var deliverPage = new k.Page({
+        paramNames: ['id'],
+        name: "deliver",
+        templateUrl: baseUrl + 'tpl_order_deliver.html',
         isPopUp: true
     });
 
 
 
     app.addPage(indexPage);
-    app.addPage(editPage);
+    app.addPage(deliverPage);
 
 
 })();

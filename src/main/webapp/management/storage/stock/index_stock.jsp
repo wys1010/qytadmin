@@ -11,6 +11,7 @@
     <script type="text/javascript" src="${basePath}/management/storage/stock/assets/js/index.js?version=${version}"></script>
     <script type="text/javascript" src="${basePath}/management/storage/stock/assets/js/edit.js?version=${version}"></script>
     <script type="text/javascript" src="${basePath}/management/storage/stock/assets/js/record.js?version=${version}"></script>
+    <script type="text/javascript" src="${basePath}/management/storage/stock/assets/js/out.js?version=${version}"></script>
 
     <script>
         var stockMin = '${stockMin}';

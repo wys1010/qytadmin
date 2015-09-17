@@ -93,7 +93,7 @@
                             me.selectedWarehouse = supplier;
                             ngModel.$setViewValue(supplier.id);
                             me.picker.visible = false;
-                            me.onSelected(supplier)
+                            me.onSelected({warehouse:supplier})
                         },
 
                         /**

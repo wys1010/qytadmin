@@ -1,0 +1,66 @@
+<div class="stock-edit" ng-controller="OutController as ctrl">
+    <div class="modal-header" style="">
+        <h3 class="modal-title ">{{ctrl.dialogTitle}} </h3>
+    </div>
+
+    <ks-form id="editForm" label-width="86" style="padding: 0 10px 0 10px" name="editForm" invalid="ctrl.invalid">
+
+        <div class="row">
+
+            <ks-field label="产品" required="true" width="250">
+                <ks-product-picker ng-model="ctrl.entity.productId" disabled="true"></ks-product-picker>
+            </ks-field>
+        </div>
+
+        <div class="row">
+
+            <ks-field label="出库数量" required="true" width="250">
+                <input type="text" ng-model="ctrl.entity.outNum" placeholder="出库数量"
+                       class=" form-control input-sm"  ng-pattern="/^\d+?$/"
+                       required ng-change="ctrl.outNumChanged()">
+            </ks-field>
+
+            <ks-field label="总库存剩余数量">
+                <input type="text" ng-model="ctrl.entity.surplusNum" placeholder="总库存剩余数量"
+                       class=" form-control input-sm"  ng-pattern="/^\d+?$/"
+                       ng-readonly="true">
+            </ks-field>
+
+            <ks-field label="出库仓库">
+                <ks-warehouse-picker ng-model="ctrl.entity.warehouseId" on-selected="ctrl.warehouseSelected(warehouse)"></ks-warehouse-picker>
+            </ks-field>
+
+        </div>
+
+        <div class="row">
+            <ks-field label="用途" width="250">
+                <div class="text-left" style="display: inline-block;width: 200px">
+                    <div class="btn-group btn-group-sm" >
+                        <label class="btn btn-default " ng-model="ctrl.entity.usage" btn-radio="1">出售</label>
+                        <label class="btn btn-default " ng-model="ctrl.entity.usage" btn-radio="2">院用</label>
+                        <label class="btn btn-default " ng-model="ctrl.entity.usage" btn-radio="3">赠送</label>
+                    </div>
+                </div>
+            </ks-field>
+        </div>
+
+        <div class="row">
+            <ks-field label="备注">
+                <textarea class=" form-control input-sm" ng-model="ctrl.entity.remark"
+                          style="width: 400px;height: 70px"></textarea>
+            </ks-field>
+
+        </div>
+
+        <!--操作按钮-->
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary " ng-disabled="!ctrl.invalid"
+                    ng-click="ctrl.save(editForm)" ks-loading visible="ctrl.showLoading">{{ctrl.isOrder ? '下单':'保存' }}
+            </button>
+            <a href="javascript:void(0)" type="button" ng-click="ctrl.dismiss()" class="btn btn-warning">取消</a>
+        </div>
+
+    </ks-form>
+
+
+</div>

@@ -43,14 +43,18 @@
             </div>
             <div class="col-xs-2 text-right" style="margin-top: 5px;" ng-if="ctrl.type == 1">
                 <a href="javascript:void(0)" class="btn btn-default btn-sm"
-                   ng-click="ctrl.go('root.edit',{})"
+                   ng-click="ctrl.go('root.edit',{op:1})"
                    ng-if="ctrl.role.hasEditRole">
                     <span class="fa fa-plus"></span>新增入库</a>
             </div>
+            <div class="col-xs-2 text-right" style="margin-top: 5px;" ng-if="ctrl.type == 2">
+                <a href="javascript:void(0)" class="btn btn-default btn-sm"
+                   ng-click="ctrl.go('root.edit',{op:2})">
+                    <span class="fa fa-plus"></span>新增出库</a>
+            </div>
         </div>
-
-
     </div>
+
 
 
     <!-- 表格-->
@@ -60,6 +64,7 @@
         <thead class="ks-header">
         <th class="ks-cell">产品名称</th>
         <th class="ks-cell">数量</th>
+        <th class="ks-cell">用途</th>
         <th class="ks-cell">{{ctrl.type == '1'?'入库':'出库'}}日期</th>
         <th class="ks-cell">{{ctrl.type == '1'?'入库':'出库'}}操作人</th>
         <th class="ks-cell">操作</th>
@@ -68,6 +73,13 @@
         <tr ng-repeat="row  in ctrl.entities" class="ks-row">
             <td class="ks-cell"><span>{{::row.productName || ''}}</span></td>
             <td class="ks-cell ellipsis" >{{row.num }}</td>
+            <td class="ks-cell ellipsis" ng-if="ctrl.type == '1'">--</td>
+            <td class="ks-cell ellipsis" ng-switch="row.usage" ng-if="ctrl.type == '2'">
+                <span ng-switch-when="1">出售</span>
+                <span ng-switch-when="2">院用</span>
+                <span ng-switch-when="3">赠送</span>
+            </td>
+
             <td class="ks-cell"><span>{{row.createdAt | date:'yyyy-MM-dd HH:mm:ss'}}</span></td>
             <td class="ks-cell ellipsis" >{{row.createdByName }}</td>
 

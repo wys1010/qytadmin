@@ -59,12 +59,8 @@ module stocklineApp {
         }
 
 
-        edit(row){
-            this.go('root.edit',{id:row.id,op:''})
-        }
-
-        order(row){
-            this.go('root.edit',{id:row.id,op:'order'})
+        edit(row,op){
+            this.go('root.edit',{id:row.id,op:op})
         }
 
 

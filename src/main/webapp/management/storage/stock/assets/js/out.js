@@ -9,11 +9,11 @@ var __extends = this.__extends || function (d, b) {
 /// <reference path="../../../../../ts-lib/angular-ui/angular-ui-router.d.ts"/>
 /// <reference path="../../../../../ts-lib/angular-ui/angular-ui-bootstrap.d.ts"/>
 /// <reference path="../../../../../platform/resource/ks/ts/nk.ts"/>
-var stocklineApp;
-(function (stocklineApp) {
-    var EditController = (function (_super) {
-        __extends(EditController, _super);
-        function EditController($scope, $state, $stateParams, ksEntityService, $filter, ksTip) {
+var stockApp;
+(function (stockApp) {
+    var OutController = (function (_super) {
+        __extends(OutController, _super);
+        function OutController($scope, $state, $stateParams, ksEntityService, $filter, ksTip) {
             _super.call(this, $scope, $state, $stateParams);
             this.$scope = $scope;
             this.$state = $state;
@@ -23,77 +23,77 @@ var stocklineApp;
             this.ksTip = ksTip;
             this.queryCondition = new nk.PagingQueryCondition();
             this.entity = {};
-            this.isOutStock = true;
+            this.dialogTitle = "出库";
             this.isOrder = false;
             this.id = $stateParams.id;
-            this.op = $stateParams.op;
-            if (this.id || this.isOrder) {
+            if (this.id) {
                 this.selectEntityById(this.id);
-                this.dialogTitle = "编辑";
-            }
-            else {
-                this.entity.type = 1;
-                if (this.op == '1') {
-                    this.isOutStock = false;
-                    this.selectWarehouseByType();
-                }
-                else {
-                    this.entity.usage = 1;
-                }
-                this.dialogTitle = "新增" + (this.isOutStock ? '出库' : '入库');
             }
         }
-        EditController.prototype.onBackToRoot = function (data) {
+        OutController.prototype.onBackToRoot = function (data) {
         };
-        EditController.prototype.selectWarehouseByType = function () {
-            this.queryCondition.type = 1;
+        OutController.prototype.selectEntityById = function (id) {
             var me = this;
-            this.ksEntityService.get(this.webRoot + '/pdm/warehouses.do', this.queryCondition).success(function (data) {
-                me.entity.warehouseId = data.rows[0].id;
-            });
-        };
-        EditController.prototype.selectEntityById = function (id) {
-            var me = this;
-            this.ksEntityService.get(this.webRoot + '/pdm/stock_line/' + id + '.do').success(function (data) {
+            this.ksEntityService.get(this.webRoot + '/pdm/stock/' + id + '.do').success(function (data) {
                 me.entity = data;
+                me.entity.surplusNum = data.num;
+                me.entity.warehouseId = null;
             });
         };
-        EditController.prototype.warehouseSelected = function (warehouse) {
-            if (this.isOutStock && warehouse) {
+        OutController.prototype.warehouseSelected = function (warehouse) {
+            if (warehouse) {
                 if (warehouse.type == 1) {
                     this.ksTip.alert('不能选择总仓库');
-                    this.$scope.editForm.$invalid = true;
+                    this.invalid = false;
                 }
                 else {
-                    this.$scope.editForm.$invalid = false;
+                    this.invalid = true;
                 }
             }
         };
-        EditController.prototype.save = function () {
+        OutController.prototype.save = function () {
+            var _this = this;
+            var me = this;
             var data = angular.copy(this.entity);
             delete data.updatedAt;
             delete data.createdAt;
-            if (!data.productId) {
-                this.ksTip.alert("请选择产品");
-                return;
-            }
+            me.ksEntityService.post(me.webRoot + "/pdm/stock/add.do", data, function () {
+                _this.ksTip.success("保存成功");
+                var me = _this;
+                setTimeout(function () {
+                    me.dismiss();
+                    me.pushParam('changed', true);
+                }, 200);
+            }, function (error) {
+                _this.ksTip.error(error);
+            });
+        };
+        OutController.prototype.order = function (data) {
+            var _this = this;
+            var me = this;
+            data.stockId = data.id;
+            data.num = data.outNum;
+            data.status = 2;
+            data.id = null;
             if (!data.warehouseId) {
-                this.ksTip.alert("请选择仓库");
+                this.ksTip.alert('请选择仓库');
                 return;
             }
-            if (data.num <= 0) {
-                this.ksTip.alert("数量必须大于0");
-                return;
-            }
-            if (this.isOutStock) {
-                data.type = 2;
-            }
-            this.insert(data);
+            me.ksEntityService.post(me.webRoot + "/pdm/orders/add.do", data, function () {
+                _this.ksTip.success("保存成功");
+                var me = _this;
+                setTimeout(function () {
+                    me.dismiss();
+                    me.pushParam('changed', true);
+                }, 200);
+            }, function (error) {
+                _this.ksTip.error(error);
+            });
         };
-        EditController.prototype.insert = function (data) {
+        OutController.prototype.insert = function (data) {
             var _this = this;
             var me = this;
-            this.ksEntityService.post(this.webRoot + "/pdm/stock_line/add.do", data, function () {
+            this.ksEntityService.post(this.webRoot + "/pdm/stock/add.do", data, function () {
                 _this.ksTip.success("保存成功");
                 var me = _this;
                 setTimeout(function () {
@@ -112,10 +112,10 @@ var stocklineApp;
                 }
             });
         };
-        EditController.prototype.update = function (data) {
+        OutController.prototype.update = function (data) {
             var _this = this;
             var me = this;
-            this.ksEntityService.put(this.webRoot + "/pdm/stock_line/update.do", data, function () {
+            this.ksEntityService.put(this.webRoot + "/pdm/stock/update.do", data, function () {
                 _this.ksTip.success("保存成功");
                 var me = _this;
                 setTimeout(function () {
@@ -134,17 +134,17 @@ var stocklineApp;
                 }
             });
         };
-        EditController.prototype.outNumChanged = function () {
+        OutController.prototype.outNumChanged = function () {
             if (this.entity.outNum) {
-                this.entity.surplusNum = this.entity.stockNum - this.entity.outNum;
+                this.entity.surplusNum = this.entity.num - this.entity.outNum;
             }
             else {
-                this.entity.surplusNum = this.entity.stockNum;
+                this.entity.surplusNum = this.entity.num;
             }
         };
-        EditController.$inject = ['$scope', '$state', '$stateParams', 'ksEntityService', '$filter', 'ksTip'];
-        return EditController;
+        OutController.$inject = ['$scope', '$state', '$stateParams', 'ksEntityService', '$filter', 'ksTip'];
+        return OutController;
     })(nk.PopUpController);
-    k.getApp("stocklineApp").registerController("edit", EditController);
-})(stocklineApp || (stocklineApp = {}));
-//# sourceMappingURL=edit.js.map
+    k.getApp("stockApp").registerController("out", OutController);
+})(stockApp || (stockApp = {}));
+//# sourceMappingURL=out.js.map

@@ -26,6 +26,8 @@ public class StockLine extends BaseEntity {
 
     private Integer minNumber;
 
+    private Integer usage;
+
     private String createdByName;
 
     private String warehouseName;
@@ -146,5 +148,13 @@ public class StockLine extends BaseEntity {
 
     public void setWarehouseName(String warehouseName) {
         this.warehouseName = warehouseName;
+    }
+
+    public Integer getUsage() {
+        return usage;
+    }
+
+    public void setUsage(Integer usage) {
+        this.usage = usage;
     }
 }

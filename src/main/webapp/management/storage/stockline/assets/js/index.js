@@ -52,11 +52,8 @@ var stocklineApp;
                 me.queryCondition.results = data.results;
             });
         };
-        IndexController.prototype.edit = function (row) {
-            this.go('root.edit', { id: row.id, op: '' });
-        };
-        IndexController.prototype.order = function (row) {
-            this.go('root.edit', { id: row.id, op: 'order' });
+        IndexController.prototype.edit = function (row, op) {
+            this.go('root.edit', { id: row.id, op: op });
         };
         IndexController.prototype.deleteEntity = function (row) {
             var me = this;

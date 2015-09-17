@@ -13,6 +13,7 @@
 		<result column="created_by" property="createdBy" jdbcType="INTEGER" />
 		<result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
 		<result column="updated_by" property="updatedBy" jdbcType="INTEGER" />
+		<result column="usage" property="usage" jdbcType="INTEGER" />
 	</resultMap>
 
 	<insert id="insertEntity" parameterType="com.qyt.management.storage.stock.domain.StockLine">
@@ -48,6 +49,9 @@
 			<if test="num != null and num gt 0">
 				num,
 			</if>
+			<if test="usage != null and usage gt 0">
+				usage,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -79,6 +83,9 @@
 			</if>
 			<if test="num != null">
 				#{num,jdbcType=INTEGER},
+			</if>
+			<if test="usage != null">
+				#{usage,jdbcType=INTEGER},
 			</if>
 		</trim>
 	</insert>
@@ -113,6 +120,9 @@
 			</if>
 			<if test="num != null and num gt 0">
 				num = #{num,jdbcType=INTEGER},
+			</if>
+			<if test="usage != null and usage gt 0">
+				usage = #{usage,jdbcType=INTEGER},
 			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}

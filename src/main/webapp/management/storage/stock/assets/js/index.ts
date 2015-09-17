@@ -88,6 +88,9 @@ module stockApp {
             this.go('root.record',{id:row.id})
         }
 
+        outStock(row){
+            this.go('root.out',{id:row.id})
+        }
 
         deleteEntity(row){
             var me = this;

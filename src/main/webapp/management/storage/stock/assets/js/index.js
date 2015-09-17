@@ -79,6 +79,9 @@ var stockApp;
         IndexController.prototype.record = function (row) {
             this.go('root.record', { id: row.id });
         };
+        IndexController.prototype.outStock = function (row) {
+            this.go('root.out', { id: row.id });
+        };
         IndexController.prototype.deleteEntity = function (row) {
             var me = this;
             this.ksTip.confirm("确定要删除?").ok(function () {

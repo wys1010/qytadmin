@@ -24,6 +24,13 @@
         isPopUp: true
     });
 
+    var outPage = new k.Page({
+        paramNames: ['id'],
+        name: "out",
+        templateUrl: baseUrl + 'tpl_stock_out.html',
+        isPopUp: true
+    });
+
     var recordPage = new k.Page({
         paramName: ['id'],
         name: "record",
@@ -35,6 +42,7 @@
     app.addPage(indexPage);
     app.addPage(editPage);
     app.addPage(recordPage);
+    app.addPage(outPage);
 
 
 })();

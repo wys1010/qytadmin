@@ -30,8 +30,19 @@
                 </div>
 
                 <div class="form-group  normal">
-                    <label class=" control-label">存放仓库</label>
-                    <ks-warehouse-picker ng-model="ec.entity.warehouseId" disabled="true"></ks-warehouse-picker>
+                    <label class=" control-label">{{ec.isOutStock?'出库':'存放'}}仓库</label>
+                    <ks-warehouse-picker ng-model="ec.entity.warehouseId" disabled="!ec.isOutStock" on-selected="ec.warehouseSelected(warehouse)"></ks-warehouse-picker>
+                </div>
+
+                <div class="form-group  normal" ng-if="ec.isOutStock">
+                    <label class=" control-label">用途</label>
+                    <div class="text-left" style="display: inline-block;">
+                        <div class="btn-group btn-group-sm" >
+                            <label class="btn btn-default " ng-model="ec.entity.usage" btn-radio="1">出售</label>
+                            <label class="btn btn-default " ng-model="ec.entity.usage" btn-radio="2">院用</label>
+                            <label class="btn btn-default " ng-model="ec.entity.usage" btn-radio="3">赠送</label>
+                        </div>
+                    </div>
                 </div>
             </div>
 

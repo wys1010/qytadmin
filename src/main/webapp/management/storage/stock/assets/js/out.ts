@@ -17,10 +17,12 @@ module stockApp {
         op:string;
         isOrder:boolean = false
         invalid:boolean
+        warehouseId:number
 
         constructor(protected $scope, protected $state, protected $stateParams, protected ksEntityService, protected $filter, protected ksTip) {
             super($scope, $state, $stateParams);
             this.id = $stateParams.id
+            this.warehouseId = $stateParams.warehouseId
             if (this.id) {
                 this.selectEntityById(this.id)
             }
@@ -36,7 +38,8 @@ module stockApp {
                 .success(function (data) {
                     me.entity = data
                     me.entity.surplusNum = data.num
-                    me.entity.warehouseId = null
+                    me.entity.warehouseId = me.warehouseId
+                    me.entity.usage = 1
                 })
 
         }
@@ -58,89 +61,24 @@ module stockApp {
             delete data.updatedAt;
             delete data.createdAt;
 
+            data.type = 2
 
-            me.ksEntityService.post(me.webRoot + "/pdm/stock/add.do",data, ()=> {
-                this.ksTip.success("保存成功")
-                var me = this;
+            me.ksEntityService.post(me.webRoot + "/pdm/stock_line/add.do",data, ()=> {
+                this.ksTip.success("操作成功")
                 setTimeout(()=> {
                     me.dismiss()
                     me.pushParam('changed',true)
                 }, 200)
             }, (error)=> {
-                this.ksTip.error(error)
-            })
-
-
-
-        }
-
-        order(data) {
-            var me = this;
-            data.stockId = data.id
-            data.num = data.outNum
-            data.status = 2
-            data.id = null
-
-            if(!data.warehouseId){
-                this.ksTip.alert('请选择仓库');
-                return;
-            }
-
-            me.ksEntityService.post(me.webRoot + "/pdm/orders/add.do",data, ()=> {
-                this.ksTip.success("保存成功")
-                var me = this;
-                setTimeout(()=> {
-                    me.dismiss()
-                    me.pushParam('changed',true)
-                }, 200)
-            }, (error)=> {
-                this.ksTip.error(error)
-            })
-        }
-
-
-        insert(data) {
-            var me = this;
-            this.ksEntityService.post(this.webRoot + "/pdm/stock/add.do", data, ()=> {
-                this.ksTip.success("保存成功")
-                var me = this;
-                setTimeout(()=> {
-                    me.dismiss()
-                    me.pushParam('changed', true)
-                }, 200)
-            }, (entity)=> {
-                if (typeof entity === "object") {
-                    for (var key in entity) {
-                        var errorMsg = entity[key]
+                if (typeof error === "object") {
+                    for (var key in error) {
+                        var errorMsg = error[key]
                         me.ksTip.error(errorMsg);
                     }
                 } else {
-                    me.ksTip.error("保存出错");
+                    me.ksTip.error("系统出错");
                 }
             })
-
-        }
-
-        update(data) {
-            var me = this;
-            this.ksEntityService.put(this.webRoot + "/pdm/stock/update.do", data, ()=> {
-                this.ksTip.success("保存成功")
-                var me = this;
-                setTimeout(()=> {
-                    me.dismiss()
-                    me.pushParam('changed', true)
-                }, 200)
-            }, (entity)=> {
-                if (typeof entity === "object") {
-                    for (var key in entity) {
-                        var errorMsg = entity[key]
-                        me.ksTip.error(errorMsg);
-                    }
-                } else {
-                    me.ksTip.error("保存出错");
-                }
-            })
-
         }
 
 

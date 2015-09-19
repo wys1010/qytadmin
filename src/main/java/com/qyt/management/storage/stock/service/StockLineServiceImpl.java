@@ -49,9 +49,18 @@ public class StockLineServiceImpl implements StockLineService {
         param.put("productId",dto.getProductId());
         param.put("warehouseId",dto.getWarehouseId());
         Stock stock = stockMapper.findOnByParam(param);
+
         if (stock != null){
             stock.initChangeLog(false);
-            stock.setNum(stock.getNum() + dto.getNum());
+            if(dto.getType() == 2){//出库
+                if(dto.getNum() > stock.getNum()){
+                    throw new BusinessException("出库数量不能大于库存数量");
+                }else{
+                    stock.setNum(stock.getNum() - dto.getNum());
+                }
+            }else{//入库
+                stock.setNum(stock.getNum() + dto.getNum());
+            }
             stockMapper.updateEntity(stock);
         }else{
             stock = new Stock();
@@ -65,6 +74,7 @@ public class StockLineServiceImpl implements StockLineService {
             stockMapper.insertEntity(stock);
         }
         dto.setStockId(stock.getId());
+        dto.setId(null);
         stockLineMapper.insertEntity(dto);
 
     }

@@ -166,6 +166,9 @@
 		<if test="warehouseId != null and warehouseId != 0">
 			and warehouse_id = #{warehouseId}
 		</if>
+		<if test="type != null and type != 0">
+			and type = #{type}
+		</if>
 		limit 1
 	</select>
 

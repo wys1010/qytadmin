@@ -4,6 +4,7 @@ import com.qyt.management.platform.exception.BusinessException;
 import com.qyt.management.platform.web.PagingBean;
 import com.qyt.management.storage.order.dao.OrderMapper;
 import com.qyt.management.storage.order.domain.Order;
+import com.qyt.management.storage.order.domain.OrderStatus;
 import com.qyt.management.storage.product.dao.PdmProductsMapper;
 import com.qyt.management.storage.product.domain.PdmProduct;
 import com.qyt.management.storage.stock.dao.StockLineMapper;
@@ -52,7 +53,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void insertEntity(Order dto) throws BusinessException {
-
         Warehouse warehouse = warehouseMapper.selectEntityById(dto.getWarehouseId());
         if (warehouse.getType() == 1){
             throw new BusinessException("不能选择总仓库");
@@ -61,6 +61,19 @@ public class OrderServiceImpl implements OrderService {
         String orderNo = DateUtils.formatDate(new Date(), "yyyyMMddHHmmsss");
         dto.setOrderNo(orderNo);
         orderMapper.insertEntity(dto);
+
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("productId",dto.getProductId());
+        param.put("type",1);
+        Stock stock = stockMapper.findOnByParam(param);
+        if(dto.getNum() > stock.getNum()){
+            throw new BusinessException("库存数量不足,无法下单");
+        }
+        stock.setNum(stock.getNum() - dto.getNum());
+        stockMapper.updateEntity(stock);
+
+
     }
 
     @Override
@@ -89,19 +102,43 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void delivery(Order order) throws BusinessException {
-        order.setStatus(3);
+        order.setStatus(OrderStatus.yifahuo.getValue());
         Stock stock = stockMapper.selectEntityById(order.getStockId());
         int stockNum = stock.getNum() - order.getActualDeliverNum();
         if(stockNum < 0){
             throw new BusinessException("库存数量不足");
         }
+
+        stock.setNum(stock.getNum() + order.getNum() - order.getActualDeliverNum());
+        stockMapper.updateEntity(stock);
+
+//        //查询出这个产品为【确认收货】的总数量
+//        PagingBean<Order> pb = new PagingBean<>();
+//        Order param = new Order();
+//        param.setProductId(order.getProductId());
+//        param.setStatus(OrderStatus.querenshouhuo.getValue());
+//        pb.setCondition(param);
+//        orderMapper.selectEntities(pb);
+//        List<Order> orders = pb.getRows();
+//
+//        //订单中产品实际发货数量之和
+//        int totalActualDeliverNum = 0;
+//        for (Order o : orders) {
+//            totalActualDeliverNum += o.getActualDeliverNum();
+//        }
+//
+//        //订单中已有产品数量 + 此单实际发货数量 不能大于库存数量
+//        if(totalActualDeliverNum + order.getActualDeliverNum() > stock.getNum()){
+//            throw new BusinessException("库存数量不足");
+//        }
+
         orderMapper.updateEntity(order);
     }
 
     @Override
     public void confirmReceipt(int id) throws BusinessException {
         Order order = orderMapper.selectEntityById(id);
-        order.setStatus(4);
+        order.setStatus(OrderStatus.querenshouhuo.getValue());
 
         //原库存 -
         Stock stock = stockMapper.selectEntityById(order.getStockId());
@@ -109,9 +146,9 @@ public class OrderServiceImpl implements OrderService {
         if(stockNum < 0){
             throw new BusinessException("库存数量不足");
         }
-        stock.setNum(stockNum);
-        stock.initChangeLog(false);
-        stockMapper.updateEntity(stock);
+//        stock.setNum(stockNum);
+//        stock.initChangeLog(false);
+//        stockMapper.updateEntity(stock);
 
         //原库存增加一条出库记录
         StockLine sl = new StockLine();
@@ -158,5 +195,19 @@ public class OrderServiceImpl implements OrderService {
 
         orderMapper.updateEntity(order);
 
+    }
+
+    @Override
+    public void cancelOrder(Integer id) throws BusinessException {
+
+        Order order = orderMapper.selectEntityById(id);
+        if(order == null) throw new BusinessException("该订单不存在");
+
+        if(order.getStatus() == OrderStatus.querenshouhuo.getValue()){
+            throw new BusinessException("确认收货状态不能取消订单");
+        }
+
+        order.setStatus(OrderStatus.yiquxiao.getValue());
+        orderMapper.updateEntity(order);
     }
 }

@@ -82,7 +82,7 @@ var stockApp;
                 return;
             }
             me.ksEntityService.post(me.webRoot + "/pdm/orders/add.do", data, function () {
-                _this.ksTip.success("保存成功");
+                _this.ksTip.success("亲,下单成功,快去订单信息列表看看吧！");
                 var me = _this;
                 setTimeout(function () {
                     me.dismiss();

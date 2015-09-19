@@ -80,7 +80,7 @@ var stockApp;
             this.go('root.record', { id: row.id });
         };
         IndexController.prototype.outStock = function (row) {
-            this.go('root.out', { id: row.id });
+            this.go('root.out', { id: row.id, warehouseId: row.warehouseId });
         };
         IndexController.prototype.deleteEntity = function (row) {
             var me = this;

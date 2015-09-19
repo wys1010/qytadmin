@@ -161,4 +161,16 @@ public class OrderController {
         orderService.confirmReceipt(id);
     }
 
+    /**
+     * 取消订单
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "cancel/{id}",method = RequestMethod.GET)
+    @ResponseBody
+    @Secured({"ROLE_UC_ORDER_CANCEL"})
+    public void cancelOrder(@PathVariable Integer id) throws Exception {
+        orderService.cancelOrder(id);
+    }
+
 }

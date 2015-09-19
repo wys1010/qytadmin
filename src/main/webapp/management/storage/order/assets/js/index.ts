@@ -8,12 +8,13 @@ module orderApp {
 
 
     class OrderRole {
-        hasDeleteRole:boolean
+        hasCancelOrderRole:boolean
         hasDeliveryRole:boolean
         hasConfirmRole:boolean
         constructor() {
             this.hasDeliveryRole = ks.Role.hasRole('ROLE_UC_ORDER_DELIVERY')
             this.hasConfirmRole = ks.Role.hasRole('ROLE_UC_ORDER_CONFIRM_RECEIPT')
+            this.hasCancelOrderRole = ks.Role.hasRole('ROLE_UC_ORDER_CANCEL')
         }
     }
 
@@ -63,6 +64,26 @@ module orderApp {
             this.go('root.edit',{id:row.id,op:'order'})
         }
 
+        cancel(row){
+            var me = this;
+            this.ksTip.confirm("确定要取消订单?").ok(()=> {
+                var url = me.webRoot + '/pdm/orders/cancel/'+row.id+'.do';
+                me.ksEntityService.get(url,{})
+                    .success(function (data) {
+                        me.ksTip.success('操作成功')
+                        me.selectEntities(true);
+                    }).error((error)=>{
+                        if (typeof error === "object") {
+                            for (var key in error) {
+                                var errorMsg = error[key]
+                                me.ksTip.error(errorMsg);
+                            }
+                        } else {
+                            me.ksTip.error("服务器出错,"+error);
+                        }
+                    })
+            })
+        }
 
         deleteEntity(row){
             var me = this;
@@ -76,8 +97,6 @@ module orderApp {
                         me.ksTip.error('操作失败')
                     })
             })
-
-
         }
 
         deliver(row,type){

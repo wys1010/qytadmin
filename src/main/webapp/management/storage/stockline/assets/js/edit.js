@@ -85,9 +85,6 @@ var stocklineApp;
                 this.ksTip.alert("数量必须大于0");
                 return;
             }
-            if (this.isOutStock) {
-                data.type = 2;
-            }
             this.insert(data);
         };
         EditController.prototype.insert = function (data) {

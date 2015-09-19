@@ -5,10 +5,16 @@
 
     <ks-form id="editForm" label-width="86" style="padding: 0 10px 0 10px" name="editForm" invalid="ctrl.invalid">
 
-        <div class="row">
+        <div class="row" style="margin-top: 5px">
 
-            <ks-field label="产品" required="true" width="250">
+            <ks-field label="产品" required="true" width="400">
                 <ks-product-picker ng-model="ctrl.entity.productId" disabled="true"></ks-product-picker>
+            </ks-field>
+
+            <ks-field label="出库仓库">
+                <ks-warehouse-picker ng-model="ctrl.entity.warehouseId"
+                                     on-selected="ctrl.warehouseSelected(warehouse)"
+                                     disabled="true"></ks-warehouse-picker>
             </ks-field>
         </div>
 
@@ -26,22 +32,16 @@
                        ng-readonly="true">
             </ks-field>
 
-            <ks-field label="出库仓库">
-                <ks-warehouse-picker ng-model="ctrl.entity.warehouseId" on-selected="ctrl.warehouseSelected(warehouse)"></ks-warehouse-picker>
-            </ks-field>
-
-        </div>
-
-        <div class="row">
             <ks-field label="用途" width="250">
                 <div class="text-left" style="display: inline-block;width: 200px">
-                    <div class="btn-group btn-group-sm" >
+                    <div class="btn-group btn-group-sm" style="margin-left:0">
                         <label class="btn btn-default " ng-model="ctrl.entity.usage" btn-radio="1">出售</label>
                         <label class="btn btn-default " ng-model="ctrl.entity.usage" btn-radio="2">院用</label>
                         <label class="btn btn-default " ng-model="ctrl.entity.usage" btn-radio="3">赠送</label>
                     </div>
                 </div>
             </ks-field>
+
         </div>
 
         <div class="row">

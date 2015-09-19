@@ -26,6 +26,7 @@ var stockApp;
             this.dialogTitle = "出库";
             this.isOrder = false;
             this.id = $stateParams.id;
+            this.warehouseId = $stateParams.warehouseId;
             if (this.id) {
                 this.selectEntityById(this.id);
             }
@@ -37,7 +38,8 @@ var stockApp;
             this.ksEntityService.get(this.webRoot + '/pdm/stock/' + id + '.do').success(function (data) {
                 me.entity = data;
                 me.entity.surplusNum = data.num;
-                me.entity.warehouseId = null;
+                me.entity.warehouseId = me.warehouseId;
+                me.entity.usage = 1;
             });
         };
         OutController.prototype.warehouseSelected = function (warehouse) {
@@ -57,80 +59,22 @@ var stockApp;
             var data = angular.copy(this.entity);
             delete data.updatedAt;
             delete data.createdAt;
-            me.ksEntityService.post(me.webRoot + "/pdm/stock/add.do", data, function () {
-                _this.ksTip.success("保存成功");
-                var me = _this;
+            data.type = 2;
+            me.ksEntityService.post(me.webRoot + "/pdm/stock_line/add.do", data, function () {
+                _this.ksTip.success("操作成功");
                 setTimeout(function () {
                     me.dismiss();
                     me.pushParam('changed', true);
                 }, 200);
             }, function (error) {
-                _this.ksTip.error(error);
-            });
-        };
-        OutController.prototype.order = function (data) {
-            var _this = this;
-            var me = this;
-            data.stockId = data.id;
-            data.num = data.outNum;
-            data.status = 2;
-            data.id = null;
-            if (!data.warehouseId) {
-                this.ksTip.alert('请选择仓库');
-                return;
-            }
-            me.ksEntityService.post(me.webRoot + "/pdm/orders/add.do", data, function () {
-                _this.ksTip.success("保存成功");
-                var me = _this;
-                setTimeout(function () {
-                    me.dismiss();
-                    me.pushParam('changed', true);
-                }, 200);
-            }, function (error) {
-                _this.ksTip.error(error);
-            });
-        };
-        OutController.prototype.insert = function (data) {
-            var _this = this;
-            var me = this;
-            this.ksEntityService.post(this.webRoot + "/pdm/stock/add.do", data, function () {
-                _this.ksTip.success("保存成功");
-                var me = _this;
-                setTimeout(function () {
-                    me.dismiss();
-                    me.pushParam('changed', true);
-                }, 200);
-            }, function (entity) {
-                if (typeof entity === "object") {
-                    for (var key in entity) {
-                        var errorMsg = entity[key];
+                if (typeof error === "object") {
+                    for (var key in error) {
+                        var errorMsg = error[key];
                         me.ksTip.error(errorMsg);
                     }
                 }
                 else {
-                    me.ksTip.error("保存出错");
-                }
-            });
-        };
-        OutController.prototype.update = function (data) {
-            var _this = this;
-            var me = this;
-            this.ksEntityService.put(this.webRoot + "/pdm/stock/update.do", data, function () {
-                _this.ksTip.success("保存成功");
-                var me = _this;
-                setTimeout(function () {
-                    me.dismiss();
-                    me.pushParam('changed', true);
-                }, 200);
-            }, function (entity) {
-                if (typeof entity === "object") {
-                    for (var key in entity) {
-                        var errorMsg = entity[key];
-                        me.ksTip.error(errorMsg);
-                    }
-                }
-                else {
-                    me.ksTip.error("保存出错");
+                    me.ksTip.error("系统出错");
                 }
             });
         };

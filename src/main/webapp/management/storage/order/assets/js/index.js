@@ -15,6 +15,7 @@ var orderApp;
         function OrderRole() {
             this.hasDeliveryRole = ks.Role.hasRole('ROLE_UC_ORDER_DELIVERY');
             this.hasConfirmRole = ks.Role.hasRole('ROLE_UC_ORDER_CONFIRM_RECEIPT');
+            this.hasCancelOrderRole = ks.Role.hasRole('ROLE_UC_ORDER_CANCEL');
         }
         return OrderRole;
     })();
@@ -55,6 +56,26 @@ var orderApp;
         };
         IndexController.prototype.order = function (row) {
             this.go('root.edit', { id: row.id, op: 'order' });
+        };
+        IndexController.prototype.cancel = function (row) {
+            var me = this;
+            this.ksTip.confirm("确定要取消订单?").ok(function () {
+                var url = me.webRoot + '/pdm/orders/cancel/' + row.id + '.do';
+                me.ksEntityService.get(url, {}).success(function (data) {
+                    me.ksTip.success('操作成功');
+                    me.selectEntities(true);
+                }).error(function (error) {
+                    if (typeof error === "object") {
+                        for (var key in error) {
+                            var errorMsg = error[key];
+                            me.ksTip.error(errorMsg);
+                        }
+                    }
+                    else {
+                        me.ksTip.error("服务器出错," + error);
+                    }
+                });
+            });
         };
         IndexController.prototype.deleteEntity = function (row) {
             var me = this;

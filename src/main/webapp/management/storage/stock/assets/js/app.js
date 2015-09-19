@@ -25,7 +25,7 @@
     });
 
     var outPage = new k.Page({
-        paramNames: ['id'],
+        paramNames: ['id','warehouseId'],
         name: "out",
         templateUrl: baseUrl + 'tpl_stock_out.html',
         isPopUp: true

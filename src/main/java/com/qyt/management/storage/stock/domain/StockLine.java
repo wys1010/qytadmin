@@ -37,6 +37,8 @@ public class StockLine extends BaseEntity {
     //按月统计
     private String month;
 
+    private String remark;
+
 
     public Integer getId() {
         return id;
@@ -156,5 +158,13 @@ public class StockLine extends BaseEntity {
 
     public void setUsage(Integer usage) {
         this.usage = usage;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

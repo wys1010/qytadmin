@@ -89,7 +89,7 @@ module stockApp {
         }
 
         outStock(row){
-            this.go('root.out',{id:row.id})
+            this.go('root.out',{id:row.id,warehouseId:row.warehouseId})
         }
 
         deleteEntity(row){

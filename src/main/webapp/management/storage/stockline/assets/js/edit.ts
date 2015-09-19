@@ -97,10 +97,6 @@ module stocklineApp {
                 return;
             }
 
-            if(this.isOutStock){
-                data.type = 2
-            }
-
             this.insert(data)
 
         }
@@ -161,9 +157,6 @@ module stocklineApp {
 
 
     }
-
-
-
 
     k.getApp("stocklineApp").registerController("edit", EditController);
 }

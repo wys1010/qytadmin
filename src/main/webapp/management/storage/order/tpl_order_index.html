@@ -25,6 +25,7 @@
                     <option value="2">待发货</option>
                     <option value="3">已发货</option>
                     <option value="4">确认收货</option>
+                    <option value="10">已取消</option>
                 </select>
             </div>
 
@@ -80,6 +81,7 @@
                     <span ng-switch-when="2" style="color: orangered;">待发货</span>
                     <span ng-switch-when="3" style="color: #30c9ff">已发货</span>
                     <span ng-switch-when="4" style="color: darkgreen">确认收货</span>
+                    <span ng-switch-when="10" style="color: #ff9b99">已取消</span>
                 </span>
             </td>
             <td class="ks-cell">
@@ -103,6 +105,9 @@
                 <a href="javascript:void(0)" class="btn btn-success btn-sm" ng-click="ctrl.deliver(row,4)"
                    ng-if="row.status == 3 && ctrl.role.hasConfirmRole">
                     <span class="fa  fa-check"></span> 确认收货</a>
+                <a href="javascript:void(0)" class="btn btn-danger btn-sm" ng-click="ctrl.cancel(row)"
+                   ng-if="row.status != 4 && row.status !=10 && ctrl.role.hasCancelOrderRole">
+                    <i class="fa fa-times"></i> 取消订单</a>
 
             </td>
         </tr>

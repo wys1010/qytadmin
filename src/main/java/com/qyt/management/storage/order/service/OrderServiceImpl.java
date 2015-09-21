@@ -65,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
 
         Map<String, Object> param = new HashMap<>();
         param.put("productId",dto.getProductId());
-        param.put("type",1);
+        param.put("warehouseType",1);
         Stock stock = stockMapper.findOnByParam(param);
         if(dto.getNum() > stock.getNum()){
             throw new BusinessException("库存数量不足,无法下单");
@@ -199,13 +199,24 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void cancelOrder(Integer id) throws BusinessException {
-
         Order order = orderMapper.selectEntityById(id);
+        int deliverNum = order.getActualDeliverNum();
         if(order == null) throw new BusinessException("该订单不存在");
 
         if(order.getStatus() == OrderStatus.querenshouhuo.getValue()){
             throw new BusinessException("确认收货状态不能取消订单");
         }
+
+        if(deliverNum == 0){
+            deliverNum = order.getNum();
+        }
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("productId",order.getProductId());
+        param.put("warehouseType", 1);
+        Stock stock = stockMapper.findOnByParam(param);
+        stock.setNum(stock.getNum() + deliverNum);
+        stockMapper.updateEntity(stock);
 
         order.setStatus(OrderStatus.yiquxiao.getValue());
         orderMapper.updateEntity(order);

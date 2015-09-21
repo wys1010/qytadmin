@@ -62,7 +62,7 @@ var productApp;
             var _this = this;
             var me = this;
             this.ksEntityService.post(this.webRoot + "/pdm/products/add.do", data, function () {
-                _this.ksTip.success("保存成功");
+                window.layer.alert("保存成功", { icon: 1 });
                 var me = _this;
                 setTimeout(function () {
                     me.dismiss();
@@ -72,11 +72,11 @@ var productApp;
                 if (typeof entity === "object") {
                     for (var key in entity) {
                         var errorMsg = entity[key];
-                        me.ksTip.error(errorMsg);
+                        window.layer.alert(errorMsg, { icon: 2 });
                     }
                 }
                 else {
-                    me.ksTip.error("保存出错," + entity);
+                    window.layer.alert("保存出错" + entity, { icon: 2 });
                 }
             });
         };
@@ -84,7 +84,7 @@ var productApp;
             var _this = this;
             var me = this;
             this.ksEntityService.put(this.webRoot + "/pdm/products/update.do", data, function () {
-                _this.ksTip.success("保存成功");
+                window.layer.alert("保存成功", { icon: 1 });
                 var me = _this;
                 setTimeout(function () {
                     me.dismiss();
@@ -94,11 +94,11 @@ var productApp;
                 if (typeof entity === "object") {
                     for (var key in entity) {
                         var errorMsg = entity[key];
-                        me.ksTip.error(errorMsg);
+                        window.layer.alert(errorMsg, { icon: 2 });
                     }
                 }
                 else {
-                    me.ksTip.error("保存出错," + entity);
+                    window.layer.alert("保存出错," + entity, { icon: 2 });
                 }
             });
         };

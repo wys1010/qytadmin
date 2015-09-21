@@ -14,8 +14,6 @@
     <script type="text/javascript" src="${basePath}/management/storage/stock/assets/js/out.js?version=${version}"></script>
 
     <script>
-        var stockMin = '${stockMin}';
-        window.stokMin = stockMin;
         k.getApp("stockApp").init()
     </script>
 

@@ -62,8 +62,6 @@ public class StockController {
     @Secured({"ROLE_UC_STOCK_SELECT"})
     @RequestMapping(value = "index",method = RequestMethod.GET)
     public String index(HttpServletRequest request ) throws Exception {
-        Parameter parameter = parameterService.selectEntityByName("STOCK_MIN_WARN");
-        request.setAttribute("stockMin",parameter.getValue());
         return WAREHOUSES_PAGE_INDEX;
     }
 

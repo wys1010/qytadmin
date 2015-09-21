@@ -21,7 +21,6 @@ module stockApp {
         queryCondition:any = new nk.PagingQueryCondition()
         entities:Array<any>;
         role:any
-        stockMin:number = window.stockMin
 
         constructor(protected $scope, protected $state, protected $stateParams, protected ksEntityService, protected $filter, protected ksTip) {
             super($scope, $state, $stateParams);

@@ -159,15 +159,15 @@
     </sql>
 
 	<select id="findOnByParam" resultType="com.qyt.management.storage.stock.domain.Stock" parameterType="map">
-		select * from stock where 1=1
+		select * from stock,warehouses where stock.warehouse_id = warehouses.id
 		<if test="productId != null and productId != 0">
 			and product_id = #{productId}
 		</if>
 		<if test="warehouseId != null and warehouseId != 0">
 			and warehouse_id = #{warehouseId}
 		</if>
-		<if test="type != null and type != 0">
-			and type = #{type}
+		<if test="warehouseType != null and warehouseType != 0">
+			and warehouses.type = #{warehouseType}
 		</if>
 		limit 1
 	</select>

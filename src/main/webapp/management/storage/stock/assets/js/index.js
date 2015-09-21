@@ -28,7 +28,6 @@ var stockApp;
             this.$filter = $filter;
             this.ksTip = ksTip;
             this.queryCondition = new nk.PagingQueryCondition();
-            this.stockMin = window.stockMin;
             this.selectEntities(true);
             this.role = new StockRole();
             this.selectAllEntities();

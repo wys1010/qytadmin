@@ -26,8 +26,8 @@
                        required ng-change="ctrl.outNumChanged()">
             </ks-field>
 
-            <ks-field label="总库存剩余数量">
-                <input type="text" ng-model="ctrl.entity.surplusNum" placeholder="总库存剩余数量"
+            <ks-field label="库存剩余数量">
+                <input type="text" ng-model="ctrl.entity.surplusNum" placeholder="库存剩余数量"
                        class=" form-control input-sm"  ng-pattern="/^\d+?$/"
                        ng-readonly="true">
             </ks-field>
@@ -55,7 +55,7 @@
         <!--操作按钮-->
         <div class="modal-footer">
             <button type="submit" class="btn btn-primary " ng-disabled="!ctrl.invalid"
-                    ng-click="ctrl.save(editForm)" ks-loading visible="ctrl.showLoading">{{ctrl.isOrder ? '下单':'保存' }}
+                    ng-click="ctrl.save(editForm)" ks-loading visible="ctrl.showLoading">保存
             </button>
             <a href="javascript:void(0)" type="button" ng-click="ctrl.dismiss()" class="btn btn-warning">取消</a>
         </div>

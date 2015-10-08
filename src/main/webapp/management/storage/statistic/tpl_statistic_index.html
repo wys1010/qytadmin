@@ -99,8 +99,9 @@
             <th class="ks-cell">数量</th>
             <th class="ks-cell">类型</th>
             <th class="ks-cell">仓库</th>
-            <th class="ks-cell">日期</th>
             <th class="ks-cell">安全库存数量</th>
+            <th class="ks-cell">用途</th>
+            <th class="ks-cell">日期</th>
             </thead>
             <tbody>
             <tr ng-repeat="row  in ctrl.entities" class="ks-row">
@@ -108,8 +109,16 @@
                 <td class="ks-cell ellipsis">{{row.num }}</td>
                 <td class="ks-cell">{{row.type == 1 ? '入库':'出库' }}</td>
                 <td class="ks-cell">{{row.warehouseName}}</td>
-                <td class="ks-cell">{{row.createdAt | date:'yyyy-MM-dd'}}</td>
                 <td class="ks-cell">{{row.minNumber}}</td>
+                <td class="ks-cell">
+                    <div ng-if="row.type == 1 || row.warehouseType == 1">--</div>
+                    <div ng-switch="row.usage" ng-if="row.type == 2 && row.warehouseType != 1">
+                        <span ng-switch-when="1">出售</span>
+                        <span ng-switch-when="2">院用</span>
+                        <span ng-switch-when="3">赠送</span>
+                    </div>
+                </td>
+                <td class="ks-cell">{{row.createdAt | date:'yyyy-MM-dd'}}</td>
             </tr>
             </tbody>
         </table>

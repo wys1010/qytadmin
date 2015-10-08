@@ -60,6 +60,7 @@ var stockApp;
             delete data.updatedAt;
             delete data.createdAt;
             data.type = 2;
+            data.num = data.outNum;
             me.ksEntityService.post(me.webRoot + "/pdm/stock_line/add.do", data, function () {
                 _this.ksTip.success("操作成功");
                 setTimeout(function () {

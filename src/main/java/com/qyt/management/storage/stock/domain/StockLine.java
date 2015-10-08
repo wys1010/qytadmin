@@ -39,6 +39,8 @@ public class StockLine extends BaseEntity {
 
     private String remark;
 
+    private Integer warehouseType;
+
 
     public Integer getId() {
         return id;
@@ -166,5 +168,13 @@ public class StockLine extends BaseEntity {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Integer getWarehouseType() {
+        return warehouseType;
+    }
+
+    public void setWarehouseType(Integer warehouseType) {
+        this.warehouseType = warehouseType;
     }
 }

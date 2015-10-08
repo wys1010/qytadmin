@@ -139,12 +139,14 @@
 	</update>
 
 	<select id="getStockLineByStockId" resultType="com.qyt.management.storage.stock.domain.StockLine" parameterType="int">
-		SELECT *,p.name product_name FROM stock_line a
-		JOIN products p on a.product_id = p.id where a.stock_id = #{stockId}
+		SELECT *,p.name product_name, w.type warehouse_type FROM stock_line a
+		JOIN products p on a.product_id = p.id
+		JOIN stock sk on a.stock_id = sk.id
+		JOIN warehouses w on sk.warehouse_id = w.id where a.stock_id = #{stockId}
 	</select>
 
 	<select id="selectEntities" resultType="com.qyt.management.storage.stock.domain.StockLine" parameterType="map">
-		SELECT *,p.name product_name,p.min_number,s.name created_by_name,w.name warehouse_name FROM stock_line a
+		SELECT *,p.name product_name,p.min_number,s.name created_by_name,w.name warehouse_name,w.type warehouseType FROM stock_line a
 		JOIN products p on a.product_id = p.id
 		LEFT JOIN staffs s on a.created_by=s.id
 		LEFT JOIN stock sk on sk.id=a.stock_id

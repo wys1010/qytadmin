@@ -12,6 +12,7 @@
             <th class="ks-cell">产品名称</th>
             <th class="ks-cell">数量</th>
             <th class="ks-cell">类型</th>
+            <th class="ks-cell">用途</th>
             <th class="ks-cell">日期</th>
             </thead>
             <tbody>
@@ -19,6 +20,14 @@
                 <td class="ks-cell"><span>{{::row.productName || ''}}</span></td>
                 <td class="ks-cell ellipsis" >{{row.num }}</td>
                 <td class="ks-cell">{{row.type == '1'?'入库':'出库'}}</td>
+                <td class="ks-cell">
+                    <div ng-if="row.type == 1 || row.warehouseType == 1">--</div>
+                    <div ng-switch="row.usage" ng-if="row.type == 2 && row.warehouseType != 1">
+                        <span ng-switch-when="1">出售</span>
+                        <span ng-switch-when="2">院用</span>
+                        <span ng-switch-when="3">赠送</span>
+                    </div>
+                </td>
                 <td class="ks-cell">{{row.createdAt |date:'yyyy-MM-dd'}}</td>
             </tr>
             </tbody>

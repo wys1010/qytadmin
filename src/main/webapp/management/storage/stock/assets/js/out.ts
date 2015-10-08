@@ -62,6 +62,7 @@ module stockApp {
             delete data.createdAt;
 
             data.type = 2
+            data.num = data.outNum
 
             me.ksEntityService.post(me.webRoot + "/pdm/stock_line/add.do",data, ()=> {
                 this.ksTip.success("操作成功")

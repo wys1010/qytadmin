@@ -29,11 +29,6 @@ module warehouseApp {
                 this.dialogTitle = "新增"
                 this.entity.type = 1
             }
-            if(this.op == 'order'){
-                this.isOrder = true
-                this.dialogTitle = "下单"
-            }
-
 
         }
 
@@ -58,41 +53,20 @@ module warehouseApp {
             delete data.updatedAt;
             delete data.createdAt;
 
-            if (!data.applyStatus) {
-                data.applyStatus = 1
+            console.log(data);
+
+            if(!data.attendantId || data.attendantId == 0){
+                this.ksTip.alert("管理员不能为空");
+                return;
             }
 
-
-            if(this.isOrder){
-                this.order(data);
+            if(data.id){
+                this.update(data)
             }else{
-                if(data.id){
-                    this.update(data)
-                }else{
-                    this.insert(data)
-                }
+                this.insert(data)
             }
 
         }
-
-        order(data){
-            var me = this;
-
-            data.warehouseId = data.id
-
-            this.ksEntityService.post(this.webRoot + "/pdm/warehouse_record/add.do",data, ()=> {
-                this.ksTip.success("保存成功")
-                var me = this;
-                setTimeout(()=> {
-                    me.dismiss()
-                    me.pushParam('changed',true)
-                }, 200)
-            }, (error)=> {
-                me.ksTip.error(error)
-            })
-
-        }
-
 
         insert(data){
             var me = this;

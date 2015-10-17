@@ -15,6 +15,9 @@ public class Warehouse extends BaseEntity{
 
     private Integer type;
 
+    private Integer attendantId;
+
+
     public Integer getId() {
         return id;
     }
@@ -62,5 +65,13 @@ public class Warehouse extends BaseEntity{
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Integer getAttendantId() {
+        return attendantId;
+    }
+
+    public void setAttendantId(Integer attendantId) {
+        this.attendantId = attendantId;
     }
 }

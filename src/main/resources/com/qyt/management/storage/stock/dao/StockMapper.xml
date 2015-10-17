@@ -155,6 +155,10 @@
 			<if test="condition!=null and condition.warehouseId != null and condition.warehouseId gt 0">
 				AND a.warehouse_id  =  #{condition.warehouseId}
 			</if>
+
+			<if test="condition!=null and condition.staffId != null and condition.staffId gt 0">
+				AND (b.attendant_id  =  #{condition.staffId} or b.type = 1)
+			</if>
 		</where>
     </sql>
 

@@ -20,6 +20,9 @@
             <if test="condition!=null and condition.type != null and condition.type !=  0">
                 AND a.type = #{condition.type}
             </if>
+            <if test="condition!=null and condition.staffId != null and condition.staffId gt 0">
+                AND a.attendant_id  =  #{condition.staffId}
+            </if>
         </where>
     </sql>
 

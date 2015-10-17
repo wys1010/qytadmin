@@ -32,7 +32,7 @@
                 </div>
             </ks-field>
 
-            <ks-field label="总库存剩余数量">
+            <ks-field label="总库存剩余数量" width="250" label-width="100">
                 <input type="text" ng-model="ctrl.entity.surplusNum" placeholder="总库存剩余数量"
                        class=" form-control input-sm" name="stockNum" ng-pattern="/^\d+?$/"
                        ng-readonly="true">
@@ -40,9 +40,6 @@
 
             <ks-field label="下单存放仓库">
                 <ks-warehouse-picker ng-model="ctrl.entity.warehouseId" ></ks-warehouse-picker>
-                <!--<input type="text" ng-model="ctrl.entity.surplusNum" placeholder="库存剩余数量"-->
-                       <!--class=" form-control input-sm" name="stockNum" ng-pattern="/^\d+?$/"-->
-                       <!--ng-readonly="true">-->
             </ks-field>
         </div>
 

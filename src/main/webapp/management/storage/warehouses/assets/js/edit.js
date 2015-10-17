@@ -34,10 +34,6 @@ var warehouseApp;
                 this.dialogTitle = "新增";
                 this.entity.type = 1;
             }
-            if (this.op == 'order') {
-                this.isOrder = true;
-                this.dialogTitle = "下单";
-            }
         }
         EditController.prototype.onBackToRoot = function (data) {
         };
@@ -53,35 +49,17 @@ var warehouseApp;
             var data = angular.copy(this.entity);
             delete data.updatedAt;
             delete data.createdAt;
-            if (!data.applyStatus) {
-                data.applyStatus = 1;
+            console.log(data);
+            if (!data.attendantId || data.attendantId == 0) {
+                this.ksTip.alert("管理员不能为空");
+                return;
             }
-            if (this.isOrder) {
-                this.order(data);
+            if (data.id) {
+                this.update(data);
             }
             else {
-                if (data.id) {
-                    this.update(data);
-                }
-                else {
-                    this.insert(data);
-                }
+                this.insert(data);
             }
-        };
-        EditController.prototype.order = function (data) {
-            var _this = this;
-            var me = this;
-            data.warehouseId = data.id;
-            this.ksEntityService.post(this.webRoot + "/pdm/warehouse_record/add.do", data, function () {
-                _this.ksTip.success("保存成功");
-                var me = _this;
-                setTimeout(function () {
-                    me.dismiss();
-                    me.pushParam('changed', true);
-                }, 200);
-            }, function (error) {
-                me.ksTip.error(error);
-            });
         };
         EditController.prototype.insert = function (data) {
             var _this = this;

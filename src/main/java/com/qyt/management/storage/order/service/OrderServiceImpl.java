@@ -2,6 +2,7 @@ package com.qyt.management.storage.order.service;
 
 import com.qyt.management.platform.exception.BusinessException;
 import com.qyt.management.platform.web.PagingBean;
+import com.qyt.management.storage.AuthorityService;
 import com.qyt.management.storage.order.dao.OrderMapper;
 import com.qyt.management.storage.order.domain.Order;
 import com.qyt.management.storage.order.domain.OrderStatus;
@@ -13,6 +14,7 @@ import com.qyt.management.storage.stock.domain.Stock;
 import com.qyt.management.storage.stock.domain.StockLine;
 import com.qyt.management.storage.warehouse.dao.WarehouseMapper;
 import com.qyt.management.storage.warehouse.domain.Warehouse;
+import com.qyt.management.uc.user.domain.User;
 import org.apache.http.client.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ import java.util.Map;
  */
 @Transactional
 @Service
-public class OrderServiceImpl implements OrderService {
+public class OrderServiceImpl extends AuthorityService<Order> implements OrderService {
 
     @Autowired
     OrderMapper orderMapper;
@@ -83,6 +85,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void selectEntities(PagingBean<Order> pb) {
+
+        this.auth(pb,Order.class);
+
         List<Order> orders = orderMapper.selectEntities(pb);
         int count = orderMapper.selectEntitiesCount(pb);
         pb.setResults(count);

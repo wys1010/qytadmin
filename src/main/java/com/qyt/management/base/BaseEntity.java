@@ -21,6 +21,7 @@ public class BaseEntity {
     private Date createdAtBeginDate;
     private Date createdAtEndDate;
 
+    private int staffId; //如果为0则认为是管理员
 
     public void initChangeLog(boolean isUpdateCreatedAt){
         int userId = User.getCurrentLoginUser().getUserId();
@@ -98,5 +99,13 @@ public class BaseEntity {
 
     public void setCreatedAtEndDate(Date createdAtEndDate) {
         this.createdAtEndDate = createdAtEndDate;
+    }
+
+    public int getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(int staffId) {
+        this.staffId = staffId;
     }
 }

@@ -3,8 +3,11 @@ package com.qyt.management.storage.warehouse.service;
 import com.qyt.management.cache.service.StaffCacheService;
 import com.qyt.management.platform.exception.BusinessException;
 import com.qyt.management.platform.web.PagingBean;
+import com.qyt.management.storage.AuthorityService;
+import com.qyt.management.storage.stock.domain.Stock;
 import com.qyt.management.storage.warehouse.dao.WarehouseMapper;
 import com.qyt.management.storage.warehouse.domain.Warehouse;
+import com.qyt.management.uc.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +22,7 @@ import java.util.Objects;
  */
 @Transactional
 @Service
-public class WarehouseServiceImpl implements WarehouseService {
+public class WarehouseServiceImpl  extends AuthorityService<Warehouse> implements WarehouseService {
 
 	@Autowired
 	private WarehouseMapper warehouseMapper;
@@ -44,9 +47,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	@Override
 	public void selectEntities(PagingBean<Warehouse> pb) {
-		// TODO Auto-generated method stub
 
-//		validateData(pb.getCondition());
+		this.auth(pb,Warehouse.class);
+
 		List<Warehouse> Warehouses = warehouseMapper.selectEntities(pb);
 		int count = warehouseMapper.selectEntitiesCount(pb);
 		pb.setResults(count);

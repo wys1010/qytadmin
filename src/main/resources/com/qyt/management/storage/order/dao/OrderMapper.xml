@@ -168,7 +168,8 @@
     </update>
 
     <select id="selectEntities" resultType="com.qyt.management.storage.order.domain.Order" parameterType="map">
-        SELECT a.*,s.name created_by_name,w.name warehouse_name FROM orders a JOIN staffs s on a.created_by = s.id
+        SELECT a.*,s.name created_by_name,w.name warehouse_name
+        FROM orders a JOIN staffs s on a.created_by = s.id
         LEFT JOIN warehouses w on a.warehouse_id=w.id
         <include refid="sp_where"></include>
         order by
@@ -180,10 +181,8 @@
     </select>
 
     <select id="selectEntitiesCount" resultType="int" parameterType="map">
-        SELECT
-        count(*)
-        FROM
-        orders a
+        SELECT count(*) FROM orders a JOIN staffs s on a.created_by = s.id
+        LEFT JOIN warehouses w on a.warehouse_id=w.id
         <include refid="sp_where"></include>
     </select>
 
@@ -209,6 +208,11 @@
           <if test="condition!=null and condition.createdBy !=  null ">
               AND a.created_by = #{condition.createdBy}
           </if>
+
+          <if test="condition!=null and condition.staffId != null and condition.staffId gt 0">
+              AND w.attendant_id  =  #{condition.staffId}
+          </if>
+
       </where>
     </sql>
 </mapper>

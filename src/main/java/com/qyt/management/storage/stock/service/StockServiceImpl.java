@@ -2,6 +2,7 @@ package com.qyt.management.storage.stock.service;
 
 import com.qyt.management.platform.exception.BusinessException;
 import com.qyt.management.platform.web.PagingBean;
+import com.qyt.management.storage.AuthorityService;
 import com.qyt.management.storage.stock.dao.StockMapper;
 import com.qyt.management.storage.stock.domain.Stock;
 import com.qyt.management.uc.user.domain.User;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @Transactional
 @Service
-public class StockServiceImpl implements StockService {
+public class StockServiceImpl extends AuthorityService<Stock> implements StockService {
 
     @Autowired
     StockMapper stockMapper;
@@ -39,6 +40,9 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public void selectEntities(PagingBean<Stock> pb) {
+
+        this.auth(pb,Stock.class);
+
         List<Stock> stocks = stockMapper.selectEntities(pb);
         int count = stockMapper.selectEntitiesCount(pb);
         pb.setResults(count);

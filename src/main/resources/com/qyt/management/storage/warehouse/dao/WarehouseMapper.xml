@@ -6,7 +6,7 @@
 
 
     <sql id="sp_select_fields_without_id">
-		name,address,attendant,telphone,created_at,created_by,updated_at,updated_by,type,attendant_id
+		name,address,telphone,created_at,created_by,updated_at,updated_by,type,attendant_id
 	</sql>
 
     <sql id="sp_where">
@@ -38,12 +38,12 @@
     <insert id="insertEntity" parameterType="com.qyt.management.storage.warehouse.domain.Warehouse" keyColumn="id"
             useGeneratedKeys="true" keyProperty="id">
         insert into warehouses (id, name, address,
-        attendant, telphone, created_at,
+         telphone, created_at,
         created_by, updated_at, updated_by,type,attendant_id
         )
         values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
         #{address,jdbcType=VARCHAR},
-        #{attendant,jdbcType=VARCHAR}, #{telphone,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP},
+        #{telphone,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP},
         #{createdBy,jdbcType=INTEGER}, #{updatedAt,jdbcType=TIMESTAMP},
         #{updatedBy,jdbcType=INTEGER},#{type},#{attendantId}
         )
@@ -77,7 +77,6 @@
         update warehouses
         set name = #{name,jdbcType=VARCHAR},
         address = #{address,jdbcType=VARCHAR},
-        attendant = #{attendant,jdbcType=VARCHAR},
         telphone = #{telphone,jdbcType=VARCHAR},
         updated_at = #{updatedAt,jdbcType=TIMESTAMP},
         updated_by = #{updatedBy,jdbcType=INTEGER},

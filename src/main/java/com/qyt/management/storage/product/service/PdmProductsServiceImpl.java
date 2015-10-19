@@ -103,4 +103,9 @@ public class PdmProductsServiceImpl implements PdmProductsService {
     }
 
 
+    @Override
+    public PdmProduct selectEntityByName(String name) throws BusinessException {
+        return this.pdmProductsMapper.selectEntityByName(name);
+    }
+
 }

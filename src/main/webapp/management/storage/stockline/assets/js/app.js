@@ -24,10 +24,18 @@
         isPopUp: true
     });
 
+    var batchUploadPage = new k.Page({
+        paramNames: ['id','op'],
+        name: "upload",
+        templateUrl: baseUrl + 'tpl_stockline_upload.html',
+        isPopUp: true
+    });
+
 
 
     app.addPage(indexPage);
     app.addPage(editPage);
+    app.addPage(batchUploadPage);
 
 
 })();

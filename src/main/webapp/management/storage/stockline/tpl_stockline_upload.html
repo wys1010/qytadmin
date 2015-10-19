@@ -1,0 +1,65 @@
+<!-- 弹出窗口-->
+<!--<ks-dialog ng-model="dialog.visible" dialog="dialog" >-->
+<div ng-controller="UploadController as ec">
+    <div class="modal-header" style="">
+
+        <div class="row">
+            <h3 class="modal-title col-xs-2">批量上传</h3>
+        </div>
+
+    </div>
+
+
+    <form role="form" class="form  ks-form ks-edit-form container-fluid modal-body" name="editForm" method="post" encType="multipart/form-data"  novalidate>
+
+        <div>
+            <!-- 第一行-->
+            <div class="row">
+                <div class=" form-group ">
+                    <label class=" control-label ">仓库:</label>
+                    <div class="input-group" style="width: 300px">
+                        <ks-warehouse-picker ng-model="ec.warehouseId" ></ks-warehouse-picker>
+                    </div>
+                </div>
+
+                <div class="form-group normal" style="width: 100%">
+                    <label class=" control-label" style="width: 95px;float:left;margin-right:15px">文件</label>
+
+                    <div style="position: relative;float: left">
+                        <input type="text" name="imgFilePath" class="form-control" id="imgFilePath"
+                               style="float: left;width: 232px;margin-left: auto"
+                               value="" ng-model="fileName" readonly required="true">
+                        <button type="button" class="btn btn-default btn-sm" style="height: 32px;float: left;margin-left:5px">
+                            <span class="fa fa-folder-open"></span>浏 览
+                        </button>
+
+                        <ks-file-upload ks-name="file" file-type="'/\.(xls|xlsx)$/'" required="true" file-name="fileName"
+                                        file-size="fileSize" type-error="typeError" over-size-error="overSizeError"
+                                        max-size="1048576" class="file-btn"></ks-file-upload>
+
+                    </div>
+
+                    <div style="float: left;text-align: center;line-height: 32px;margin-left: 5px">
+                        <span ng-show="fileSize">文件大小:<sapn style="color:forestgreen">{{(fileSize/1024/1024).toFixed(2)}}</sapn>MB</span>
+                        <span ng-show="overSizeError" class="upload-error-info">文件大小超出限制</span>
+                        <span ng-show="typeError" class="upload-error-info">文件格式错误</span>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <!--操作按钮-->
+        <div class="  modal-footer">
+            <button type="submit" class="btn btn-primary " ng-disabled="editForm.$invalid"
+                    ng-click="ec.upload()">上传
+            </button>
+            <a href="javascript:void(0)" type="button" ng-click="ec.dismiss()" class="btn btn-warning">取消</a>
+        </div>
+    </form>
+
+
+</div>
+<!--</ks-dialog>-->

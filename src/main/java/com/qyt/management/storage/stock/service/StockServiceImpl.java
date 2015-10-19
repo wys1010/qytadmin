@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wys on 2015/9/3.
@@ -57,5 +58,10 @@ public class StockServiceImpl extends AuthorityService<Stock> implements StockSe
     @Override
     public List<Stock> selectAllEntities() {
         return stockMapper.selectAllEntities();
+    }
+
+    @Override
+    public Stock findOnByParam(Map params){
+        return stockMapper.findOnByParam(params);
     }
 }

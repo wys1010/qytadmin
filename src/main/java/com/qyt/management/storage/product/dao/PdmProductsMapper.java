@@ -13,5 +13,5 @@ import com.qyt.management.storage.product.domain.PdmProduct;
  */
 public interface PdmProductsMapper extends BaseCurdMapper<PdmProduct, PdmProduct, Integer>, EnableMapper<Integer> {
 
-
+    PdmProduct selectEntityByName(String name);
 }

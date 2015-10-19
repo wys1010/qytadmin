@@ -4,9 +4,13 @@ package com.qyt.management.storage.stock.ctrl;
 import com.qyt.management.parameters.service.ParameterService;
 import com.qyt.management.platform.exception.BusinessException;
 import com.qyt.management.platform.helper.DateHelper;
+import com.qyt.management.platform.helper.POIExcelUtil;
 import com.qyt.management.platform.helper.ParameterHelper;
 import com.qyt.management.platform.helper.ValidatorHelper;
 import com.qyt.management.platform.web.PagingBean;
+import com.qyt.management.storage.product.domain.PdmProduct;
+import com.qyt.management.storage.product.service.PdmProductsService;
+import com.qyt.management.storage.stock.domain.Stock;
 import com.qyt.management.storage.stock.domain.StockLine;
 import com.qyt.management.storage.stock.service.StockLineService;
 import com.qyt.management.storage.stock.service.StockService;
@@ -14,23 +18,22 @@ import com.qyt.management.uc.user.domain.User;
 import com.qyt.management.uc.user.service.UserService;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author wangys
@@ -54,6 +57,9 @@ public class StockLineController {
 
     @Autowired
     private ParameterService parameterService;
+
+    @Autowired
+    private PdmProductsService productsService;
 
 
     private static final String WAREHOUSES_PAGE_INDEX = "management/storage/stockline/index_stockline";
@@ -242,6 +248,42 @@ public class StockLineController {
             row.createCell(5).setCellValue(stockLine.getMinNumber());
         }
         return wb;
+    }
+
+
+    @RequestMapping(value = "upload", method = RequestMethod.POST)
+    @ResponseBody
+    public List<String> upload(@RequestParam(value = "file", required = false) MultipartFile file,int warehouseId) throws IOException, BusinessException {
+        List<String> errorList = new ArrayList<>();
+        if(!file.isEmpty()) {
+            if (!file.getContentType().endsWith(".xls") || !file.getContentType().endsWith(".xlxs")) {
+                InputStream is = file.getInputStream();
+                Workbook wb = new POIExcelUtil().validateExcel(file.getOriginalFilename(), is);
+                POIExcelUtil poiExcelUtil = new POIExcelUtil();
+                List<ArrayList<String>> datas = poiExcelUtil.read(wb);
+
+                for (ArrayList<String> data : datas) {
+                    Stock stock;
+                    String productName = data.get(0);
+                    String num = data.get(1);
+
+                    PdmProduct product = productsService.selectEntityByName(productName);
+
+                    if(product != null){
+                        Map<String,Object> params = new HashMap<>();
+                        params.put("productId",product.getId());
+                        params.put("warehouseId",warehouseId);
+                        stock = stockService.findOnByParam(params);
+                        stock.setNum(stock.getNum() + Integer.parseInt(num));
+                    }else{
+                        errorList.add(productName);
+                    }
+                }
+            }
+        }
+
+        return errorList;
+
     }
 
 

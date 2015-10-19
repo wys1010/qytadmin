@@ -151,5 +151,8 @@
         </where>
     </sql>
 
+    <select id="selectEntityByName" parameterType="string" resultType="com.qyt.management.storage.product.domain.PdmProduct">
+        SELECT * FROM products WHERE name = #{name}
+    </select>
 
 </mapper>

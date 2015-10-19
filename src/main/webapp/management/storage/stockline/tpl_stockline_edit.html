@@ -31,7 +31,7 @@
 
                 <div class="form-group  normal">
                     <label class=" control-label">{{ec.isOutStock?'出库':'存放'}}仓库</label>
-                    <ks-warehouse-picker ng-model="ec.entity.warehouseId" disabled="!ec.isOutStock" on-selected="ec.warehouseSelected(warehouse)"></ks-warehouse-picker>
+                    <ks-warehouse-picker ng-model="ec.entity.warehouseId" on-selected="ec.warehouseSelected(warehouse)"></ks-warehouse-picker>
                 </div>
 
                 <div class="form-group  normal" ng-if="ec.isOutStock">

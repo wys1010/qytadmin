@@ -11,10 +11,9 @@
     <script type="text/javascript" src="${basePath}/management/storage/stockline/assets/js/app.js?version=${version}"></script>
     <script type="text/javascript" src="${basePath}/management/storage/stockline/assets/js/index.js?version=${version}"></script>
     <script type="text/javascript" src="${basePath}/management/storage/stockline/assets/js/edit.js?version=${version}"></script>
+    <script type="text/javascript" src="${basePath}/management/storage/stockline/assets/js/upload.js?version=${version}"></script>
 
     <script>
-        var type = '<%=request.getAttribute("type")%>'
-        window.$type = type || 1
         k.getApp("stocklineApp").init()
     </script>
 

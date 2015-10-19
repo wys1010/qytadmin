@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - qytstock@localhost" uuid="ddca9739-341c-4063-9cfd-b8453e2376df">
+    <database-info product="MySQL" version="5.6.21-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="qytstock"/>
+    <table name="dict_items" schema="" catalog="qytstock" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="aWQ=" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12" remarks="5ZCN56ew"/>
+      <column name="value" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12" remarks="5YC8"/>
+      <column name="dict_id" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12" remarks="5a2X5YW4aWQ="/>
+      <column name="remark" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12" remarks="5aSH5rOo"/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" remarks="5Yib5bu65pe26Ze0"/>
+      <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" remarks="5pu05paw5pe26Ze0"/>
+      <column name="operator_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="5pON5L2c5Lq6"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="dict_items_ibfk_1" columns="dict_id" ref-table="dicts" ref-schema="" ref-catalog="qytstock" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="dicts" schema="" catalog="qytstock" type="TABLE">
+      <column name="id" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12" remarks="57yW56CB"/>
+      <column name="name" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12" remarks="5ZCN56ew"/>
+      <column name="remark" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12" remarks="5aSH5rOo"/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" remarks="5Yib5bu65pe26Ze0"/>
+      <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" remarks="5pu05paw5pe26Ze0"/>
+      <column name="operator_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="5pON5L2c5Lq6"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="dict_items_ibfk_1" table="dict_items" schema="" catalog="qytstock" columns="dict_id"/>
+    </table>
+    <table name="menus" schema="" catalog="qytstock" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="parent_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="54i257qnSWQ="/>
+      <column name="permission_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="5YWz6IGU55qE5p2D6ZmQSUQ="/>
+      <column name="url" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12" remarks="5ZCN56ew"/>
+      <column name="display_order" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5" remarks="5pi+56S66aG65bqP"/>
+      <column name="sub_sys" sqlType="VARCHAR" precision="25" scale="0" nullable="false" jdbcType="12" remarks="5omA5bGe5a2Q57O757uf77yMb3Nz77ya6L+Q6JCl57O757uf"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="menus_ibfk_1" columns="parent_id" ref-table="menus" ref-schema="" ref-catalog="qytstock" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="menus_ibfk_2" columns="permission_id" ref-table="permissions" ref-schema="" ref-catalog="qytstock" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="menus_ibfk_1" table="menus" schema="" catalog="qytstock" columns="parent_id"/>
+      <index name="uc_menus_parent_fk" unique="false" columns="parent_id"/>
+      <index name="uc_menus_permissions_fk" unique="false" columns="permission_id"/>
+    </table>
+    <table name="orders" schema="" catalog="qytstock" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="order_no" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12" remarks="6K6i5Y2V57yW5Y+3"/>
+      <column name="stock_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5bqT5a2YaWQ="/>
+      <column name="warehouse_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5LuT5bqTaWQ="/>
+      <column name="product_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5Lqn5ZOBaWQ="/>
+      <column name="product_name" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12" remarks="5Lqn5ZOB5ZCN56ew"/>
+      <column name="num" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MA==" remarks="5LiL5Y2V5pWw6YeP"/>
+      <column name="actual_deliver_num" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MA==" remarks="5a6e6ZmF5Y+R6LSn5pWw6YeP"/>
+      <column name="status" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MQ==" remarks="6K6i5Y2V54q25oCBKDE65paw5Y2V77yMMu+8muW+heWPkei0p++8jDPvvJrlt7Llj5HotKfvvIw077ya56Gu6K6k5pS26LSn77yMMTDvvJrlt7Llj5bmtogp"/>
+      <column name="remark" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" remarks="5aSH5rOo"/>
+      <column name="deliver_remark" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" remarks="5Y+R6LSn5aSH5rOo"/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="created_by" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" version="true"/>
+      <column name="updated_by" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="organizations" schema="" catalog="qytstock" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="parent_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="54i25py65p6ESUQ="/>
+      <column name="name" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12" remarks="5py65p6E5ZCN56ew"/>
+      <column name="code" sqlType="VARCHAR" precision="25" scale="0" nullable="false" jdbcType="12" remarks="5Luj56CB"/>
+      <column name="type" sqlType="SMALLINT" precision="5" scale="0" nullable="true" jdbcType="5" remarks="57uE57uH5py65p6E57G75Z6L77yM5L+d55WZ5a2X5q61"/>
+      <column name="disable" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA==" remarks="5piv5ZCm56aB55So77yMMO+8muWQpu+8mzHvvJrmmK/vvJs="/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" remarks="5L+u5pS55pe26Ze0" version="true"/>
+      <column name="created_by" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5Yib5bu66ICF77yMc3RhZmZfaWQ="/>
+      <column name="updated_by" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5L+u5pS56ICF77yMc3RhZmZfaWQ="/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="organizations_ibfk_1" columns="parent_id" ref-table="organizations" ref-schema="" ref-catalog="qytstock" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="organizations_ibfk_1" table="organizations" schema="" catalog="qytstock" columns="parent_id"/>
+      <exported-key name="staffs_ibfk_1" table="staffs" schema="" catalog="qytstock" columns="org_id"/>
+      <index name="organizations_parent_fk" unique="false" columns="parent_id"/>
+    </table>
+    <table name="parameters" schema="" catalog="qytstock" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="aWQ=" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" remarks="5ZCN56ew"/>
+      <column name="value" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" remarks="5YC8"/>
+      <column name="type" sqlType="VARCHAR" precision="10" scale="0" nullable="true" jdbcType="12" remarks="57G75Z6L"/>
+      <column name="status" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="54q25oCB"/>
+      <column name="remark" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" remarks="5aSH5rOo"/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" remarks="5Yib5bu65pe26Ze0"/>
+      <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" remarks="5pu05paw5pe26Ze0"/>
+      <column name="operator_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="5pON5L2c5Lq6aWQ="/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="permissions" schema="" catalog="qytstock" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12" remarks="5ZCN56ew"/>
+      <column name="code" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12" remarks="57yW56CB"/>
+      <column name="menu" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" remarks="5piv5ZCm6I+c5Y2V5p2D6ZmQ77yMMO+8muWQpu+8mzHvvJrmmK/vvJs="/>
+      <column name="sub_sys" sqlType="VARCHAR" precision="25" scale="0" nullable="false" jdbcType="12" remarks="5a2Q57O757uf77yMb3Nz77ya6L+Q6JCl57O757uf"/>
+      <column name="sub_module" sqlType="VARCHAR" precision="25" scale="0" nullable="false" jdbcType="12" remarks="5a2Q5qih5Z2X"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="menus_ibfk_2" table="menus" schema="" catalog="qytstock" columns="permission_id"/>
+      <exported-key name="role_permissions_ibfk_1" table="role_permissions" schema="" catalog="qytstock" columns="permission_id"/>
+      <index name="code_UNIQUE" unique="true" columns="code"/>
+    </table>
+    <table name="products" schema="" catalog="qytstock" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" remarks="5Lqn5ZOB5ZCN56ew"/>
+      <column name="category" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" remarks="6KeE5qC8"/>
+      <column name="min_number" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MA==" remarks="5a6J5YWo5bqT5a2Y5pWw6YeP"/>
+      <column name="manufacturer_name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" remarks="55Sf5Lqn5ZWG"/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="created_by" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="updated_by" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="role_permissions" schema="" catalog="qytstock" type="TABLE">
+      <column name="role_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="6KeS6ImySUQ="/>
+      <column name="permission_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5p2D6ZmQSUQ="/>
+      <primary-key name="PRIMARY" columns="role_id,permission_id"/>
+      <foreign-key name="role_permissions_ibfk_1" columns="permission_id" ref-table="permissions" ref-schema="" ref-catalog="qytstock" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="role_permissions_ibfk_2" columns="role_id" ref-table="roles" ref-schema="" ref-catalog="qytstock" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="role_permissions_permission_fk" unique="false" columns="permission_id"/>
+    </table>
+    <table name="roles" schema="" catalog="qytstock" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12" remarks="6KeS6Imy5ZCN56ew"/>
+      <column name="code" sqlType="VARCHAR" precision="30" scale="0" nullable="true" jdbcType="12" remarks="6KeS6Imy57yW56CB77yM5LiN5YWB6K6457yW6L6R77yM5pyJ5YC85pe277yM5Luj6KGo5YaF572u6KeS6Imy44CC"/>
+      <column name="remark" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12" remarks="5aSH5rOo"/>
+      <column name="data_areas" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12" remarks="5pWw5o2u5p2D6ZmQ77yM6Iux5paH6YCX5Y+35YiG5Ymy77yM5YaF5a655Li657uE57uH5py65p6ESUQ="/>
+      <column name="sub_sys" sqlType="VARCHAR" precision="25" scale="0" nullable="false" jdbcType="12" remarks="5a2Q57O757uf77yMb3Nz77ya6L+Q6JCl57O757uf"/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93" remarks="5Yib5bu65pe26Ze0"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" remarks="5L+u5pS55pe26Ze0" version="true"/>
+      <column name="created_by" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5Yib5bu66ICFc3RhZmZfaWQ="/>
+      <column name="updated_by" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5L+u5pS56ICFc3RhZmZfaWQ="/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="role_permissions_ibfk_2" table="role_permissions" schema="" catalog="qytstock" columns="role_id"/>
+      <exported-key name="staff_roles_ibfk_1" table="staff_roles" schema="" catalog="qytstock" columns="role_id"/>
+    </table>
+    <table name="staff_roles" schema="" catalog="qytstock" type="TABLE">
+      <column name="staff_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5ZGY5belSUQ="/>
+      <column name="role_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="6KeS6ImySUQ="/>
+      <column name="data_areas" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12" remarks="5pWw5o2u5p2D6ZmQ77yM6Iux5paH6YCX5Y+35YiG6ZqU77yM5a2Y5YKo57uE57uH5py65p6ESUQ="/>
+      <primary-key name="PRIMARY" columns="staff_id,role_id"/>
+      <foreign-key name="staff_roles_ibfk_1" columns="role_id" ref-table="roles" ref-schema="" ref-catalog="qytstock" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="staff_roles_ibfk_2" columns="staff_id" ref-table="staffs" ref-schema="" ref-catalog="qytstock" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="staff_roles_role_fk" unique="false" columns="role_id"/>
+    </table>
+    <table name="staffs" schema="" catalog="qytstock" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="org_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="57uE57uH5py65p6ESUQ="/>
+      <column name="login_name" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12" remarks="55m75b2V55So5oi35ZCN"/>
+      <column name="password" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" remarks="5a+G56CB77yMbWQ1"/>
+      <column name="name" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12" remarks="5aeT5ZCN"/>
+      <column name="english_name" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12" remarks="6Iux5paH5ZCN"/>
+      <column name="gender" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" remarks="5oCn5Yir77yMMe+8mueUt++8mzLvvJrlpbPvvJs="/>
+      <column name="disable" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" remarks="5piv5ZCm56aB55So77yMMO+8muWQpu+8mzHvvJrmmK/vvJs="/>
+      <column name="email" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="phone" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="wechat" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="qq" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="manager" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA==" remarks="5piv5ZCm566h55CG6ICF77yMMO+8muWQpu+8mzHvvJrmmK/vvJsK5aaC5p6c5piv566h55CG6ICF77yM6Ieq5Yqo57un5om/5omA5Zyo6YOo6Zeo55qE5pWw5o2u5p2D6ZmQ"/>
+      <column name="districts" sqlType="VARCHAR" precision="25" scale="0" nullable="false" jdbcType="12" remarks="6LSf6LSj55qE5Lia5Yqh55qE5Yy65Z+f6IyD5Zu077yM6Iux5paH6YCX5Y+35YiG5Ymy77yM5Yy65Z+f6KGoZGlzdHJpY3TnmoRkaXN0cmljdF9jb2Rl"/>
+      <column name="last_login_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" remarks="5pyA5ZCO55m75b2V5pe26Ze0"/>
+      <column name="remark" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="purchase_category_groups" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12" remarks="6LSf6LSj6YeH6LSt55qE5ZOB56eN5aSn57G75YiX6KGo77yM6Iux5paH6YCX5Y+35YiG6ZqU77yMY2F0ZWdvcnlfZ3JvdXBz55qEZ3JvdXBfY29kZQ=="/>
+      <column name="sell_category_groups" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12" remarks="6LSf6LSj6ZSA5ZSu55qE5ZOB56eN5aSn57G75YiX6KGo77yM6Iux5paH6YCX5Y+35YiG6ZqU77yMY2F0ZWdvcnlfZ3JvdXBz55qEZ3JvdXBfY29kZQ=="/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" remarks="5L+u5pS55pe26Ze0" version="true"/>
+      <column name="created_by" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5Yib5bu66ICFc3RhZmZfaWQ="/>
+      <column name="updated_by" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5L+u5pS56ICFc3RhZmZfaWQ="/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="staffs_ibfk_1" columns="org_id" ref-table="organizations" ref-schema="" ref-catalog="qytstock" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="staff_roles_ibfk_2" table="staff_roles" schema="" catalog="qytstock" columns="staff_id"/>
+      <exported-key name="fk_attendant_staff" table="warehouses" schema="" catalog="qytstock" columns="attendant_id"/>
+      <index name="login_name_UNIQUE" unique="true" columns="login_name"/>
+      <index name="staffs_orgs_fk" unique="false" columns="org_id"/>
+    </table>
+    <table name="stock" schema="" catalog="qytstock" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="product_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5Lqn5ZOBaWQ="/>
+      <column name="warehouse_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5LuT5bqTaWQ="/>
+      <column name="product_name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" remarks="5Lqn5ZOB5ZCN56ew"/>
+      <column name="product_category" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" remarks="5Lqn5ZOB6KeE5qC8"/>
+      <column name="num" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MA==" remarks="5bqT5a2Y5pWw6YeP"/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="created_by" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" version="true"/>
+      <column name="updated_by" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <index name="product_id" unique="true" columns="product_id,warehouse_id"/>
+    </table>
+    <table name="stock_line" schema="" catalog="qytstock" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="product_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5Lqn5ZOBaWQ="/>
+      <column name="stock_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="5bqT5a2YaWQ="/>
+      <column name="order_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="6K6i5Y2VaWQ="/>
+      <column name="type" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MQ==" remarks="5bqT5a2Y57G75Z6LKDE65YWl5bqT77yMMu+8muWHuuW6kyk="/>
+      <column name="num" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MA==" remarks="5YWl5bqTL+WHuuW6kyDmlbDph48="/>
+      <column name="usage" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MQ==" remarks="55So6YCUKOWHuuW6k+aXtuacieaViCkgMTrlh7rllK4gMjrpmaLnlKggMzrotaDpgIE="/>
+      <column name="remark" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" remarks="5aSH5rOo"/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="created_by" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" version="true"/>
+      <column name="updated_by" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="warehouses" schema="" catalog="qytstock" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="5Li76ZSuSUQ=" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12" remarks="5LuT5bqT5ZCN56ew"/>
+      <column name="address" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" remarks="5LuT5bqT5Zyw5Z2A"/>
+      <column name="attendant_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="566h55CG5ZGYLOWRmOW3pWlk"/>
+      <column name="telphone" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" remarks="566h55CG5ZGY6IGU57O755S16K+d"/>
+      <column name="type" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MQ==" remarks="MTrmgLvku5PlupPvvIwyOuWIhuW6l+S7k+W6kw=="/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" remarks="5Yib5bu65pel5pyf"/>
+      <column name="created_by" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" remarks="5pu05paw5pel5pyf" version="true"/>
+      <column name="updated_by" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="5pu05paw5pON5L2c5Lq6"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_attendant_staff" columns="attendant_id" ref-table="staffs" ref-schema="" ref-catalog="qytstock" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="fk_attendant_staff" unique="false" columns="attendant_id"/>
+    </table>
+  </data-source>
+</component>

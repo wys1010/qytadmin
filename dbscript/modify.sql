@@ -1,3 +1,1 @@
-alter table warehouses add  column attendant_id int(11) COMMENT '管理员,员工id' AFTER attendant;
-alter table warehouses add  constraint fk_attendant_staff foreign key(attendant_id) REFERENCES staffs(id);
-alter table warehouses DROP COLUMN attendant;
+INSERT INTO `qytstock`.`permissions` (`id`, `name`, `code`, `menu`, `sub_sys`, `sub_module`) VALUES ('182', '修改库存数量', 'ROLE_UC_STOCK_UPDATE_NUM', '0', 'oss', '库存');

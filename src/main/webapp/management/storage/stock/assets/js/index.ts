@@ -9,8 +9,10 @@ module stockApp {
 
     class StockRole {
         hasOrderRole:boolean
+        hasUpdateStockNum:boolean
         constructor() {
             this.hasOrderRole = ks.Role.hasRole('ROLE_UC_STOCK_ORDER')
+            this.hasUpdateStockNum = ks.Role.hasRole('ROLE_UC_STOCK_UPDATE_NUM')
         }
     }
 
@@ -108,6 +110,9 @@ module stockApp {
 
         }
 
+        updateStockNum(row){
+            this.go('root.edit',{id:row.id,op:'updateNum'})
+        }
 
     }
 

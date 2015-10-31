@@ -24,6 +24,7 @@ var stockApp;
             this.queryCondition = new nk.PagingQueryCondition();
             this.entity = {};
             this.isOrder = false;
+            this.updateNum = false;
             this.id = $stateParams.id;
             this.op = $stateParams.op;
             if (this.id || this.isOrder) {
@@ -37,6 +38,10 @@ var stockApp;
             if (this.op == 'order') {
                 this.isOrder = true;
                 this.dialogTitle = "下单";
+            }
+            else if (this.op == 'updateNum') {
+                this.updateNum = true;
+                this.dialogTitle = "修改库存数量";
             }
         }
         EditController.prototype.onBackToRoot = function (data) {

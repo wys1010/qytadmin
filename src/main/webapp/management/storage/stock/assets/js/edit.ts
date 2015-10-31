@@ -16,6 +16,7 @@ module stockApp {
         dialogTitle:string
         op:string;
         isOrder:boolean = false
+        updateNum:boolean = false
 
         constructor(protected $scope, protected $state, protected $stateParams, protected ksEntityService, protected $filter, protected ksTip) {
             super($scope, $state, $stateParams);
@@ -32,6 +33,9 @@ module stockApp {
             if (this.op == 'order') {
                 this.isOrder = true
                 this.dialogTitle = "下单"
+            }else if(this.op == 'updateNum'){
+                this.updateNum = true
+                this.dialogTitle = "修改库存数量"
             }
 
 

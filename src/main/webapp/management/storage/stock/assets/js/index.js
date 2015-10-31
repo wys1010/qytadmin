@@ -14,6 +14,7 @@ var stockApp;
     var StockRole = (function () {
         function StockRole() {
             this.hasOrderRole = ks.Role.hasRole('ROLE_UC_STOCK_ORDER');
+            this.hasUpdateStockNum = ks.Role.hasRole('ROLE_UC_STOCK_UPDATE_NUM');
         }
         return StockRole;
     })();
@@ -92,6 +93,9 @@ var stockApp;
                     me.ksTip.error('操作失败');
                 });
             });
+        };
+        IndexController.prototype.updateStockNum = function (row) {
+            this.go('root.edit', { id: row.id, op: 'updateNum' });
         };
         IndexController.$inject = ['$scope', '$state', '$stateParams', 'ksEntityService', '$filter', 'ksTip'];
         return IndexController;

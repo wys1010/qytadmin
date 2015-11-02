@@ -274,7 +274,18 @@ public class StockLineController {
                         params.put("productId",product.getId());
                         params.put("warehouseId",warehouseId);
                         stock = stockService.findOnByParam(params);
-                        stock.setNum(stock.getNum() + Integer.parseInt(num));
+                        if(stock == null){
+                            stock = new Stock();
+                            stock.setProductId(product.getId());
+                            stock.setWarehouseId(warehouseId);
+                            stock.setProductName(product.getName());
+                            stock.setProductCategory(product.getCategory());
+                            stock.initChangeLog(true);
+                            stock.setNum(Integer.parseInt(num));
+                            stockService.insertEntity(stock);
+                        }else{
+                            stock.setNum(stock.getNum() + Integer.parseInt(num));
+                        }
                     }else{
                         errorList.add(productName);
                     }

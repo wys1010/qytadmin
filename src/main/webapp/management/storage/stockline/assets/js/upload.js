@@ -26,26 +26,47 @@ var stocklineApp;
         UploadController.prototype.onBackToRoot = function (data) {
         };
         UploadController.prototype.upload = function () {
-            var _this = this;
-            var me = this;
-            this.ksEntityService.post(this.webRoot + "/pdm/stock_line/upload.do", { warehouseId: this.warehouseId }, function () {
-                _this.ksTip.success("保存成功");
-                var me = _this;
-                setTimeout(function () {
-                    me.dismiss();
-                    me.pushParam('changed', true);
-                }, 200);
-            }, function (entity) {
-                if (typeof entity === "object") {
-                    for (var key in entity) {
-                        var errorMsg = entity[key];
-                        me.ksTip.error(errorMsg);
+            if (!this.warehouseId) {
+                this.ksTip.alert("请选择仓库");
+                return;
+            }
+            var url = this.webRoot + "/pdm/stock_line/upload.do";
+            $("#updateForm").ajaxSubmit({
+                type: 'post',
+                url: url,
+                data: { warehouseId: this.warehouseId },
+                success: function (data) {
+                    console.log(data);
+                    if (data && data.length > 0) {
+                        var msg = "<span style='font-style:italic'>以下产品不存在,请重新导入</span><br>";
+                        for (var i in data) {
+                            msg += "<span style='font-weight:bold'>" + data[i] + "</span><br>";
+                        }
+                        window.layer.alert(msg, { icon: 0 });
+                    }
+                    else {
+                        window.layer.alert("批量上传成功", { icon: 0 });
                     }
                 }
-                else {
-                    me.ksTip.error("保存出错");
-                }
             });
+            //var me = this;
+            //this.ksEntityService.post(this.webRoot + "/pdm/stock_line/upload.do",{warehouseId:this.warehouseId}, ()=> {
+            //    this.ksTip.success("保存成功")
+            //    var me = this;
+            //    setTimeout(()=> {
+            //        me.dismiss()
+            //        me.pushParam('changed',true)
+            //    }, 200)
+            //}, (entity)=> {
+            //    if (typeof entity === "object") {
+            //        for (var key in entity) {
+            //            var errorMsg = entity[key]
+            //            me.ksTip.error(errorMsg);
+            //        }
+            //    } else {
+            //        me.ksTip.error("保存出错");
+            //    }
+            //})
         };
         UploadController.$inject = ['$scope', '$state', '$stateParams', 'ksEntityService', '$filter', 'ksTip'];
         return UploadController;

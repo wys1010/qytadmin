@@ -262,6 +262,19 @@ public class StockLineController {
                 POIExcelUtil poiExcelUtil = new POIExcelUtil();
                 List<ArrayList<String>> datas = poiExcelUtil.read(wb);
 
+                //线检查有没有匹配的产品
+                for (ArrayList<String> data : datas) {
+                    String productName = data.get(0);
+                    PdmProduct product = productsService.selectEntityByName(productName);
+                    if(product == null){
+                        errorList.add(productName);
+                    }
+                }
+
+                if(errorList.size() > 0){
+                    return errorList;
+                }
+
                 for (ArrayList<String> data : datas) {
                     Stock stock;
                     String productName = data.get(0);
@@ -269,27 +282,25 @@ public class StockLineController {
 
                     PdmProduct product = productsService.selectEntityByName(productName);
 
-                    if(product != null){
-                        Map<String,Object> params = new HashMap<>();
-                        params.put("productId",product.getId());
-                        params.put("warehouseId",warehouseId);
-                        stock = stockService.findOnByParam(params);
-                        if(stock == null){
-                            stock = new Stock();
-                            stock.setProductId(product.getId());
-                            stock.setWarehouseId(warehouseId);
-                            stock.setProductName(product.getName());
-                            stock.setProductCategory(product.getCategory());
-                            stock.initChangeLog(true);
-                            stock.setNum(Integer.parseInt(num));
-                            stockService.insertEntity(stock);
-                        }else{
-                            stock.setNum(stock.getNum() + Integer.parseInt(num));
-                        }
+                    Map<String,Object> params = new HashMap<>();
+                    params.put("productId",product.getId());
+                    params.put("warehouseId",warehouseId);
+                    stock = stockService.findOnByParam(params);
+                    if(stock == null){
+                        stock = new Stock();
+                        stock.setProductId(product.getId());
+                        stock.setWarehouseId(warehouseId);
+                        stock.setProductName(product.getName());
+                        stock.setProductCategory(product.getCategory());
+                        stock.initChangeLog(true);
+                        stock.setNum(Integer.parseInt(num));
+                        stockService.insertEntity(stock);
                     }else{
-                        errorList.add(productName);
+                        stock.setNum(stock.getNum() + Integer.parseInt(num));
                     }
                 }
+
+
             }
         }
 

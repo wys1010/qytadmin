@@ -36,9 +36,8 @@ var stocklineApp;
                 url: url,
                 data: { warehouseId: this.warehouseId },
                 success: function (data) {
-                    console.log(data);
                     if (data && data.length > 0) {
-                        var msg = "<span style='font-style:italic'>以下产品不存在,请重新导入</span><br>";
+                        var msg = "<span style='font-style:italic'>以下产品不存在,请重新上传</span><br>";
                         for (var i in data) {
                             msg += "<span style='font-weight:bold'>" + data[i] + "</span><br>";
                         }
@@ -49,24 +48,9 @@ var stocklineApp;
                     }
                 }
             });
-            //var me = this;
-            //this.ksEntityService.post(this.webRoot + "/pdm/stock_line/upload.do",{warehouseId:this.warehouseId}, ()=> {
-            //    this.ksTip.success("保存成功")
-            //    var me = this;
-            //    setTimeout(()=> {
-            //        me.dismiss()
-            //        me.pushParam('changed',true)
-            //    }, 200)
-            //}, (entity)=> {
-            //    if (typeof entity === "object") {
-            //        for (var key in entity) {
-            //            var errorMsg = entity[key]
-            //            me.ksTip.error(errorMsg);
-            //        }
-            //    } else {
-            //        me.ksTip.error("保存出错");
-            //    }
-            //})
+        };
+        UploadController.prototype.downloadTpl = function () {
+            window.open(this.webRoot + "/management/storage/stockline/tpl/templa.xlsx");
         };
         UploadController.$inject = ['$scope', '$state', '$stateParams', 'ksEntityService', '$filter', 'ksTip'];
         return UploadController;

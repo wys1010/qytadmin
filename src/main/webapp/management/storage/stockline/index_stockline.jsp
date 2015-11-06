@@ -15,6 +15,8 @@
 
     <script>
         k.getApp("stocklineApp").init()
+        var type = '<%=request.getAttribute("type")%>'
+        window.$type = type || 1
     </script>
 
 </head>

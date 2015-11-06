@@ -1,6 +1,17 @@
 <!-- 弹出窗口-->
 <!--<ks-dialog ng-model="dialog.visible" dialog="dialog" >-->
 <div ng-controller="UploadController as ec">
+
+    <style scoped="scoped">
+        .file-btn {
+            width: 60px;
+            height: 32px;
+            opacity: 0;
+            position: absolute;
+            left: 240px;
+            cursor: pointer;
+        }
+    </style>
     <div class="modal-header" style="">
 
         <div class="row">
@@ -22,8 +33,14 @@
                     </div>
                 </div>
 
+                <div class=" form-group ">
+                    <a href="javascript:void(0)"  ng-click="ec.downloadTpl()" >下载模板</a>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="form-group normal" style="width: 100%">
-                    <label class=" control-label" style="width: 95px;float:left;margin-right:15px">文件</label>
+                    <label class=" control-label" style="float:left;margin-right:15px">文件</label>
 
                     <div style="position: relative;float: left">
                         <input type="text" name="imgFilePath" class="form-control" id="imgFilePath"

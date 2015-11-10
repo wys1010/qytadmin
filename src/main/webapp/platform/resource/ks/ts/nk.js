@@ -34,6 +34,7 @@ var nk;
             this.$stateParams = $stateParams;
             this.webRoot = window.webRoot;
             this.version = window.version;
+            this.layer = window.layer; //layer弹窗
             var me = this;
             //  自定义ctrl之间的事件
             this.$scope.$on("KsEvent", function (event, msg) {
@@ -127,40 +128,6 @@ var nk;
         };
         PopUpController.prototype._resetParam = function () {
             this.$state.current.data = {};
-        };
-        PopUpController.prototype.preview2 = function (num) {
-            bdhtml = window.document.getElementById("all").innerHTML;
-            var printHtml = new Array();
-            for (i = 1; i <= num; i++) {
-                sprnstr = "<!--startprint" + i + "-->";
-                eprnstr = "<!--endprint" + i + "-->";
-                prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 18);
-                prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
-                printHtml.push(prnhtml);
-            }
-            window.document.body.innerHTML = printHtml.toString();
-            window.print();
-            var parentHtml = window.parent.document.getElementById("tabContainer").innerHTML;
-            parentHtml = '<style>.uc-tabbar-iframe{width:100%}</style>' + parentHtml;
-            window.document.body.innerHTML = parentHtml;
-            window.location.reload();
-        };
-        PopUpController.prototype.preview = function (num) {
-            bdhtml = window.document.getElementById("all").innerHTML;
-            var printHtml = new Array();
-            for (i = 1; i <= num; i++) {
-                sprnstr = "<!--startprint" + i + "-->";
-                eprnstr = "<!--endprint" + i + "-->";
-                prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 18);
-                prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
-                printHtml.push(prnhtml);
-            }
-            openWindow = window.open("", "newwin");
-            var styleStr = "<style>input,button,select{display: none} ._po{font-size: 12px;}table{ border-collapse:collapse;} table th,table td{ border:1px solid #eee;} </style>";
-            openWindow.document.write(printHtml.toString());
-            openWindow.document.write(styleStr);
-            openWindow.window.print();
-            openWindow.close();
         };
         return PopUpController;
     })(BaseController);

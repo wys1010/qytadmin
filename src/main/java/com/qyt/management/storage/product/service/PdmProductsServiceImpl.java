@@ -66,6 +66,8 @@ public class PdmProductsServiceImpl implements PdmProductsService {
      */
     @Override
     public void updateEntity(PdmProduct dto) throws BusinessException {
+        PdmProduct product = this.pdmProductsMapper.selectEntityByName(dto.getName());
+        if(product != null ) throw new BusinessException("产品名称不能重复!");
         this.pdmProductsMapper.updateEntity(dto);
     }
 

@@ -60,9 +60,8 @@ var productApp;
         };
         EditController.prototype.insert = function (data) {
             var _this = this;
-            var me = this;
             this.ksEntityService.post(this.webRoot + "/pdm/products/add.do", data, function () {
-                window.layer.alert("保存成功", { icon: 1 });
+                _this.ksTip.success("保存成功");
                 var me = _this;
                 setTimeout(function () {
                     me.dismiss();
@@ -72,19 +71,18 @@ var productApp;
                 if (typeof entity === "object") {
                     for (var key in entity) {
                         var errorMsg = entity[key];
-                        window.layer.alert(errorMsg, { icon: 2 });
+                        _this.ksTip.error(errorMsg);
                     }
                 }
                 else {
-                    window.layer.alert("保存出错" + entity, { icon: 2 });
+                    _this.ksTip.error("保存出错," + entity);
                 }
             });
         };
         EditController.prototype.update = function (data) {
             var _this = this;
-            var me = this;
             this.ksEntityService.put(this.webRoot + "/pdm/products/update.do", data, function () {
-                window.layer.alert("保存成功", { icon: 1 });
+                _this.ksTip.success("保存成功");
                 var me = _this;
                 setTimeout(function () {
                     me.dismiss();
@@ -94,11 +92,11 @@ var productApp;
                 if (typeof entity === "object") {
                     for (var key in entity) {
                         var errorMsg = entity[key];
-                        window.layer.alert(errorMsg, { icon: 2 });
+                        _this.ksTip.error(errorMsg);
                     }
                 }
                 else {
-                    window.layer.alert("保存出错," + entity, { icon: 2 });
+                    _this.ksTip.error("保存出错," + entity);
                 }
             });
         };

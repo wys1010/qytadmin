@@ -51,6 +51,7 @@ module nk{
         ksName:string;
         webRoot:string = window.webRoot
         version:string = window.version
+        layer:any = window.layer //layer弹窗
 
         constructor(protected $scope,protected $state,protected $stateParams){
             var me = this;
@@ -133,7 +134,6 @@ module nk{
         }
 
 
-
     }
 
     export class PopUpController extends  BaseController {
@@ -159,40 +159,5 @@ module nk{
             this.$state.current.data = {};
         }
 
-        preview2(num) {
-            bdhtml = window.document.getElementById("all").innerHTML
-            var printHtml = new Array();
-            for (i = 1; i <= num; i++) {
-                sprnstr = "<!--startprint" + i + "-->";
-                eprnstr = "<!--endprint" + i + "-->";
-                prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 18);
-                prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
-                printHtml.push(prnhtml);
-            }
-            window.document.body.innerHTML = printHtml.toString();
-            window.print();
-            var parentHtml = window.parent.document.getElementById("tabContainer").innerHTML;
-            parentHtml = '<style>.uc-tabbar-iframe{width:100%}</style>' + parentHtml;
-            window.document.body.innerHTML = parentHtml;
-            window.location.reload()
-        }
-
-        preview(num) {
-            bdhtml = window.document.getElementById("all").innerHTML
-            var printHtml = new Array();
-            for (i = 1; i <= num; i++) {
-                sprnstr = "<!--startprint" + i + "-->";
-                eprnstr = "<!--endprint" + i + "-->";
-                prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 18);
-                prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
-                printHtml.push(prnhtml);
-            }
-            openWindow = window.open("", "newwin");
-            var  styleStr="<style>input,button,select{display: none} ._po{font-size: 12px;}table{ border-collapse:collapse;} table th,table td{ border:1px solid #eee;} </style>"
-            openWindow.document.write(printHtml.toString())
-            openWindow.document.write(styleStr)
-            openWindow.window.print();
-            openWindow.close()
-        }
     }
 }

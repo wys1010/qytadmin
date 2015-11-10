@@ -40,71 +40,46 @@
                  * @param msg
                  */
                 success: function (msg) {
-                    tip(msg, "success");
+                    window.layer.msg('<span style="font-weight: bold">' + msg + '</span>', {icon: 1,time: 1000});
+                    //tip(msg, "success");
                 },
                 /**
                  * 错误提示
                  * @param msg
                  */
                 error: function (msg) {
-                    tip(msg, "error");
+                    window.layer.msg('<span style="font-weight: bold;">' + msg + '</span>', {icon: 2,time: 3000});
+                    //tip(msg, "error");
                 },
                 /**
                  * 普通消息
                  * @param msg
                  */
                 msg: function (msg) {
-                    tip(msg, "msg");
+                    window.layer.msg('<span style="font-weight: bold">' + msg + '</span>', {icon: 6,time: 2000});
+                    //tip(msg, "msg");
                 },
                 /**
                  * 警告
                  * @param msg
                  */
                 alert: function (msg) {
-                    tip(msg, "alert");
+                    window.layer.msg('<span style="font-weight: bold">' + msg + '</span>', {icon: 7,time: 2000});
+                    //tip(msg, "alert");
                 },
 
                 confirm:function(msg){
-                    var deferred = $q.defer();
-
                     var okFun = null;
                     var cancelFun = null;
+                    var deferred = $q.defer();
                     var promise = deferred.promise;
-                    var $mask = $('<div class="ks-dialog-mask"></div>').appendTo(document.body).fadeTo(0,.3);
-                    var $dlg = $('<div class="ks-confirm-dlg"></div>').appendTo(document.body);
-                    var $content = $('<div class="ks-confirm-dlg-content"></div>').appendTo($dlg);
-                    $content.text(msg);
-                    var $toolbar = $('<div class="ks-confirm-toolbar"></div>').appendTo($dlg);
-                    var $okBtn = $('<button class="btn btn-sm btn-danger ks-confirm-ok">确认</button>').appendTo($toolbar);
-                    var $cancelBtn = $('<button class="btn btn-sm btn-default ks-confirm-cancel">取消</button>').appendTo($toolbar);
 
-                    $mask.show();
-                    $mask.width(ks.getWinWidth())
-                    $mask.height(ks.getWinHeight());
-                    $dlg.width(450);
-                    $dlg.css({
-                        left: (ks.getWinWidth() - 450) / 2,
-                        top:(ks.getWinHeight() - 200) / 2
-                    })
-                    $okBtn.click(function(){
-                        deferred.resolve();
+                    layer.confirm(msg, {icon: 3, title:'提示',shift:-1}, function(index){
                         if(okFun && angular.isFunction(okFun)){
                             okFun.call();
                         }
-
-                        $mask.remove();
-                        $dlg.remove();
+                        layer.close(index);
                     });
-
-                    $cancelBtn.click(function(){
-                        deferred.reject();
-                        if(cancelFun && angular.isFunction(cancelFun)){
-                            cancelFun.call();
-                        }
-
-                        $mask.remove();
-                        $dlg.remove();
-                    })
 
                     promise.ok = function(fn){
                         okFun = fn;
@@ -117,6 +92,59 @@
                     }
 
                     return promise;
+
+                    //var deferred = $q.defer();
+                    //
+                    //var okFun = null;
+                    //var cancelFun = null;
+                    //var promise = deferred.promise;
+                    //var $mask = $('<div class="ks-dialog-mask"></div>').appendTo(document.body).fadeTo(0,.3);
+                    //var $dlg = $('<div class="ks-confirm-dlg"></div>').appendTo(document.body);
+                    //var $content = $('<div class="ks-confirm-dlg-content"></div>').appendTo($dlg);
+                    //$content.text(msg);
+                    //var $toolbar = $('<div class="ks-confirm-toolbar"></div>').appendTo($dlg);
+                    //var $okBtn = $('<button class="btn btn-sm btn-danger ks-confirm-ok">确认</button>').appendTo($toolbar);
+                    //var $cancelBtn = $('<button class="btn btn-sm btn-default ks-confirm-cancel">取消</button>').appendTo($toolbar);
+                    //
+                    //$mask.show();
+                    //$mask.width(ks.getWinWidth())
+                    //$mask.height(ks.getWinHeight());
+                    //$dlg.width(450);
+                    //$dlg.css({
+                    //    left: (ks.getWinWidth() - 450) / 2,
+                    //    top:(ks.getWinHeight() - 200) / 2
+                    //})
+                    //$okBtn.click(function(){
+                    //    deferred.resolve();
+                    //    if(okFun && angular.isFunction(okFun)){
+                    //        okFun.call();
+                    //    }
+                    //
+                    //    $mask.remove();
+                    //    $dlg.remove();
+                    //});
+                    //
+                    //$cancelBtn.click(function(){
+                    //    deferred.reject();
+                    //    if(cancelFun && angular.isFunction(cancelFun)){
+                    //        cancelFun.call();
+                    //    }
+                    //
+                    //    $mask.remove();
+                    //    $dlg.remove();
+                    //})
+                    //
+                    //promise.ok = function(fn){
+                    //    okFun = fn;
+                    //    return promise;
+                    //}
+                    //
+                    //promise.cancel = function(fn){
+                    //    cancelFun = fn;
+                    //    return promise;
+                    //}
+                    //
+                    //return promise;
 
                 },
                 prompt:function(msg){
